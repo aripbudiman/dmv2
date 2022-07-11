@@ -1,0 +1,12 @@
+CRITICAL - 2022-07-07 07:27:27 --> Too few arguments to function CodeIgniter\View\View::section(), 0 passed in D:\CODEIGNITER4\aplikasi-keren\app\Views\satuan\index.php on line 2 and exactly 1 expected
+in SYSTEMPATH\View\View.php on line 373.
+ 1 APPPATH\Views\satuan\index.php(2): CodeIgniter\View\View->section()
+ 2 SYSTEMPATH\View\View.php(213): include('APPPATH\\Views\\satuan\\index.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1135): CodeIgniter\View\View->render('satuan/index', [], true)
+ 5 APPPATH\Controllers\Satuan.php(14): view('satuan/index', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Satuan->index()
+ 7 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Satuan))
+ 8 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Commands\Server\rewrite.php(43): require_once('FCPATH\\index.php')
