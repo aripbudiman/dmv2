@@ -119,25 +119,25 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="<?= base_url('tipe'); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Tipe</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="<?= base_url('bahan'); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Bahan</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="<?= base_url('lebar'); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Lebar</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="<?= base_url('finishing'); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Finishing</p>
                             </a>
