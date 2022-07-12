@@ -61,6 +61,7 @@
 </div>
 <script>
     $(document).ready(function() {
+        $('#load-lebar').load('/tampillebar');
         $('.formsimpan').submit(function(e) {
             e.preventDefault();
             $.ajax({
@@ -115,8 +116,6 @@
             aDec: '.',
             mDec: '2'
         });
-
-        $('#load-lebar').load('/tampillebar');
     });
 </script>
 <?= $this->endSection(); ?>
