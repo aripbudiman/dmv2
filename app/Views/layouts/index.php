@@ -134,7 +134,7 @@
     <script src="<?= base_url(); ?>/plugins/datatables/jquery-3.5.1.js"></script>
     <script src="<?= base_url(); ?>/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="<?= base_url(); ?>/plugins/datatables-autofill/js/autoFill.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <!-- <script src="<?= base_url(); ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="<?= base_url(); ?>/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
     <script src="<?= base_url(); ?>/plugins/datatables-colreorder/js/colReorder.bootstrap4.min.js"></script>
     <script src="<?= base_url(); ?>/plugins/datatables-fixedcolumns/js/fixedColumns.bootstrap4.min.js"></script>
@@ -146,9 +146,10 @@
     <script src="<?= base_url(); ?>/plugins/datatables-scroller/js/scroller.bootstrap4.min.js"></script>
     <script src="<?= base_url(); ?>/plugins/datatables-searchbuilder/js/searchBuilder.bootstrap4.min.js"></script>
     <script src="<?= base_url(); ?>/plugins/datatables-searchpanes/js/searchPanes.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-select/js/select.bootstrap4.min.js"></script>
+    <script src="<?= base_url(); ?>/plugins/datatables-select/js/select.bootstrap4.min.js"></script> -->
     <!-- script js -->
     <script src="<?= base_url(); ?>/aplikasi.js"></script>
+    <script src="<?= base_url(); ?>/autoNumeric.js"></script>
 </body>
 
 </html>

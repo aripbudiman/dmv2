@@ -45,8 +45,8 @@
                     </button>
                 </div>
             </div>
-            <div class="card-body" id="table-bahan">
-                <table class="table table-hover">
+            <div class="card-body">
+                <table class="table table-hover" id="table-bahan">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
@@ -76,24 +76,6 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('#tambah-bahan').on('click', function() {
-            let kodeBahan = $('#kode_bahan').val();
-            let namaBahan = $('#nama_bahan').val();
-
-            $.ajax({
-                type: "post",
-                url: "/simpan_bahan",
-                data: {
-                    'kodebahan': kodeBahan,
-                    'namabahan': namaBahan
-                },
-                dataType: "json",
-                success: function(response) {
-
-                }
-            });
-        });
-
         $('.delete-bahan').click(function(e) {
             e.preventDefault();
             let id = $(this).data('id');
@@ -168,6 +150,7 @@
             });
             return false;
         });
+        $('#table-bahan').dataTable()
     });
 </script>
 <?= $this->endSection(); ?>
