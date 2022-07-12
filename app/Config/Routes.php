@@ -39,6 +39,8 @@ $routes->get('/', 'Home::index');
 
 //konfigurasi
 $routes->get('tipe', 'Konfigurasi::index');
+$routes->get('bahan', 'Konfigurasi::bahan');
+$routes->post('/simpan_bahan', 'Konfigurasi::simpanbahan');
 
 /*
  * --------------------------------------------------------------------
