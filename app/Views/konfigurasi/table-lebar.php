@@ -30,7 +30,7 @@
     $(document).ready(function() {
         $('#table-bahan').dataTable({
             scrollX: true,
-            paging: false
+            paging: true
         })
         $('.td').autoNumeric('init', {
             aSep: ',',
