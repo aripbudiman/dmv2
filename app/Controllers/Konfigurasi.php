@@ -25,6 +25,50 @@ class Konfigurasi extends BaseController
         return view('konfigurasi/tipe', $data);
     }
 
+    public function simpantipe()
+    {
+        if ($this->request->isAJAX()) {
+            $namatipe = $this->request->getVar('nama_tipe');
+            $hargatipe = $this->request->getVar('harga_tipe');
+
+            $validation = \Config\Services::validation();
+            $valid = $this->validate([
+                'nama_tipe' => [
+                    'rules' => 'required',
+                    'label' => 'nama tipe',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong',
+                    ]
+                ],
+                'harga_tipe' => [
+                    'rules' => 'required',
+                    'label' => 'harga tipe',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong'
+                    ]
+                ]
+            ]);
+
+            if (!$valid) {
+                $msg = [
+                    'error' => [
+                        'errorNama' => $validation->getError('nama_tipe'),
+                        'errorHarga' => $validation->getError('harga_tipe')
+                    ]
+                ];
+            } else {
+                $this->TipeModel->save([
+                    'nama_tipe' => $namatipe,
+                    'harga_tipe' => $hargatipe
+                ]);
+                $msg = [
+                    'sukses' => 'Data berhasil ditambahkan'
+                ];
+            }
+            echo json_encode($msg);
+        }
+    }
+
     public function bahan()
     {
         $data = [

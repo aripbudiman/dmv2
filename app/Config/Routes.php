@@ -39,6 +39,7 @@ $routes->get('/', 'Home::index');
 
 //konfigurasi
 $routes->get('tipe', 'Konfigurasi::index');
+$routes->post('simpantipe', 'Konfigurasi::simpantipe');
 $routes->get('bahan', 'Konfigurasi::bahan');
 $routes->get('/tampilbahan', 'Konfigurasi::tampilbahan');
 $routes->post('/simpanbahan', 'Konfigurasi::simpanbahan');

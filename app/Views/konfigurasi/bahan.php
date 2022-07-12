@@ -53,30 +53,6 @@
 <script>
     $(document).ready(function() {
         $('#load-table-bahan').load('/tampilbahan');
-        $('.delete-bahan').click(function(e) {
-            e.preventDefault();
-            let id = $(this).data('id');
-            $.ajax({
-                type: "post",
-                url: "delete-bahan/" + id,
-                dataType: "json",
-                success: function(response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Alhamdulillah',
-                        text: response.sukses,
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $('#load-table-bahan').load('/tampilbahan');
-                        }
-                    })
-                },
-                error: function(xhr, throwError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
-                }
-            });
-        });
-
         $('.formsimpan').submit(function(e) {
             e.preventDefault();
             $.ajax({
@@ -116,7 +92,7 @@
                             text: response.sukses,
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                location.reload(true);
+                                $('#load-table-bahan').load('/tampilbahan');
                             }
                         })
                     }

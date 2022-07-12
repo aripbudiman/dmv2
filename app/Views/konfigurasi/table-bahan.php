@@ -24,6 +24,32 @@
 </table>
 <script>
     $(document).ready(function() {
-        $('#table-bahan').dataTable()
+        $('#table-bahan').dataTable({
+            paging: false
+        })
+        $('.delete-bahan').click(function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            $.ajax({
+                type: "post",
+                url: "delete-bahan/" + id,
+                dataType: "json",
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Alhamdulillah',
+                        text: response.sukses,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $('#load-table-bahan').load('/tampilbahan');
+                        }
+                    })
+                },
+                error: function(xhr, throwError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+                }
+            });
+        });
+
     });
 </script>
