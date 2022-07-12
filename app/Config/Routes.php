@@ -48,6 +48,7 @@ $routes->get('lebar', 'Konfigurasi::lebar');
 $routes->post('/simpan_lebar', 'Konfigurasi::simpanlebar');
 $routes->get('/tampillebar', 'Konfigurasi::tampillebar');
 $routes->post('/delete_lebar/(:num)', 'Konfigurasi::deletelebar/$1');
+$routes->get('/finishing', 'Konfigurasi::finishing');
 
 /*
  * --------------------------------------------------------------------

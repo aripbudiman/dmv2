@@ -6,15 +6,17 @@ use App\Controllers\BaseController;
 use App\Models\Tipe;
 use App\Models\Bahan;
 use App\Models\Lebar;
+use App\Models\Finishing;
 
 class Konfigurasi extends BaseController
 {
-    protected $TipeModel, $BahanModel, $LebarModel;
+    protected $TipeModel, $BahanModel, $LebarModel, $FinishingModel;
     public function __construct()
     {
         $this->TipeModel = new Tipe();
         $this->BahanModel = new Bahan();
         $this->LebarModel = new Lebar();
+        $this->FinishingModel = new Finishing();
     }
     public function index()
     {
@@ -217,5 +219,15 @@ class Konfigurasi extends BaseController
         ];
 
         echo json_encode($msg);
+    }
+
+
+    public function finishing()
+    {
+        $data = [
+            'title' => 'Finishing',
+            'finishing' => $this->FinishingModel->findAll()
+        ];
+        return view('konfigurasi/finishing', $data);
     }
 }
