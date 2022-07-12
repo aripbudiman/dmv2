@@ -36,6 +36,14 @@ class Konfigurasi extends BaseController
         return view('konfigurasi/bahan', $data);
     }
 
+    public function tampilbahan()
+    {
+        $data = [
+            'bahan' => $this->BahanModel->findAll()
+        ];
+        return view('konfigurasi/table-bahan', $data);
+    }
+
     public function simpanbahan()
     {
         if ($this->request->isAJAX()) {

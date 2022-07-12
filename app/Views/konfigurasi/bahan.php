@@ -45,37 +45,14 @@
                     </button>
                 </div>
             </div>
-            <div class="card-body">
-                <table class="table table-hover" id="table-bahan">
-                    <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Kode Bahan</th>
-                            <th scope="col">Nama Bahan</th>
-                            <th scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $no = 1;
-                        foreach ($bahan as $b) : ?>
-                            <tr>
-                                <th scope="row"><?= $no++; ?></th>
-                                <td><?= $b['kode_bahan']; ?></td>
-                                <td><?= $b['nama_bahan']; ?></td>
-                                <td>
-                                    <button class="btn btn-sm btn-success edit-bahan"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button class="btn btn-sm btn-danger delete-bahan" data-id="<?= $b['id']; ?>"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <div class="card-body" id="load-table-bahan">
             </div>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function() {
+        $('#load-table-bahan').load('/tampilbahan');
         $('.delete-bahan').click(function(e) {
             e.preventDefault();
             let id = $(this).data('id');
@@ -90,7 +67,7 @@
                         text: response.sukses,
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            location.reload(true);
+                            $('#load-table-bahan').load('/tampilbahan');
                         }
                     })
                 },
@@ -150,7 +127,6 @@
             });
             return false;
         });
-        $('#table-bahan').dataTable()
     });
 </script>
 <?= $this->endSection(); ?>
