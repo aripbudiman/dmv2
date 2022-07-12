@@ -40,7 +40,8 @@ $routes->get('/', 'Home::index');
 //konfigurasi
 $routes->get('tipe', 'Konfigurasi::index');
 $routes->get('bahan', 'Konfigurasi::bahan');
-$routes->post('/simpan_bahan', 'Konfigurasi::simpanbahan');
+$routes->post('/simpanbahan', 'Konfigurasi::simpanbahan');
+$routes->post('delete-bahan/(:num)', 'Konfigurasi::delete_bahan/$1');
 
 /*
  * --------------------------------------------------------------------
