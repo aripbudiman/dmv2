@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="<?= base_url('/'); ?>" class="brand-link">
-        <img src="<?= base_url(); ?>/img/logo1.png" alt="DMPRINTING Logo" class="brand-image">
+        <!-- <img src="<?= base_url(); ?>/img/logo1.png" alt="DMPRINTING Logo" class="brand-image"> -->
         <span class="brand-text font-weight-light"></span>
     </a>
 
@@ -47,13 +47,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?= base_url(); ?>/data_barang" class="nav-link">
+                            <a href="<?= base_url('input_pesanan'); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Input Pesanan</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url(); ?>/satuan" class="nav-link">
+                            <a href="<?= base_url(); ?>/" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>List Pesanan</p>
                             </a>
@@ -111,10 +111,11 @@
                 <li class="nav-header">Konfigurasi</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-gear"></i>
+                        <i class="nav-icon fas fa-shopping-cart"></i>
                         <p>
-                            Ukuran
-                            <i class="right fas fa-angle-left"></i>
+                            Pesanan
+                            <i class="fas fa-angle-left right"></i>
+                            <!-- <span class="badge badge-info right">6</span> -->
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
