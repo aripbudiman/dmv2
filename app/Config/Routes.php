@@ -55,6 +55,7 @@ $routes->get('/finishing', 'Konfigurasi::finishing');
 
 // input
 $routes->get('input_pesanan', 'inputpesanan::index');
+$routes->post('load-harga-lebar', 'inputpesanan::loadlebar');
 
 /*
  * --------------------------------------------------------------------

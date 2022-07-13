@@ -18,4 +18,12 @@ class Lebar extends Model
             ->join('bahan', 'lebar.id_bahan=bahan.id')
             ->get()->getResultArray();
     }
+
+    public function getHargaLebar($id)
+    {
+        return $this->db->table('lebar')
+            ->select('*')
+            ->where('id_bahan', $id)
+            ->get()->getResultArray();
+    }
 }
