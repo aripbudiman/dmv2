@@ -102,6 +102,9 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 $('#load-lebar').load('/tampillebar');
+                                $('#harga_lebar').val('');
+                                $('#meter').val('');
+                                $('#id_bahan').focus();
                             }
                         })
                     }

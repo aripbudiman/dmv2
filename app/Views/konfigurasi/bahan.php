@@ -15,7 +15,7 @@
                 <?= form_open('/simpanbahan', ['class' => 'formsimpan']); ?>
                 <div class="mb-2">
                     <label for="kode_bahan">Kode Bahan</label>
-                    <input type="text" class="form-control" name="kode_bahan" id="kode_bahan" value="<?= $kode; ?>" readonly>
+                    <input type="text" class="form-control" data-role='fieldcontain' name="kode_bahan" id="kode_bahan" value="<?= $kode; ?>" readonly>
                     <div class="invalid-feedback error-kode_bahan">
 
                     </div>
@@ -93,6 +93,8 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 $('#load-table-bahan').load('/tampilbahan');
+                                $('#nama_bahan').val('')
+                                $('#kode_bahan').fieldcontain('refresh')
                             }
                         })
                     }
