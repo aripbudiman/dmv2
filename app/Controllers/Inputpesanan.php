@@ -7,16 +7,18 @@ use App\Models\Bahan;
 use App\Models\Lebar;
 use App\Models\Tipe;
 use App\Models\Finishing;
+use App\Models\CustomerModel;
 
 class Inputpesanan extends BaseController
 {
-    protected $bahan, $lebar, $tipe, $finishing;
+    protected $bahan, $lebar, $tipe, $finishing, $customer;
     public function __construct()
     {
         $this->bahan = new Bahan();
         $this->lebar = new Lebar();
         $this->tipe = new tipe();
         $this->finishing = new Finishing();
+        $this->customer = new CustomerModel();
     }
     public function index()
     {
@@ -25,7 +27,8 @@ class Inputpesanan extends BaseController
             'bahan' => $this->bahan->findAll(),
             'lebar' => $this->lebar->getHargaLebar(1),
             'tipe' => $this->tipe->findAll(),
-            'finishing' => $this->finishing->findAll()
+            'finishing' => $this->finishing->findAll(),
+            'customer' => $this->customer->findAll()
         ];
         return view('input/index', $data);
     }

@@ -23,7 +23,9 @@
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="id_customer" style="width: 90px;">Customer</label>
                     <select class="form-select" id="id_customer" id="id_customer">
-                        <option value=""></option>
+                        <?php foreach ($customer as $c) : ?>
+                            <option value="<?= $c['id']; ?>"><?= $c['nama_customer']; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="input-group mb-3">
@@ -78,7 +80,12 @@
                         </div>
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="harga" style="width: 90px;">Harga</label>
-                            <input type="text" class="form-control fs-2 text-navy" id="harga" name="harga" readonly>
+                            <input type="text" class="form-control bg-navy fs-2 text-indigo" id="harga" name="harga" readonly>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="card bg-navy">
+                            <h1>Member</h1>
                         </div>
                     </div>
                 </div>
