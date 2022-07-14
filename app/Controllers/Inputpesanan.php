@@ -6,15 +6,17 @@ use App\Controllers\BaseController;
 use App\Models\Bahan;
 use App\Models\Lebar;
 use App\Models\Tipe;
+use App\Models\Finishing;
 
 class Inputpesanan extends BaseController
 {
-    protected $bahan, $lebar, $tipe;
+    protected $bahan, $lebar, $tipe, $finishing;
     public function __construct()
     {
         $this->bahan = new Bahan();
         $this->lebar = new Lebar();
         $this->tipe = new tipe();
+        $this->finishing = new Finishing();
     }
     public function index()
     {
@@ -22,7 +24,8 @@ class Inputpesanan extends BaseController
             'title' => 'Input Pesanan',
             'bahan' => $this->bahan->findAll(),
             'lebar' => $this->lebar->getHargaLebar(1),
-            'tipe' => $this->tipe->findAll()
+            'tipe' => $this->tipe->findAll(),
+            'finishing' => $this->finishing->findAll()
         ];
         return view('input/index', $data);
     }
@@ -33,7 +36,7 @@ class Inputpesanan extends BaseController
         $lebar = $this->lebar->getHargaLebar($id);
         $output = '';
         foreach ($lebar as $l) {
-            $output .= '<option value="' . $l['id'] . '">' . $l['meter'] . "Meter +" . $l['harga_lebar'] . '</option>';
+            $output .= '<option value="' . $l['id'] . '" data-lebar="' . $l['harga_lebar'] . '">' . $l['meter'] . "Meter +" . $l['harga_lebar'] . '</option>';
         }
         echo json_encode($output);
     }

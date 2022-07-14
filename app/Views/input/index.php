@@ -38,7 +38,7 @@
                     <label class="input-group-text" for="id_tipe" style="width: 90px;">Tipe</label>
                     <select class="form-select" id="id_tipe" name="id_tipe">
                         <?php foreach ($tipe as $t) : ?>
-                            <option value="<?= $t['id']; ?>"><?= $t['nama_tipe']; ?></option>
+                            <option value="<?= $t['id']; ?>" data-tipe="<?= $t['harga_tipe']; ?>"><?= $t['nama_tipe']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -54,34 +54,36 @@
                     <label class="input-group-text" for="id_lebar" style="width: 90px;">Lebar</label>
                     <select name="id_lebar" id="id_lebar" class="form-select">
                         <?php foreach ($lebar as $l) : ?>
-                            <option value="<?= $l['id']; ?>"><?= $l['meter'] . "Meter +" . $l['harga_lebar']; ?></option>
+                            <option value="<?= $l['id']; ?>" data-lebar="<?= $l['harga_lebar']; ?>"><?= $l['meter'] . "Meter +" . $l['harga_lebar']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="id_finishing" style="width: 90px;">Finishing</label>
-                    <select class="form-select" id="id_finishing" id="id_finishing">
-                        <option value=""></option>
+                    <select class="form-select" id="id_finishing" name="id_finishing">
+                        <?php foreach ($finishing as $f) : ?>
+                            <option value="<?= $f['id']; ?>" data-finishing="<?= $f['harga_finishing']; ?>"><?= $f['deskripsi_finishing']; ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="row">
                     <div class="col-12 col-lg-6">
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="panjang" style="width: 90px;">Panjang</label>
-                            <input type="text" class="form-control" id="panjang" name="panjang">
+                            <input type="text" class="form-control" id="panjang" name="panjang" value="1">
                         </div>
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="qty" style="width: 90px;">Qty</label>
-                            <input type="text" class="form-control" id="qty" name="qty">
+                            <input type="text" class="form-control" id="qty" name="qty" value="1">
                         </div>
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="harga" style="width: 90px;">Harga</label>
-                            <input type="text" class="form-control" id="harga" name="harga">
+                            <input type="text" class="form-control fs-2 text-navy" id="harga" name="harga" readonly>
                         </div>
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <button class="btn btn-success">Tambahkan</button>
+                    <button class="btn btn-success tambah-pesanan">Tambahkan</button>
                 </div>
             </div>
         </div>
@@ -89,7 +91,39 @@
 </div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
+    let hitungharga = function() {
+        let tipe = $('#id_tipe option:selected').data('tipe');
+        let lebar = $('#id_lebar option:selected').data('lebar');
+        let finishing = $('#id_finishing option:selected').data('finishing');
+        let panjang = $('#panjang').val();
+        let qty = $('#qty').val();
+        let total = (parseFloat(tipe) + parseFloat(lebar) + parseFloat(finishing)) * parseFloat(panjang) * parseInt(qty)
+        $('#harga').val(total);
+    }
+
+    function change() {
+        $('#id_tipe , #id_lebar, #id_finishing, #panjang, #qty').change(function() {
+            let tipe = $('#id_tipe option:selected').data('tipe');
+            let lebar = $('#id_lebar option:selected').data('lebar');
+            let finishing = $('#id_finishing option:selected').data('finishing');
+            let panjang = $('#panjang').val();
+            let qty = $('#qty').val();
+            let total = (parseFloat(tipe) + parseFloat(lebar) + parseFloat(finishing)) * parseFloat(panjang) * parseInt(qty)
+            $('#harga').val(total);
+        });
+    }
+
+
+    function rupiah() {
+        $('#harga').autoNumeric('init', {
+            aSep: ',',
+            aDec: '.',
+            mDec: '0'
+        });
+    }
     $(document).ready(function() {
+        hitungharga()
+        change()
         $('#id_bahan').on('change', function() {
             let idbahan = $(this).val()
             $.ajax({
@@ -102,10 +136,13 @@
                 success: function(response) {
                     result = response
                     $('#id_lebar').html(result)
+                    hitungharga()
+                    rupiah()
                 }
             });
         });
-        // $(selector).autoNumeric('init', {
+        rupiah()
+        // $('#harga').autoNumeric('init', {
         //     aSep: ',',
         //     aDec: '.',
         //     mDec: '0'
