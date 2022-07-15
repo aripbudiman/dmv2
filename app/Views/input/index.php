@@ -30,7 +30,7 @@
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="no_pesanan" style="width: 130px;">No Pesanan</label>
-                    <input type="text" class="form-control" id="no_pesanan" name="no_pesanan">
+                    <input type="text" class="form-control" id="no_pesanan" name="no_pesanan" value="<?= $nopesanan; ?>" readonly>
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="nama_cetakan" style="width: 130px;">Nama Cetakan</label>
@@ -80,14 +80,14 @@
                         </div>
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="harga" style="width: 90px;">Harga</label>
-                            <input type="text" class="form-control bg-navy fs-2 text-indigo" id="harga" name="harga" readonly>
+                            <input type="text" class="form-control bg-navy fs-4 text-indigo" id="harga" name="harga" readonly>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6">
+                    <!-- <div class="col-12 col-lg-6">
                         <div class="card bg-navy">
                             <h1>Member</h1>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="input-group mb-3">
                     <button class="btn btn-success tambah-pesanan">Tambahkan</button>
@@ -120,17 +120,7 @@
         });
     }
 
-
-    function rupiah() {
-        $('#harga').autoNumeric('init', {
-            aSep: ',',
-            aDec: '.',
-            mDec: '0'
-        });
-    }
-    $(document).ready(function() {
-        hitungharga()
-        change()
+    function bahanselek() {
         $('#id_bahan').on('change', function() {
             let idbahan = $(this).val()
             $.ajax({
@@ -144,16 +134,23 @@
                     result = response
                     $('#id_lebar').html(result)
                     hitungharga()
-                    rupiah()
                 }
             });
         });
+    }
+
+    function rupiah() {
+        $('#harga').autoNumeric('init', {
+            aSep: ',',
+            aDec: '.',
+            mDec: '0'
+        });
+    }
+    $(document).ready(function() {
+        hitungharga()
+        change()
+        bahanselek()
         rupiah()
-        // $('#harga').autoNumeric('init', {
-        //     aSep: ',',
-        //     aDec: '.',
-        //     mDec: '0'
-        // });
     });
 </script>
 <?= $this->endSection(); ?>
