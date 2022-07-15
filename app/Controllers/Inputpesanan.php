@@ -46,4 +46,65 @@ class Inputpesanan extends BaseController
         }
         echo json_encode($output);
     }
+
+    public function simpanpesanan()
+    {
+        if ($this->request->isAJAX()) {
+            $customer = $this->request->getVar('id_customer');
+            $namacetakan = $this->request->getVar('nama_cetakan');
+            $validation = \Config\Services::validation();
+            $valid = $this->validate([
+                'id_customer' => [
+                    'rules' => 'required|numeric',
+                    'label' => 'Customer',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong',
+                        'numeric' => '{field} harus berisi angka'
+                    ]
+                ],
+                'nama_cetakan' => [
+                    'rules' => 'required',
+                    'label' => 'Nama Cetakan',
+                    'errors' => [
+                        'required' => '{field} tidak boleh kosong',
+                    ]
+                ]
+            ]);
+
+            if (!$valid) {
+                $msg = [
+                    'error' => [
+                        'errorNama' => $validation->getError('nama_cetakan'),
+                        'errorCustomer' => $validation->getError('id_customer')
+                    ]
+                ];
+            } else {
+                $this->pesanan->save([
+                    'no_pesanan' => htmlspecialchars($this->request->getVar('no_pesanan')),
+                    'id_customer' => htmlspecialchars($customer),
+                    'nama_cetakan' => htmlspecialchars($namacetakan),
+                    'id_tipe' => htmlspecialchars($this->request->getVar('id_tipe')),
+                    'id_bahan' => htmlspecialchars($this->request->getVar('id_bahan')),
+                    'id_lebar' => htmlspecialchars($this->request->getVar('id_lebar')),
+                    'id_finishing' => htmlspecialchars($this->request->getVar('id_finishing')),
+                    'panjang' => htmlspecialchars($this->request->getVar('panjang')),
+                    'qty' => htmlspecialchars($this->request->getVar('qty')),
+                    'harga' => htmlspecialchars(str_replace(',', '', $this->request->getVar('harga'))),
+                ]);
+                $msg = [
+                    'sukses' => 'Data berhasil ditambahkan'
+                ];
+            }
+            echo json_encode($msg);
+        }
+    }
+
+    public function list_pesanan()
+    {
+        $data = [
+            'title' => 'List Pesanan',
+            'pesanan' => $this->pesanan->findAll()
+        ];
+        return view('input/list-pesanan', $data);
+    }
 }

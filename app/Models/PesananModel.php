@@ -8,15 +8,17 @@ class PesananModel extends Model
 {
     protected $table            = 'pesanan';
     protected $primaryKey       = 'id';
-    protected $allowedFields    = ['id_customer', 'no_pesanan', 'nama_cetakan', 'id_tipe', 'id_bahan', 'id_lebar', 'id_finishing', 'panjang', 'qty', 'harga'];
+    protected $allowedFields    = ['id_customer', 'no_pesanan', 'nama_cetakan', 'id_tipe', 'id_bahan', 'id_lebar', 'id_finishing', 'panjang', 'qty', 'harga', 'created_at', 'updated_at'];
 
+    protected $useTimestamps = true;
+    protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
     public function nopesanan()
     {
         $kode = $this->db->table('pesanan')
-            ->select('RIGHT(no_pesanan,5) as kode', FALSE)
+            ->select('RIGHT(no_pesanan,4) as kode', FALSE)
             ->orderBy('no_pesanan', 'DESC')
             ->limit(1)->get()->getRowArray();
 

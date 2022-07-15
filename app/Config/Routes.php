@@ -56,6 +56,8 @@ $routes->get('/finishing', 'Konfigurasi::finishing');
 // input
 $routes->get('input_pesanan', 'inputpesanan::index');
 $routes->post('load-harga-lebar', 'inputpesanan::loadlebar');
+$routes->post('simpanpesanan', 'inputpesanan::simpanpesanan');
+$routes->get('list_pesanan', 'inputpesanan::list_pesanan');
 
 $routes->get('customer', 'Customer::index');
 $routes->post('simpancustomer', 'Customer::simpancustomer');

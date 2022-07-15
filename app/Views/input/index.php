@@ -20,21 +20,27 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="id_customer" style="width: 90px;">Customer</label>
-                    <select class="form-select" id="id_customer" id="id_customer">
-                        <?php foreach ($customer as $c) : ?>
-                            <option value="<?= $c['id']; ?>"><?= $c['nama_customer']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
+                <?= form_open('/simpanpesanan', ['class' => 'formsimpan']); ?>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="no_pesanan" style="width: 130px;">No Pesanan</label>
                     <input type="text" class="form-control" id="no_pesanan" name="no_pesanan" value="<?= $nopesanan; ?>" readonly>
                 </div>
                 <div class="input-group mb-3">
+                    <label class="input-group-text" for="id_customer" style="width: 130px;">Customer</label>
+                    <select class="form-select" id="id_customer" name="id_customer">
+                        <option value=""></option>
+                        <?php foreach ($customer as $c) : ?>
+                            <option value="<?= $c['id']; ?>"><?= $c['nama_customer']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <div class="invalid-feedback error-id_customer">
+                    </div>
+                </div>
+                <div class="input-group mb-3">
                     <label class="input-group-text" for="nama_cetakan" style="width: 130px;">Nama Cetakan</label>
                     <input type="text" class="form-control" id="nama_cetakan" name="nama_cetakan">
+                    <div class="invalid-feedback error-nama_cetakan">
+                    </div>
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="id_tipe" style="width: 90px;">Tipe</label>
@@ -90,14 +96,21 @@
                     </div> -->
                 </div>
                 <div class="input-group mb-3">
-                    <button class="btn btn-success tambah-pesanan">Tambahkan</button>
+                    <button class="btn btn-success tambah-pesanan" id="tambah-pesanan">Tambahkan</button>
                 </div>
+                <?= form_close(); ?>
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
 <script>
+    $(document).ready(function() {
+        hitungharga()
+        change()
+        bahanselek()
+        rupiah()
+    });
     let hitungharga = function() {
         let tipe = $('#id_tipe option:selected').data('tipe');
         let lebar = $('#id_lebar option:selected').data('lebar');
@@ -146,11 +159,56 @@
             mDec: '0'
         });
     }
-    $(document).ready(function() {
-        hitungharga()
-        change()
-        bahanselek()
-        rupiah()
+
+    $('.formsimpan').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "post",
+            url: $(this).attr('action'), //action dari form
+            data: $(this).serialize(), //mengambil data yg ada di dalam form
+            dataType: "json",
+            beforeSend: function() {
+                $('#tambah-pesanan').prop('disable', true);
+                $('#tambah-pesanan').html('silahkan tunggu');
+            },
+            complete: function() {
+                $('#tambah-pesanan').prop('disable', false);
+                $('#tambah-pesanan').html('Tambahkan');
+            },
+            success: function(response) {
+                if (response.error) {
+                    let data = response.error
+                    if (data.errorNama) {
+                        $('#nama_cetakan').addClass('is-invalid');
+                        $('.error-nama_cetakan').html(data.errorNama);
+                    } else {
+                        $('#nama_cetakan').removeClass('is-invalid');
+                        $('#nama_cetakan').addClass('is-valid');
+                    }
+                    if (data.errorCustomer) {
+                        $('#id_customer').addClass('is-invalid');
+                        $('.error-id_customer').html(data.errorCustomer);
+                    } else {
+                        $('#id_customer').removeClass('is-invalid');
+                        $('#id_customer').addClass('is-valid');
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Alhamdulillah',
+                        text: response.sukses,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload()
+                        }
+                    })
+                }
+            },
+            error: function(xhr, throwError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+            }
+        });
+        return false;
     });
 </script>
 <?= $this->endSection(); ?>
