@@ -119,7 +119,7 @@
                 <li class="nav-header">Konfigurasi</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <i class="nav-icon fas fa-gear"></i>
                         <p>
                             Pesanan
                             <i class="fas fa-angle-left right"></i>
@@ -149,6 +149,12 @@
                             <a href="<?= base_url('finishing'); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Finishing</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url('akun'); ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Akun</p>
                             </a>
                         </li>
                     </ul>

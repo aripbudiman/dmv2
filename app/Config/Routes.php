@@ -62,6 +62,11 @@ $routes->get('list_pesanan', 'inputpesanan::list_pesanan');
 $routes->get('customer', 'Customer::index');
 $routes->post('simpancustomer', 'Customer::simpancustomer');
 
+
+// akun
+$routes->get('akun', 'Akun::index');
+$routes->post('/simpanakun', 'Akun::simpanakun');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
