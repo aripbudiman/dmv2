@@ -86,7 +86,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <label class="input-group-text" for="harga" style="width: 90px;">Harga</label>
-                            <input type="text" class="form-control bg-navy fs-4 text-indigo" id="harga" name="harga" readonly>
+                            <input type="text" class="form-control bg-navy fs-4 text-indigo harga" id="harga" name="harga" readonly>
                         </div>
                     </div>
                     <!-- <div class="col-12 col-lg-6">
@@ -109,7 +109,6 @@
         hitungharga()
         change()
         bahanselek()
-        rupiah()
     });
     let hitungharga = function() {
         let tipe = $('#id_tipe option:selected').data('tipe');
@@ -119,6 +118,7 @@
         let qty = $('#qty').val();
         let total = (parseFloat(tipe) + parseFloat(lebar) + parseFloat(finishing)) * parseFloat(panjang) * parseInt(qty)
         $('#harga').val(total);
+        rupiah()
     }
 
     function change() {
@@ -130,6 +130,7 @@
             let qty = $('#qty').val();
             let total = (parseFloat(tipe) + parseFloat(lebar) + parseFloat(finishing)) * parseFloat(panjang) * parseInt(qty)
             $('#harga').val(total);
+
         });
     }
 
@@ -153,7 +154,7 @@
     }
 
     function rupiah() {
-        $('#harga').autoNumeric('init', {
+        $('.harga').autoNumeric('init', {
             aSep: ',',
             aDec: '.',
             mDec: '0'

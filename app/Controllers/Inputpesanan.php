@@ -8,7 +8,7 @@ use App\Models\Lebar;
 use App\Models\Tipe;
 use App\Models\Finishing;
 use App\Models\CustomerModel;
-use App\Models\PesananModels;
+use App\Models\Pesananinput;
 
 class Inputpesanan extends BaseController
 {
@@ -20,7 +20,7 @@ class Inputpesanan extends BaseController
         $this->tipe = new tipe();
         $this->finishing = new Finishing();
         $this->customer = new CustomerModel();
-        $this->pesanan = new PesananModels();
+        $this->pesanan = new Pesananinput();
     }
     public function index()
     {
