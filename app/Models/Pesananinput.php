@@ -32,4 +32,21 @@ class Pesananinput extends Model
         $kodebarang = $barang . $batas;
         return $kodebarang;
     }
+    public function idpesanan()
+    {
+        $kode = $this->db->table('pesanan')
+            ->select('RIGHT(no_pesanan,4) as kode', FALSE)
+            ->orderBy('no_pesanan', 'DESC')
+            ->limit(1)->get()->getRowArray();
+
+        if ($kode['kode'] == NULL) {
+            $no = 1;
+        } else {
+            $no = intval($kode['kode']) + 1;
+        }
+        $barang = '';
+        $batas = str_pad($no, 1, "0", STR_PAD_LEFT);
+        $kodebarang = $barang . $batas;
+        return $kodebarang;
+    }
 }

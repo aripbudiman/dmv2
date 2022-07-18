@@ -9,10 +9,12 @@ use App\Models\Tipe;
 use App\Models\Finishing;
 use App\Models\CustomerModel;
 use App\Models\Pesananinput;
+use App\Models\IsijurnalModel;
+use App\Models\JurnalModel;
 
 class Inputpesanan extends BaseController
 {
-    protected $bahan, $lebar, $tipe, $finishing, $customer, $pesanan;
+    protected $bahan, $lebar, $tipe, $finishing, $customer, $pesanan, $jurnal, $isijurnal;
     public function __construct()
     {
         $this->bahan = new Bahan();
@@ -21,6 +23,8 @@ class Inputpesanan extends BaseController
         $this->finishing = new Finishing();
         $this->customer = new CustomerModel();
         $this->pesanan = new Pesananinput();
+        $this->jurnal = new JurnalModel();
+        $this->isijurnal = new IsijurnalModel();
     }
     public function index()
     {
@@ -31,7 +35,8 @@ class Inputpesanan extends BaseController
             'tipe' => $this->tipe->findAll(),
             'finishing' => $this->finishing->findAll(),
             'customer' => $this->customer->findAll(),
-            'nopesanan' => $this->pesanan->nopesanan()
+            'nopesanan' => $this->pesanan->nopesanan(),
+            'id' => $this->pesanan->idpesanan()
         ];
         return view('input/index', $data);
     }
@@ -52,6 +57,7 @@ class Inputpesanan extends BaseController
         if ($this->request->isAJAX()) {
             $customer = $this->request->getVar('id_customer');
             $namacetakan = $this->request->getVar('nama_cetakan');
+            $idpesanan = $this->request->getVar('id_pesanan');
             $validation = \Config\Services::validation();
             $valid = $this->validate([
                 'id_customer' => [
@@ -91,6 +97,28 @@ class Inputpesanan extends BaseController
                     'qty' => htmlspecialchars($this->request->getVar('qty')),
                     'harga' => htmlspecialchars(str_replace(',', '', $this->request->getVar('harga'))),
                 ]);
+                $this->isijurnal->save([
+                    'no_jurnal' => $idpesanan,
+                    'tgl_jurnal' => date('d-m-Y'),
+                    'deskripsi' => 'Pesanan ' . htmlspecialchars($namacetakan)
+                ]);
+                $array = [
+                    [
+                        'jurnal_no' => $idpesanan,
+                        'kode_akun' => '1-112',
+                        'nominal' => htmlspecialchars(str_replace(',', '', $this->request->getVar('harga'))),
+                        'd/c' => 'D'
+                    ],
+                    [
+                        'jurnal_no' => $idpesanan,
+                        'kode_akun' => '4-115',
+                        'nominal' => htmlspecialchars(str_replace(',', '', $this->request->getVar('harga'))),
+                        'd/c' => 'C'
+                    ]
+                ];
+                foreach ($array as $r) {
+                    $this->jurnal->save($r);
+                }
                 $msg = [
                     'sukses' => 'Data berhasil ditambahkan'
                 ];
