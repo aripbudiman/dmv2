@@ -56,9 +56,7 @@ class Inputpesanan extends BaseController
     {
         if ($this->request->isAJAX()) {
             $customer = $this->request->getVar('id_customer');
-            $nama = $this->request->getVar('nama_customer');
             $namacetakan = $this->request->getVar('nama_cetakan');
-            $idpesanan = $this->request->getVar('id_pesanan');
             $validation = \Config\Services::validation();
             $valid = $this->validate([
                 'id_customer' => [
@@ -98,28 +96,6 @@ class Inputpesanan extends BaseController
                     'qty' => htmlspecialchars($this->request->getVar('qty')),
                     'harga' => htmlspecialchars(str_replace(',', '', $this->request->getVar('harga'))),
                 ]);
-                $this->isijurnal->save([
-                    'no_jurnal' => $idpesanan,
-                    'tgl_jurnal' => $this->request->getVar('tanggal'),
-                    'deskripsi' => 'Pesanan a/n ' . htmlspecialchars($nama) . ' (' . htmlspecialchars($namacetakan) . ')'
-                ]);
-                $array = [
-                    [
-                        'jurnal_no' => $idpesanan,
-                        'kode_akun' => '1-112',
-                        'nominal' => htmlspecialchars(str_replace(',', '', $this->request->getVar('harga'))),
-                        'd/c' => 'D'
-                    ],
-                    [
-                        'jurnal_no' => $idpesanan,
-                        'kode_akun' => '4-115',
-                        'nominal' => htmlspecialchars(str_replace(',', '', $this->request->getVar('harga'))),
-                        'd/c' => 'C'
-                    ]
-                ];
-                foreach ($array as $r) {
-                    $this->jurnal->save($r);
-                }
                 $msg = [
                     'sukses' => 'Data berhasil ditambahkan'
                 ];
@@ -130,10 +106,19 @@ class Inputpesanan extends BaseController
 
     public function list_pesanan()
     {
+        $noPesanan = $this->request->getVar('nopesanan');
         $data = [
-            'title' => 'List Pesanan',
-            'pesanan' => $this->pesanan->findAll()
+            'title' => 'Verifikasi pesanan',
+            'pesanan' => $this->pesanan->findAll(),
+            'detail' => $this->pesanan->getPesanan($noPesanan)
         ];
         return view('input/list-pesanan', $data);
+    }
+
+    public function detail_pesanan()
+    {
+        $no = $this->request->getVar('nopesanan');
+        $response = $this->pesanan->getPesanan($no);
+        echo json_encode($response);
     }
 }

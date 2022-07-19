@@ -23,11 +23,10 @@
                 <?= form_open('/simpanpesanan', ['class' => 'formsimpan']); ?>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="no_pesanan" style="width: 130px;">No Pesanan</label>
-                    <input type="hidden" class="form-control" id="id_pesanan" name="id_pesanan" value="<?= $id; ?>" readonly>
                     <input type="text" class="form-control" id="no_pesanan" name="no_pesanan" value="<?= $nopesanan; ?>" readonly>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text" for="tanggal" style="width: 130px;">No Pesanan</label>
+                    <label class="input-group-text" for="tanggal" style="width: 130px;">Tanggal</label>
                     <input type="date" class="form-control" id="tanggal" name="tanggal">
                 </div>
                 <div class="input-group mb-3">

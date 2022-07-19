@@ -49,4 +49,18 @@ class Pesananinput extends Model
         $kodebarang = $barang . $batas;
         return $kodebarang;
     }
+
+    public function getPesanan($noPesanan)
+    {
+        return $this->db->table('pesanan')
+            ->select('*')
+            ->join('tipe', 'pesanan.id_tipe=tipe.id')
+            ->join('bahan', 'pesanan.id_bahan=bahan.id')
+            ->join('lebar', 'pesanan.id_lebar=lebar.id')
+            ->join('finishing', 'pesanan.id_finishing=finishing.id')
+            ->join('customer', 'pesanan.id_customer=customer.id')
+            ->where('no_pesanan', $noPesanan)
+            ->get()
+            ->getResultArray();
+    }
 }

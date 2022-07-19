@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/index'); ?>
 <?= $this->section('konten'); ?>
 <div class="row mx-2">
-    <div class="col-12 col-lg-8">
+    <div class="col-12 col-lg-10">
         <div class="card card-dark text-dark">
             <div class="card-header">
                 <h3 class="card-title"><?= $title; ?></h3>
@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table hover cell-border" id="list-pesanan">
+                <table class="table hover" id="list-pesanan">
                     <thead>
                         <tr>
                             <th scope="col" class="text-center">No</th>
@@ -56,21 +56,95 @@
             let nilai = $(this).data('no');
             $.ajax({
                 type: "post",
-                url: "load-detail-pesanan",
+                url: "load-detail",
                 data: {
                     'nopesanan': nilai
                 },
                 dataType: "json",
                 success: function(response) {
-
+                    if (response) {
+                        response.forEach(r => {
+                            let html = `<tr>
+                            <th>No Pesanan</th>
+                            <td id="no">${r.no_pesanan}</td>
+                            </tr><tr>
+                            <th>Tanggal</th>
+                            <td id="tanggal">${r.created_at}</td>
+                            </tr><tr>
+                            <th>Customer</th>
+                            <td id="customer">${r.nama_customer}</td>
+                            </tr><tr>
+                            <th>Nama Cetakan</th>
+                            <td id="nama_cetakan">${r.nama_cetakan}</td>
+                            </tr><tr>
+                            <th>Tipe</th>
+                            <td>${r.nama_tipe}</td>
+                            </tr><tr>
+                            <th>Bahan</th>
+                            <td>${r.nama_bahan}</td>
+                            </tr><tr>
+                            <th>Lebar</th>
+                            <td>${r.meter} + ${r.harga_lebar}</td>
+                            </tr><tr>
+                            <th>Finishing</th>
+                            <td>${r.deskripsi_finishing}</td>
+                            </tr><tr>
+                            <th>Panjang</th>
+                            <td>${r.panjang}</td>
+                            </tr><tr>
+                            <th>Qty</th>
+                            <td>${r.qty}</td>
+                            </tr><tr>
+                            <th>Harga</th>
+                            <td id="harga">${r.harga}</td>
+                            </tr>`
+                            $('#table-detail').html(html)
+                            $('#detail-pesanan').modal('show')
+                        });
+                    }
                 }
             });
-            $('#detail-pesanan').modal('show')
         })
         $('.harga').autoNumeric('init', {
             aSep: ',',
             aDec: '.',
             mDec: '0'
+        });
+        $('.approve').click(function(e) {
+            e.preventDefault();
+            let no = $('#no').text();
+            let customer = $('#customer').text();
+            let namaCetakan = $('#nama_cetakan').text();
+            let harga = $('#harga').text();
+            let tanggal = $('#tanggal').text();
+            $.ajax({
+                type: "post",
+                url: "approve_pesanan",
+                data: {
+                    "noPesanan": no,
+                    "status": "unpaid",
+                    "customer": customer,
+                    "namaCetakan": namaCetakan,
+                    "harga": harga,
+                    "tanggal": tanggal
+                },
+                dataType: "json",
+                success: function(response) {
+                    $('#detail-pesanan').modal('hide')
+                    if (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Data sudah diterima!'
+                        })
+                    }
+                }
+            });
+        });
+
+        $('.reject').click(function(e) {
+            e.preventDefault();
+            console.log('reject')
         });
     });
 </script>
