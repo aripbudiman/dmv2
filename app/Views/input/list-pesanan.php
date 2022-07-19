@@ -45,30 +45,27 @@
         </div>
     </div>
 </div>
-<!-- modal detail -->
-<div class="modal" tabindex="-1">
-    <div class="modal-dialog fade">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Detail Pesanan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Modal body text goes here.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Modal -->
+<?= $this->include('input/modal-detail-pesanan'); ?>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function() {
         $('#list-pesanan').DataTable()
         $('tr').click(function() {
             let nilai = $(this).data('no');
-            alert(nilai)
+            $.ajax({
+                type: "post",
+                url: "load-detail-pesanan",
+                data: {
+                    'nopesanan': nilai
+                },
+                dataType: "json",
+                success: function(response) {
+
+                }
+            });
+            $('#detail-pesanan').modal('show')
         })
         $('.harga').autoNumeric('init', {
             aSep: ',',
