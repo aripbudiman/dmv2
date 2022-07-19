@@ -24,19 +24,23 @@
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="no_pesanan" style="width: 130px;">No Pesanan</label>
                     <input type="hidden" class="form-control" id="id_pesanan" name="id_pesanan" value="<?= $id; ?>" readonly>
-                    <input type="text" class="form-control" id="id_pesanan" name="id_pesanan" value="<?= date('d-m-Y'); ?>" readonly>
                     <input type="text" class="form-control" id="no_pesanan" name="no_pesanan" value="<?= $nopesanan; ?>" readonly>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="tanggal" style="width: 130px;">No Pesanan</label>
+                    <input type="date" class="form-control" id="tanggal" name="tanggal">
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="id_customer" style="width: 130px;">Customer</label>
                     <select class="form-select" id="id_customer" name="id_customer">
                         <option value=""></option>
                         <?php foreach ($customer as $c) : ?>
-                            <option value="<?= $c['id']; ?>"><?= $c['nama_customer']; ?></option>
+                            <option value="<?= $c['id']; ?>" data-nama-cs="<?= $c['nama_customer']; ?>"><?= $c['nama_customer']; ?></option>
                         <?php endforeach; ?>
                     </select>
                     <div class="invalid-feedback error-id_customer">
                     </div>
+                    <input type="hidden" id="nama_customer" name="nama_customer">
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="nama_cetakan" style="width: 130px;">Nama Cetakan</label>
@@ -111,6 +115,11 @@
         hitungharga()
         change()
         bahanselek()
+
+        $('#id_customer').change(function() {
+            let nama = $('#id_customer option:selected').data('nama-cs');
+            $('#nama_customer').val(nama)
+        })
     });
     let hitungharga = function() {
         let tipe = $('#id_tipe option:selected').data('tipe');

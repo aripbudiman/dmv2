@@ -56,6 +56,7 @@ class Inputpesanan extends BaseController
     {
         if ($this->request->isAJAX()) {
             $customer = $this->request->getVar('id_customer');
+            $nama = $this->request->getVar('nama_customer');
             $namacetakan = $this->request->getVar('nama_cetakan');
             $idpesanan = $this->request->getVar('id_pesanan');
             $validation = \Config\Services::validation();
@@ -99,8 +100,8 @@ class Inputpesanan extends BaseController
                 ]);
                 $this->isijurnal->save([
                     'no_jurnal' => $idpesanan,
-                    'tgl_jurnal' => date('d-m-Y'),
-                    'deskripsi' => 'Pesanan ' . htmlspecialchars($namacetakan)
+                    'tgl_jurnal' => $this->request->getVar('tanggal'),
+                    'deskripsi' => 'Pesanan a/n ' . htmlspecialchars($nama) . ' (' . htmlspecialchars($namacetakan) . ')'
                 ]);
                 $array = [
                     [
