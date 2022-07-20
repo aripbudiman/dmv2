@@ -67,7 +67,7 @@
                         response.forEach(r => {
                             let html = `<tr>
                             <th>id Pesanan</th>
-                            <td id="idPesanan">${r.id}</td>
+                            <td id="idPesanan">${r.id_pesanan}</td>
                             </tr><tr>
                             <th>No Pesanan</th>
                             <td id="no">${r.no_pesanan}</td>

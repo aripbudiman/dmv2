@@ -27,19 +27,19 @@ class TmpPesanan extends BaseController
         $namacetakan = $this->request->getVar('namaCetakan');
         $idpesanan = $this->pesanan->idpesanan();
         $this->isijurnal->save([
-            'no_jurnal' => $idpesanan - 1,
+            'no_jurnal' => $idpesanan,
             'tgl_jurnal' => $this->request->getVar('tanggal'),
             'deskripsi' => 'Pesanan a/n ' . htmlspecialchars($nama) . ' (' . htmlspecialchars($namacetakan) . ')'
         ]);
         $array = [
             [
-                'jurnal_no' => $idpesanan - 1,
+                'jurnal_no' => $idpesanan,
                 'kode_akun' => '1-112',
                 'nominal' => htmlspecialchars(str_replace(',', '', $this->request->getVar('harga'))),
                 'd/c' => 'D'
             ],
             [
-                'jurnal_no' => $idpesanan - 1,
+                'jurnal_no' => $idpesanan,
                 'kode_akun' => '4-115',
                 'nominal' => htmlspecialchars(str_replace(',', '', $this->request->getVar('harga'))),
                 'd/c' => 'C'
@@ -49,7 +49,7 @@ class TmpPesanan extends BaseController
             $this->jurnal->save($r);
         }
         $this->pesanan->save([
-            'id' => $this->request->getVar('id'),
+            'id_pesanan' => $this->request->getVar('id'),
             'status' => "A"
         ]);
         $response = $this->tmpPesanan->save([

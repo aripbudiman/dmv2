@@ -18,7 +18,7 @@ class Pesananinput extends Model
     public function nopesanan()
     {
         $kode = $this->db->table('pesanan')
-            ->select('RIGHT(no_pesanan,4) as kode', FALSE)
+            ->select('max(right(no_pesanan,4)) as kode', FALSE)
             ->orderBy('no_pesanan', 'DESC')
             ->limit(1)->get()->getRowArray();
 
@@ -27,15 +27,15 @@ class Pesananinput extends Model
         } else {
             $no = intval($kode['kode']) + 1;
         }
-        $barang = date('dmy');
-        $batas = str_pad($no, 4, "0", STR_PAD_LEFT);
+        $barang = 'DMP' . date('dmy');
+        $batas = str_pad($no, 3, "0", STR_PAD_LEFT);
         $kodebarang = $barang . $batas;
         return $kodebarang;
     }
     public function idpesanan()
     {
         $kode = $this->db->table('tmp_pesanan')
-            ->select('RIGHT(no_pesanan,4) as kode', FALSE)
+            ->select('max(right(no_pesanan,4)) as kode', FALSE)
             ->orderBy('no_pesanan', 'DESC')
             ->limit(1)->get()->getRowArray();
 
@@ -45,7 +45,7 @@ class Pesananinput extends Model
             $no = intval($kode['kode']) + 1;
         }
         $barang = '';
-        $batas = str_pad($no, 1, "0", STR_PAD_LEFT);
+        $batas = str_pad($no, 3, "0", STR_PAD_LEFT);
         $kodebarang = $barang . $batas;
         return $kodebarang;
     }

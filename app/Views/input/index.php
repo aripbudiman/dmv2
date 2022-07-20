@@ -2,11 +2,10 @@
 <?= $this->section('konten'); ?>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <div class="row mx-2">
-    <div class="col-12 col-lg-4">
+    <div class="col-12 col-lg-8 col-xl-4">
         <div class="card card-dark text-dark">
             <div class="card-header">
                 <h3 class="card-title">Tambah Pesanan</h3>
-
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh" data-source="widgets.html" data-source-selector="#card-refresh-content" data-load-on-init="false">
                         <i class="fas fa-sync-alt"></i>
