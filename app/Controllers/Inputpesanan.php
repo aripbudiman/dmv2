@@ -120,4 +120,11 @@ class Inputpesanan extends BaseController
         $response = $this->pesanan->getPesanan($no);
         echo json_encode($response);
     }
+
+    public function delete()
+    {
+        $no = $this->request->getVar('noPesanan');
+        $response = $this->pesanan->where('no_pesanan', $no)->delete();
+        echo json_encode($response);
+    }
 }

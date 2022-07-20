@@ -59,9 +59,11 @@ $routes->post('load-harga-lebar', 'inputpesanan::loadlebar');
 $routes->post('simpanpesanan', 'inputpesanan::simpanpesanan');
 $routes->get('list_pesanan_verifikasi', 'inputpesanan::list_pesanan');
 $routes->post('load-detail', 'inputpesanan::detail_pesanan');
+$routes->post('delete_pesanan', 'inputpesanan::delete');
 
 
 // tmp pesanan
+$routes->get('list_pesanan', 'TmpPesanan::index');
 $routes->post('approve_pesanan', 'TmpPesanan::approve');
 
 $routes->get('customer', 'Customer::index');

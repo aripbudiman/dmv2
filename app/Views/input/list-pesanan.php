@@ -66,9 +66,6 @@
                     if (response) {
                         response.forEach(r => {
                             let html = `<tr>
-                            <th>id Pesanan</th>
-                            <td id="idPesanan">${r.id_pesanan}</td>
-                            </tr><tr>
                             <th>No Pesanan</th>
                             <td id="no">${r.no_pesanan}</td>
                             </tr><tr>
@@ -125,7 +122,6 @@
             let namaCetakan = $('#nama_cetakan').text();
             let harga = $('#harga').text();
             let tanggal = $('#tanggal').text();
-            let id = $('#idPesanan').text();
             $.ajax({
                 type: "post",
                 url: "approve_pesanan",
@@ -135,12 +131,43 @@
                     "customer": customer,
                     "namaCetakan": namaCetakan,
                     "harga": harga,
-                    "tanggal": tanggal,
-                    "id": id
+                    "tanggal": tanggal
                 },
                 dataType: "json",
                 success: function(response) {
                     $('#detail-pesanan').modal('hide')
+                    window.location.reload()
+                    if (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Data sudah diterima!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload()
+                            }
+                        })
+                    }
+                },
+                error: function(xhr, throwError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+                }
+            });
+        });
+
+        // tombol reject di click
+        $('.reject').click(function(e) {
+            let no = $('#no').text();
+            e.preventDefault();
+            $.ajax({
+                type: "post",
+                url: "delete_pesanan",
+                data: {
+                    "noPesanan": no
+                },
+                dataType: "json",
+                success: function(response) {
+                    location.reload()
                     if (response) {
                         Swal.fire({
                             icon: 'success',
@@ -153,12 +180,6 @@
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
                 }
             });
-        });
-
-        // tombol reject di click
-        $('.reject').click(function(e) {
-            e.preventDefault();
-            console.log('reject')
         });
     });
 </script>

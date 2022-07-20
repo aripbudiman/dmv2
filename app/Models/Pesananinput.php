@@ -15,6 +15,14 @@ class Pesananinput extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
+    // public $builder;
+
+    // public function __construct()
+    // {
+    //     $db      = \Config\Database::connect();
+    //     $this->builder = $db->table('pesanan');
+    // }
+
     public function nopesanan()
     {
         $kode = $this->db->table('pesanan')
@@ -62,5 +70,13 @@ class Pesananinput extends Model
             ->where('no_pesanan', $noPesanan)
             ->get()
             ->getResultArray();
+    }
+
+    public function updatePesanan($status, $nopesanan)
+    {
+        return $this->db->table('pesanan')
+            ->set('status', $status)
+            ->where('no_pesanan', $nopesanan)
+            ->update();
     }
 }

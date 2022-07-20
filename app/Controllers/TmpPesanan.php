@@ -19,6 +19,15 @@ class TmpPesanan extends BaseController
         $this->pesanan = new Pesananinput();
     }
 
+    public function index()
+    {
+        $data = [
+            'title' => 'List Pesanan',
+            'pesanan' => $this->tmpPesanan->getTmpPesanan()
+        ];
+        return view('tmp_pesanan/index', $data);
+    }
+
     public function approve()
     {
         $no = $this->request->getVar('noPesanan');
@@ -48,18 +57,13 @@ class TmpPesanan extends BaseController
         foreach ($array as $r) {
             $this->jurnal->save($r);
         }
-        $this->pesanan->save([
-            'id_pesanan' => $this->request->getVar('id'),
-            'status' => "A"
-        ]);
+        // update status pesanan ketika sudah di approve
+        $this->pesanan->updatePesanan('A', $no);
+        // masukan pesanan ke tmp_pesanan
         $response = $this->tmpPesanan->save([
             'no_pesanan' => $no,
             'status' => $status
         ]);
         echo json_encode($response);
-    }
-    public function index()
-    {
-        //
     }
 }
