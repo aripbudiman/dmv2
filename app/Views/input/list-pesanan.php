@@ -52,6 +52,7 @@
 <script>
     $(document).ready(function() {
         $('#list-pesanan').DataTable()
+        // menampilkan modal verifikasi
         $('tr').click(function() {
             let nilai = $(this).data('no');
             $.ajax({
@@ -65,6 +66,9 @@
                     if (response) {
                         response.forEach(r => {
                             let html = `<tr>
+                            <th>id Pesanan</th>
+                            <td id="idPesanan">${r.id}</td>
+                            </tr><tr>
                             <th>No Pesanan</th>
                             <td id="no">${r.no_pesanan}</td>
                             </tr><tr>
@@ -105,11 +109,15 @@
                 }
             });
         })
+
+        // fungsi format rupiah
         $('.harga').autoNumeric('init', {
             aSep: ',',
             aDec: '.',
             mDec: '0'
         });
+
+        // tombol approve pesanan di click
         $('.approve').click(function(e) {
             e.preventDefault();
             let no = $('#no').text();
@@ -117,6 +125,7 @@
             let namaCetakan = $('#nama_cetakan').text();
             let harga = $('#harga').text();
             let tanggal = $('#tanggal').text();
+            let id = $('#idPesanan').text();
             $.ajax({
                 type: "post",
                 url: "approve_pesanan",
@@ -126,7 +135,8 @@
                     "customer": customer,
                     "namaCetakan": namaCetakan,
                     "harga": harga,
-                    "tanggal": tanggal
+                    "tanggal": tanggal,
+                    "id": id
                 },
                 dataType: "json",
                 success: function(response) {
@@ -138,10 +148,14 @@
                             text: 'Data sudah diterima!'
                         })
                     }
+                },
+                error: function(xhr, throwError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
                 }
             });
         });
 
+        // tombol reject di click
         $('.reject').click(function(e) {
             e.preventDefault();
             console.log('reject')

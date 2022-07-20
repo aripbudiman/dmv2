@@ -8,7 +8,7 @@ class Pesananinput extends Model
 {
     protected $table            = 'pesanan';
     protected $primaryKey       = 'id';
-    protected $allowedFields    = ['id_customer', 'no_pesanan', 'nama_cetakan', 'id_tipe', 'id_bahan', 'id_lebar', 'id_finishing', 'panjang', 'qty', 'harga', 'created_at', 'updated_at'];
+    protected $allowedFields    = ['id_customer', 'no_pesanan', 'nama_cetakan', 'id_tipe', 'id_bahan', 'id_lebar', 'id_finishing', 'panjang', 'qty', 'harga', 'status', 'created_at', 'updated_at'];
 
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
@@ -34,7 +34,7 @@ class Pesananinput extends Model
     }
     public function idpesanan()
     {
-        $kode = $this->db->table('pesanan')
+        $kode = $this->db->table('tmp_pesanan')
             ->select('RIGHT(no_pesanan,4) as kode', FALSE)
             ->orderBy('no_pesanan', 'DESC')
             ->limit(1)->get()->getRowArray();

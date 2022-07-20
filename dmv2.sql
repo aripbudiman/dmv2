@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2022 at 02:51 AM
+-- Generation Time: Jul 20, 2022 at 02:32 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.22
 
@@ -222,10 +222,7 @@ CREATE TABLE `isi_jurnal` (
 --
 
 INSERT INTO `isi_jurnal` (`no_jurnal`, `tgl_jurnal`, `deskripsi`) VALUES
-(5, '2022-07-19', 'Pesanan ERAFONE VETERAN 450 CM X 255 CM 1PCS KOREA'),
-(6, '2022-07-19', 'Pesanan BANG ABYbanner partai Demokrat'),
-(7, '2022-07-20', 'Pesanan a/n MEDIA JUANDA BABELAN baliho'),
-(8, '2022-07-18', 'Pesanan a/n ALFIN (banner partai Demokrat)');
+(1, '2022-07-15', 'Pesanan a/n BANG ABY (ERAFONE VETERAN 450 CM X 255 CM 1PCS KOREA)');
 
 -- --------------------------------------------------------
 
@@ -246,14 +243,8 @@ CREATE TABLE `jurnal` (
 --
 
 INSERT INTO `jurnal` (`id`, `jurnal_no`, `kode_akun`, `nominal`, `d/c`) VALUES
-(16, 5, '1-112', 75000, 'D'),
-(17, 5, '4-115', 75000, 'C'),
-(18, 6, '1-112', 35000, 'D'),
-(19, 6, '4-115', 35000, 'C'),
-(20, 7, '1-112', 35000, 'D'),
-(21, 7, '4-115', 35000, 'C'),
-(22, 8, '1-112', 65000, 'D'),
-(23, 8, '4-115', 65000, 'C');
+(41, 1, '1-112', 472500, 'D'),
+(42, 1, '4-115', 472500, 'C');
 
 -- --------------------------------------------------------
 
@@ -374,6 +365,7 @@ CREATE TABLE `pesanan` (
   `panjang` double NOT NULL,
   `qty` int(30) NOT NULL,
   `harga` float NOT NULL,
+  `status` enum('B','A') NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -382,16 +374,8 @@ CREATE TABLE `pesanan` (
 -- Dumping data for table `pesanan`
 --
 
-INSERT INTO `pesanan` (`id`, `id_customer`, `no_pesanan`, `nama_cetakan`, `id_tipe`, `id_bahan`, `id_lebar`, `id_finishing`, `panjang`, `qty`, `harga`, `created_at`, `updated_at`) VALUES
-(3, 32, '0', 'nilai awal', 1, 7, 1, 8, 0, 0, 0, '2022-07-15 10:54:30', '2022-07-15 10:54:30'),
-(18, 2, '1507220001', 'ERAFONE VETERAN 450 CM X 255 CM 1PCS KOREA', 2, 4, 25, 7, 4.5, 1, 472500, '2022-07-15 08:37:34', '2022-07-15 08:37:34'),
-(19, 7, '1507220002', 'NANDA__PESERTA DIDIK BARU 3X1 METER @H280 @1PCS MA', 2, 2, 8, 3, 1, 1, 51000, '2022-07-15 08:38:43', '2022-07-15 08:38:43'),
-(20, 7, '1507220003', 'CDB_ VIVIP-BANNER-VISIT_04 _LG_ rev01_ 9 m x 0.95 m_ F STDR_ 1 Pcs', 1, 1, 1, 1, 1, 1, 35000, '2022-07-15 08:42:28', '2022-07-15 08:42:28'),
-(27, 2, '1807220004', 'banner partai', 1, 1, 1, 1, 1, 1, 35000, '2022-07-18 10:30:20', '2022-07-18 10:30:20'),
-(32, 9, '1807220005', 'ERAFONE VETERAN 450 CM X 255 CM 1PCS KOREA', 2, 8, 32, 1, 1, 1, 75000, '2022-07-18 19:09:41', '2022-07-18 19:09:41'),
-(33, 2, '1807220006', 'banner partai Demokrat', 2, 4, 22, 1, 1, 1, 35000, '2022-07-18 19:15:23', '2022-07-18 19:15:23'),
-(34, 9, '1807220007', 'baliho', 1, 1, 1, 3, 1, 1, 35000, '2022-07-18 19:16:54', '2022-07-18 19:16:54'),
-(35, 6, '1807220008', 'banner partai Demokrat', 1, 1, 4, 1, 1, 1, 65000, '2022-07-18 19:17:58', '2022-07-18 19:17:58');
+INSERT INTO `pesanan` (`id`, `id_customer`, `no_pesanan`, `nama_cetakan`, `id_tipe`, `id_bahan`, `id_lebar`, `id_finishing`, `panjang`, `qty`, `harga`, `status`, `created_at`, `updated_at`) VALUES
+(18, 2, '1507220001', 'ERAFONE VETERAN 450 CM X 255 CM 1PCS KOREA', 2, 4, 25, 7, 4.5, 1, 472500, 'A', '2022-07-15 08:37:34', '2022-07-15 08:37:34');
 
 -- --------------------------------------------------------
 
@@ -412,6 +396,25 @@ CREATE TABLE `tipe` (
 INSERT INTO `tipe` (`id`, `nama_tipe`, `harga_tipe`) VALUES
 (1, 'Premium (Uv ink)', 20000),
 (2, 'Standard (Solvent)', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tmp_pesanan`
+--
+
+CREATE TABLE `tmp_pesanan` (
+  `id` int(11) NOT NULL,
+  `no_pesanan` varchar(100) NOT NULL,
+  `status` enum('unpaid','paid','down payment') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tmp_pesanan`
+--
+
+INSERT INTO `tmp_pesanan` (`id`, `no_pesanan`, `status`) VALUES
+(12, '1507220001', 'unpaid');
 
 --
 -- Indexes for dumped tables
@@ -506,6 +509,12 @@ ALTER TABLE `tipe`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tmp_pesanan`
+--
+ALTER TABLE `tmp_pesanan`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -549,13 +558,13 @@ ALTER TABLE `finishing`
 -- AUTO_INCREMENT for table `isi_jurnal`
 --
 ALTER TABLE `isi_jurnal`
-  MODIFY `no_jurnal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `no_jurnal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `jurnal`
 --
 ALTER TABLE `jurnal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `lebar`
@@ -579,13 +588,19 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `pesanan`
 --
 ALTER TABLE `pesanan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `tipe`
 --
 ALTER TABLE `tipe`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tmp_pesanan`
+--
+ALTER TABLE `tmp_pesanan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables

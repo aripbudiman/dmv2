@@ -35,8 +35,7 @@ class Inputpesanan extends BaseController
             'tipe' => $this->tipe->findAll(),
             'finishing' => $this->finishing->findAll(),
             'customer' => $this->customer->findAll(),
-            'nopesanan' => $this->pesanan->nopesanan(),
-            'id' => $this->pesanan->idpesanan()
+            'nopesanan' => $this->pesanan->nopesanan()
         ];
         return view('input/index', $data);
     }
@@ -109,7 +108,7 @@ class Inputpesanan extends BaseController
         $noPesanan = $this->request->getVar('nopesanan');
         $data = [
             'title' => 'Verifikasi pesanan',
-            'pesanan' => $this->pesanan->findAll(),
+            'pesanan' => $this->pesanan->where("status", "B")->find(),
             'detail' => $this->pesanan->getPesanan($noPesanan)
         ];
         return view('input/list-pesanan', $data);

@@ -94,11 +94,6 @@
                             <input type="text" class="form-control bg-navy fs-4 text-indigo harga" id="harga" name="harga" readonly>
                         </div>
                     </div>
-                    <!-- <div class="col-12 col-lg-6">
-                        <div class="card bg-navy">
-                            <h1>Member</h1>
-                        </div>
-                    </div> -->
                 </div>
                 <div class="input-group mb-3">
                     <button class="btn btn-success tambah-pesanan" id="tambah-pesanan">Tambahkan</button>
@@ -108,18 +103,14 @@
         </div>
     </div>
 </div>
-<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
 <script>
     $(document).ready(function() {
         hitungharga()
         change()
         bahanselek()
-
-        $('#id_customer').change(function() {
-            let nama = $('#id_customer option:selected').data('nama-cs');
-            $('#nama_customer').val(nama)
-        })
     });
+
+    // function menghitung harga
     let hitungharga = function() {
         let tipe = $('#id_tipe option:selected').data('tipe');
         let lebar = $('#id_lebar option:selected').data('lebar');
@@ -131,6 +122,7 @@
         rupiah()
     }
 
+    // function change 
     function change() {
         $('#id_tipe , #id_lebar, #id_finishing, #panjang, #qty').change(function() {
             let tipe = $('#id_tipe option:selected').data('tipe');
@@ -140,10 +132,10 @@
             let qty = $('#qty').val();
             let total = (parseFloat(tipe) + parseFloat(lebar) + parseFloat(finishing)) * parseFloat(panjang) * parseInt(qty)
             $('#harga').val(total);
-
         });
     }
 
+    // ketika bahan di selek memunculkan harga lebar
     function bahanselek() {
         $('#id_bahan').on('change', function() {
             let idbahan = $(this).val()
@@ -163,6 +155,7 @@
         });
     }
 
+    // format rupiah
     function rupiah() {
         $('.harga').autoNumeric('init', {
             aSep: ',',
@@ -171,6 +164,7 @@
         });
     }
 
+    // fungsi tombol simpan pesanan di klik
     $('.formsimpan').submit(function(e) {
         e.preventDefault();
         $.ajax({

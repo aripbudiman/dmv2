@@ -48,6 +48,10 @@ class TmpPesanan extends BaseController
         foreach ($array as $r) {
             $this->jurnal->save($r);
         }
+        $this->pesanan->save([
+            'id' => $this->request->getVar('id'),
+            'status' => "A"
+        ]);
         $response = $this->tmpPesanan->save([
             'no_pesanan' => $no,
             'status' => $status
