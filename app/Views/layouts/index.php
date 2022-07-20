@@ -48,6 +48,10 @@
     <link rel="stylesheet" href="<?= base_url(); ?>/plugins/datatables-searchbuilder/css/searchBuilder.bootstrap4.min.css">
     <link rel="stylesheet" href="<?= base_url(); ?>/plugins/datatables-searchpanes/css/searchPanes.bootstrap4.min.css">
     <link rel="stylesheet" href="<?= base_url(); ?>/plugins/datatables-select/css/select.bootstrap4.min.css">
+    <!-- date -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

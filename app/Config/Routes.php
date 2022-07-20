@@ -61,6 +61,9 @@ $routes->get('list_pesanan_verifikasi', 'inputpesanan::list_pesanan');
 $routes->post('load-detail', 'inputpesanan::detail_pesanan');
 $routes->post('delete_pesanan', 'inputpesanan::delete');
 
+// payment
+$routes->get('payment', 'payment::index');
+
 
 // tmp pesanan
 $routes->get('list_pesanan', 'TmpPesanan::index');
