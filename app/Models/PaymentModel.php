@@ -26,4 +26,15 @@ class PaymentModel extends Model
         $kodebarang = $barang . $batas;
         return $kodebarang;
     }
+
+    public function loadCustomer($cs)
+    {
+        return $this->db->table('tmp_pesanan')
+            ->select('*')
+            ->join('pesanan', 'tmp_pesanan.no_pesanan=pesanan.no_pesanan')
+            ->join('customer', 'pesanan.id_customer=customer.id')
+            ->where('nama_customer', $cs)
+            ->get()
+            ->getResultArray();
+    }
 }

@@ -63,6 +63,7 @@ $routes->post('delete_pesanan', 'inputpesanan::delete');
 
 // payment
 $routes->get('payment', 'payment::index');
+$routes->post('input_modal_cs', 'payment::loadcs');
 
 
 // tmp pesanan

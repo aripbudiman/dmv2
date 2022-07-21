@@ -20,53 +20,30 @@
                     <input type="text" class="datepicker form-control ml-1" name="trx_date" id="trx_date" placeholder="Tanggal Transaksi">
                 </div>
                 <div class="form-group d-flex mb-3">
-                    <input type="text" class="form-control mr-2" placeholder="Customer" readonly>
-                    <button class="btn btn-primary" id="btn-customer"><i class="fa-solid fa-ellipsis"></i></button>
-                </div>
-                <div class="col-6 form-group d-flex justify-content-between mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Cash
-                        </label>
+                    <div class="input-group ">
+                        <input type="text" class="form-control rounded-0" name="customer" id="customer" placeholder="Customer">
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-info btn-flat" id="btn-customer"><i class="fa-solid fa-ellipsis"></i></button>
+                        </span>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                        <label class="form-check-label" for="flexCheckChecked">
-                            Down Payment
-                        </label>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info">Down Payment</button>
+                        <button type="button" class="btn btn-info">Cash Payment</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card">
-            <table class="table">
+            <table class="table table-hover" id="table-pesanan">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col" class="text-center" width="20">No</th>
+                        <th scope="col" class="text-center">Nama Cetakan</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
+                <tbody id="table-load">
                 </tbody>
             </table>
         </div>
@@ -94,12 +71,41 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
 <script type="text/javascript">
+    // fungsi date picker
     $('.datepicker').datepicker();
 
     $(document).ready(function() {
+
+        // btn menu customer di click
         $('#btn-customer').click(function(e) {
             e.preventDefault();
             $('#menu-customer').modal('show')
+        });
+
+        // tr didalam modal customer di click
+        $('#table-customer tr').click(function(e) {
+            e.preventDefault();
+            let customer = $(this).data('namacs');
+            $('#customer').val(customer)
+            $.ajax({
+                type: "post",
+                url: "input_modal_cs",
+                data: {
+                    customer: customer
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response == '') {
+                        $('#table-load').html('<tr><td colspan="4"><h2 class="text-center text-danger"><i class="fa-solid fa-hourglass-empty"></i> <b>Tidak pesanan</h2></td></tr>')
+                    } else {
+                        $('#table-load').html(response)
+                    }
+                },
+                error: function(xhr, throwError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+                }
+            });
+            $('#menu-customer').modal('hide')
         });
     });
 </script>
