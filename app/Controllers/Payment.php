@@ -38,4 +38,22 @@ class Payment extends BaseController
         }
         echo json_encode($output);
     }
+
+    public function load_troli()
+    {
+        $customer = $this->request->getVar('customer');
+        $data = $this->payment->loadTroli($customer);
+        if ($data != null) {
+            $json = [
+                'data' => view('payment/load-troli', [
+                    'tampildata' => $data
+                ])
+            ];
+            echo json_encode($json);
+        } else {
+            $json = [
+                'error' => 'Tidak ada pesanan'
+            ];
+        }
+    }
 }

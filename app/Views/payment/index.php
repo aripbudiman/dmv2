@@ -40,12 +40,9 @@
                     </div>
                 </div>
                 <div class="form-group d-flex mb-3">
-                    <div class="input-group ">
-                        <input type="text" class="form-control rounded-0" name="nama_cetakan" id="nama_cetakan" placeholder="Nama Cetakan">
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-info btn-flat" id="btn-cetakan"><i class="fa-solid fa-ellipsis"></i></button>
-                        </span>
-                    </div>
+                    <a class="btn btn-app bg-indigo" id="troli">
+                        <i class="fas fa-shopping-cart"></i> Troli
+                    </a>
                 </div>
                 <div class="form-group d-flex mb-3">
                     <div class="form-check">
@@ -74,17 +71,7 @@
                 </div>
             </div>
         </div>
-        <div class="card">
-            <table class="table table-hover" id="table-pesanan">
-                <thead>
-                    <tr>
-                        <th scope="col" class="text-center" width="20">No</th>
-                        <th scope="col" class="text-center">Nama Cetakan</th>
-                    </tr>
-                </thead>
-                <tbody id="table-load">
-                </tbody>
-            </table>
+        <div class="card" id="load-troli">
         </div>
     </div>
     <div class="col-12 col-lg-8">
@@ -106,6 +93,7 @@
 </div>
 <!-- modal menu customer -->
 <?= $this->include('payment/modal-menu-customer'); ?>
+<?= $this->include('payment/modal-troli'); ?>
 <!-- end modal petugas -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
@@ -132,25 +120,50 @@
             e.preventDefault();
             let customer = $(this).data('namacs');
             $('#customer').val(customer)
+            // $.ajax({
+            //     type: "post",
+            //     url: "input_modal_cs",
+            //     data: {
+            //         customer: customer
+            //     },
+            //     dataType: "json",
+            //     success: function(response) {
+            //         if (response == '') {
+            //             $('#table-load').html('<tr><td colspan="4"><h2 class="text-center text-danger"><i class="fa-solid fa-hourglass-empty"></i> <b>Tidak ada pesanan</h2></td></tr>')
+            //         } else {
+            //             $('#table-load').html(response)
+            //         }
+            //     },
+            //     error: function(xhr, throwError) {
+            //         alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+            //     }
+            // });
+            $('#menu-customer').modal('hide')
+        });
+
+        // modal troli
+        $('#troli').click(function(e) {
+            e.preventDefault();
+            let customer = $('#customer').val()
             $.ajax({
                 type: "post",
-                url: "input_modal_cs",
+                url: "/load_troli",
                 data: {
-                    customer: customer
+                    "customer": customer
                 },
                 dataType: "json",
                 success: function(response) {
-                    if (response == '') {
-                        $('#table-load').html('<tr><td colspan="4"><h2 class="text-center text-danger"><i class="fa-solid fa-hourglass-empty"></i> <b>Tidak ada pesanan</h2></td></tr>')
-                    } else {
-                        $('#table-load').html(response)
+                    if (response.data) {
+                        $('#load-troli').html(response.data)
+                    }
+                    if (response.error) {
+                        alert(response.error)
                     }
                 },
                 error: function(xhr, throwError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
                 }
             });
-            $('#menu-customer').modal('hide')
         });
     });
 </script>

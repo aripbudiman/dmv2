@@ -37,4 +37,19 @@ class PaymentModel extends Model
             ->get()
             ->getResultArray();
     }
+
+    public function loadTroli($nama)
+    {
+        return $this->db->table('tmp_pesanan')
+            ->select('tmp_pesanan.status as status,nama_cetakan, nama_customer,nama_bahan,nama_tipe,meter,deskripsi_finishing,panjang,qty,harga')
+            ->join('pesanan', 'tmp_pesanan.no_pesanan=pesanan.no_pesanan')
+            ->join('customer', 'pesanan.id_customer=customer.id')
+            ->join('tipe', 'pesanan.id_tipe=tipe.id')
+            ->join('bahan', 'pesanan.id_bahan=bahan.id')
+            ->join('lebar', 'pesanan.id_lebar=lebar.id')
+            ->join('finishing', 'pesanan.id_finishing=finishing.id')
+            ->where('nama_customer', $nama)
+            ->get()
+            ->getResultArray();
+    }
 }
