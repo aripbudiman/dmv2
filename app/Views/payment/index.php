@@ -15,9 +15,16 @@
                 </div>
             </div>
             <div class="card-body">
+                <div class="row g-3 align-items-center mb-2">
+                    <div class="col-auto">
+                        <label for="no_payment" class="col-form-label">No Payment</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" id="no_payment" class="form-control" name="no_payment" value="<?= $nopayment; ?>" readonly>
+                    </div>
+                </div>
                 <div class="form-group d-flex mb-3">
-                    <input type="text" class="form-control mr-1" name="no_payment" id="no_payment" value="<?= $nopayment; ?>" readonly>
-                    <input type="text" class="datepicker form-control ml-1" name="trx_date" id="trx_date" placeholder="Tanggal Transaksi">
+                    <input type="text" class="datepicker form-control" name="trx_date" id="trx_date" placeholder="Tanggal Transaksi" autocomplete="off">
                 </div>
                 <div class="form-group d-flex mb-3">
                     <div class="input-group ">
@@ -27,10 +34,18 @@
                         </span>
                     </div>
                 </div>
-                <div class="form-group mb-3">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-info">Down Payment</button>
-                        <button type="button" class="btn btn-info">Cash Payment</button>
+                <div class="form-group d-flex mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                        <label class="form-check-label text-primary" for="flexRadioDefault1">
+                            Cash Payment
+                        </label>
+                    </div>
+                    <div class="form-check ml-3">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                        <label class="form-check-label text-danger" for="flexRadioDefault2">
+                            Down Payment
+                        </label>
                     </div>
                 </div>
             </div>
@@ -72,7 +87,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
 <script type="text/javascript">
     // fungsi date picker
-    $('.datepicker').datepicker();
+    $('.datepicker').datepicker({
+        changeYear: true,
+        dateFormat: 'dd/mm/yy',
+        showOn: 'none',
+        showButtonPanel: true,
+        minDate: '0d'
+    });
 
     $(document).ready(function() {
 
