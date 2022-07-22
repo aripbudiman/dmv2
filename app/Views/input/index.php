@@ -118,7 +118,11 @@
         let qty = $('#qty').val();
         let total = (parseFloat(tipe) + parseFloat(lebar) + parseFloat(finishing)) * parseFloat(panjang) * parseInt(qty)
         $('#harga').val(total);
-        rupiah()
+        $('#harga').autoNumeric('init', {
+            aSep: ',',
+            aDec: '.',
+            mDec: '0'
+        });
     }
 
     // function change 
@@ -131,6 +135,11 @@
             let qty = $('#qty').val();
             let total = (parseFloat(tipe) + parseFloat(lebar) + parseFloat(finishing)) * parseFloat(panjang) * parseInt(qty)
             $('#harga').val(total);
+            $('#harga').autoNumeric('update', {
+                aSep: ',',
+                aDec: '.',
+                mDec: '0'
+            });
         });
     }
 
@@ -149,6 +158,11 @@
                     result = response
                     $('#id_lebar').html(result)
                     hitungharga()
+                    $('#harga').autoNumeric('update', {
+                        aSep: ',',
+                        aDec: '.',
+                        mDec: '0'
+                    });
                 }
             });
         });
@@ -156,7 +170,7 @@
 
     // format rupiah
     function rupiah() {
-        $('.harga').autoNumeric('init', {
+        $('#harga').autoNumeric('update', {
             aSep: ',',
             aDec: '.',
             mDec: '0'

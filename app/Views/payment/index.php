@@ -15,22 +15,35 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="row g-3 align-items-center mb-2">
-                    <div class="col-auto">
+                <div class="row g-3 align-items-center mb-3">
+                    <div class="col-6">
                         <label for="no_payment" class="col-form-label">No Payment</label>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-6">
                         <input type="text" id="no_payment" class="form-control" name="no_payment" value="<?= $nopayment; ?>" readonly>
                     </div>
                 </div>
-                <div class="form-group d-flex mb-3">
-                    <input type="text" class="datepicker form-control" name="trx_date" id="trx_date" placeholder="Tanggal Transaksi" autocomplete="off">
+                <div class="row g-3 align-items-center mb-3">
+                    <div class="col-6">
+                        <label for="trx_date" class="col-form-label">Tanggal Transaksi</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" id="no_payment" class="form-control datepicker" name="trx_date" id="trx_date" placeholder="Tanggal Transaksi" autocomplete="off">
+                    </div>
                 </div>
                 <div class="form-group d-flex mb-3">
                     <div class="input-group ">
                         <input type="text" class="form-control rounded-0" name="customer" id="customer" placeholder="Customer">
                         <span class="input-group-append">
                             <button type="button" class="btn btn-info btn-flat" id="btn-customer"><i class="fa-solid fa-ellipsis"></i></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group d-flex mb-3">
+                    <div class="input-group ">
+                        <input type="text" class="form-control rounded-0" name="nama_cetakan" id="nama_cetakan" placeholder="Nama Cetakan">
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-info btn-flat" id="btn-cetakan"><i class="fa-solid fa-ellipsis"></i></button>
                         </span>
                     </div>
                 </div>
@@ -47,6 +60,17 @@
                             Down Payment
                         </label>
                     </div>
+                </div>
+                <div class="form-group d-flex mb-3">
+                    <a class="btn btn-app bg-info">
+                        <i class="fas fa-cash-register"></i> Pay
+                    </a>
+                    <a class="btn btn-app bg-teal">
+                        <i class="fas fa-file-invoice"></i>Bill
+                    </a>
+                    <a class="btn btn-app bg-danger">
+                        <i class="fas fa-trash-can"></i> Delete
+                    </a>
                 </div>
             </div>
         </div>
@@ -117,7 +141,7 @@
                 dataType: "json",
                 success: function(response) {
                     if (response == '') {
-                        $('#table-load').html('<tr><td colspan="4"><h2 class="text-center text-danger"><i class="fa-solid fa-hourglass-empty"></i> <b>Tidak pesanan</h2></td></tr>')
+                        $('#table-load').html('<tr><td colspan="4"><h2 class="text-center text-danger"><i class="fa-solid fa-hourglass-empty"></i> <b>Tidak ada pesanan</h2></td></tr>')
                     } else {
                         $('#table-load').html(response)
                     }
