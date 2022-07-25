@@ -2,9 +2,8 @@
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Nama Cetakan</th>
+            <th scope="col">Status</th>
         </tr>
     </thead>
     <tbody>
@@ -13,8 +12,7 @@
             <tr>
                 <th scope="row"><?= $no++; ?></th>
                 <td><?= $t['nama_cetakan']; ?></td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <td class="text-danger"><?= $t['status']; ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

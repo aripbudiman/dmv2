@@ -93,7 +93,6 @@
 </div>
 <!-- modal menu customer -->
 <?= $this->include('payment/modal-menu-customer'); ?>
-<?= $this->include('payment/modal-troli'); ?>
 <!-- end modal petugas -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
@@ -120,24 +119,6 @@
             e.preventDefault();
             let customer = $(this).data('namacs');
             $('#customer').val(customer)
-            // $.ajax({
-            //     type: "post",
-            //     url: "input_modal_cs",
-            //     data: {
-            //         customer: customer
-            //     },
-            //     dataType: "json",
-            //     success: function(response) {
-            //         if (response == '') {
-            //             $('#table-load').html('<tr><td colspan="4"><h2 class="text-center text-danger"><i class="fa-solid fa-hourglass-empty"></i> <b>Tidak ada pesanan</h2></td></tr>')
-            //         } else {
-            //             $('#table-load').html(response)
-            //         }
-            //     },
-            //     error: function(xhr, throwError) {
-            //         alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
-            //     }
-            // });
             $('#menu-customer').modal('hide')
         });
 
@@ -145,6 +126,13 @@
         $('#troli').click(function(e) {
             e.preventDefault();
             let customer = $('#customer').val()
+            if (customer == '') {
+                Swal.fire(
+                    'nama customer belum dimasukan?',
+                    'Silahkan pilih customer terlebih dahulu',
+                    'error'
+                )
+            }
             $.ajax({
                 type: "post",
                 url: "/load_troli",
@@ -161,7 +149,10 @@
                     }
                 },
                 error: function(xhr, throwError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+                    // alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+                    if (xhr.status == 200) {
+                        $('#load-troli').html('<h1 class="text-danger text-bold text-center my-3"><i class="fa-solid fa-hourglass-empty"></i>Tidak ada pesanan</h1>')
+                    }
                 }
             });
         });
