@@ -46,27 +46,27 @@
                 </div>
                 <div class="form-group d-flex mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-                        <label class="form-check-label text-primary" for="flexRadioDefault1">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethod1" value="cp" checked>
+                        <label class="form-check-label text-primary" for="paymentMethod1">
                             Cash Payment
                         </label>
                     </div>
                     <div class="form-check ml-3">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                        <label class="form-check-label text-danger" for="flexRadioDefault2">
+                        <input class="form-check-input" type="radio" name="paymentMethod" value="dp" id="paymentMethod2">
+                        <label class="form-check-label text-danger" for="paymentMethod2">
                             Down Payment
                         </label>
                     </div>
                 </div>
                 <div class="form-group d-flex mb-3">
                     <a class="btn btn-app bg-info">
-                        <i class="fas fa-cash-register"></i> Pay
+                        <i class="fas fa-cash-register" id="pay"></i> Pay
                     </a>
                     <a class="btn btn-app bg-teal">
-                        <i class="fas fa-file-invoice"></i>Bill
+                        <i class="fas fa-file-invoice" id="bill"></i>Bill
                     </a>
                     <a class="btn btn-app bg-danger">
-                        <i class="fas fa-trash-can"></i> Delete
+                        <i class="fas fa-trash-can" id="delete"></i> Delete
                     </a>
                 </div>
             </div>
@@ -92,6 +92,8 @@
 </div>
 <!-- modal menu customer -->
 <?= $this->include('payment/modal-menu-customer'); ?>
+<?= $this->include('payment/cp-modal'); ?>
+<?= $this->include('payment/dp-modal'); ?>
 <!-- end modal petugas -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
@@ -163,6 +165,17 @@
             let noPesanan = $(this).data('noPesanan');
             alert(noPesanan)
         })
+
+        //========( btn payy klik )========>
+        $('#pay').click(function() {
+            let cp = $('#paymentMethod1').val()
+            let dp = $('#paymentMethod2').val()
+            if ($('#paymentMethod1').is(':checked')) {
+                $('#modal-cp').modal('show')
+            } else {
+                $('#modal-dp').modal('show')
+            }
+        });
     });
 </script>
 <?= $this->endSection(); ?>
