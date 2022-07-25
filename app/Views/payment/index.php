@@ -85,8 +85,7 @@
                     <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
                 </div>
             </div>
-            <div class="card-body">
-                The body of the card
+            <div class="card-body" id="payment-detail">
             </div>
         </div>
     </div>
@@ -97,7 +96,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
 <script type="text/javascript">
-    // fungsi date picker
+    //========( fungsi datepicker )========>
     $('.datepicker').datepicker({
         changeYear: true,
         dateFormat: 'dd/mm/yy',
@@ -107,14 +106,16 @@
     });
 
     $(document).ready(function() {
+        //========( load tmp payment detail )========>
+        $('#payment-detail').load('load_tmp_payment')
 
-        // btn menu customer di click
+        //========( btn menu customer di click )========>
         $('#btn-customer').click(function(e) {
             e.preventDefault();
             $('#menu-customer').modal('show')
         });
 
-        // tr didalam modal customer di click
+        //========( tr di dalam modal customer di click )========>
         $('#table-customer tr').click(function(e) {
             e.preventDefault();
             let customer = $(this).data('namacs');
@@ -122,7 +123,7 @@
             $('#menu-customer').modal('hide')
         });
 
-        // modal troli
+        //========( modal troli )========>
         $('#troli').click(function(e) {
             e.preventDefault();
             let customer = $('#customer').val()
@@ -156,6 +157,12 @@
                 }
             });
         });
+        //================(tr load troli di click)=====================>
+        $('#body-load tr').click(function(e) {
+            e.preventDefault()
+            let noPesanan = $(this).data('noPesanan');
+            alert(noPesanan)
+        })
     });
 </script>
 <?= $this->endSection(); ?>

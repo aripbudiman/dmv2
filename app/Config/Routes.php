@@ -65,6 +65,8 @@ $routes->post('delete_pesanan', 'inputpesanan::delete');
 $routes->get('payment', 'payment::index');
 $routes->post('input_modal_cs', 'payment::loadcs');
 $routes->post('load_troli', 'payment::load_troli');
+$routes->post('post_tmp_payment', 'payment::postTmpPayment');
+$routes->get('load_tmp_payment', 'payment::loadTmpPayment');
 
 
 // tmp pesanan

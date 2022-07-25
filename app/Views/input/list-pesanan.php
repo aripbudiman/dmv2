@@ -107,14 +107,14 @@
             });
         })
 
-        // fungsi format rupiah
+        //========( fungsi rupiah )========>
         $('.harga').autoNumeric('init', {
             aSep: ',',
             aDec: '.',
             mDec: '0'
         });
 
-        // tombol approve pesanan di click
+        //========( tombol approve )========>
         $('.approve').click(function(e) {
             e.preventDefault();
             let no = $('#no').text();

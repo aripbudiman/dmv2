@@ -5,14 +5,16 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\PaymentModel;
 use App\Models\CustomerModel;
+use App\Models\tmpPaymentModel;
 
 class Payment extends BaseController
 {
-    protected $payment, $customer;
+    protected $payment, $customer, $tmpPayment;
     public function __construct()
     {
         $this->payment = new PaymentModel();
         $this->customer = new CustomerModel();
+        $this->tmpPayment = new tmpPaymentModel();
     }
     public function index()
     {
@@ -55,5 +57,23 @@ class Payment extends BaseController
                 'error' => 'Tidak ada pesanan'
             ];
         }
+    }
+
+    public function postTmpPayment()
+    {
+        $noPesanan = $this->request->getVar('noPesanan');
+        $json = $this->tmpPayment->save([
+            'no_pesanan' => $noPesanan,
+            'status' => "pending"
+        ]);
+        echo json_encode($json);
+    }
+
+    public function loadTmpPayment()
+    {
+        $data = [
+            'tmpPayment' => $this->tmpPayment->getTmpPayment()
+        ];
+        return view('payment/tmp-payment-detail', $data);
     }
 }
