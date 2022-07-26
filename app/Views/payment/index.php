@@ -28,11 +28,11 @@
                         <label for="trx_date" class="col-form-label">Tanggal Transaksi</label>
                     </div>
                     <div class="col-6">
-                        <input type="text" id="no_payment" class="form-control datepicker" name="trx_date" id="trx_date" placeholder="Tanggal Transaksi" autocomplete="off">
+                        <input type="text" id="no_payment" class="form-control datepicker" name="trx_date" id="trx_date" value="<?= $tanggal; ?>" placeholder="Tanggal Transaksi" autocomplete="off" readonly>
                     </div>
                 </div>
                 <div class="form-group d-flex mb-3">
-                    <div class="input-group ">
+                    <div class="input-group">
                         <input type="text" class="form-control rounded-0" name="customer" id="customer" placeholder="Customer">
                         <span class="input-group-append">
                             <button type="button" class="btn btn-info btn-flat" id="btn-customer"><i class="fa-solid fa-ellipsis"></i></button>
@@ -59,15 +59,27 @@
                     </div>
                 </div>
                 <div class="form-group d-flex mb-3">
-                    <a class="btn btn-app bg-info" id="pay">
+                    <!-- ==============((btn payment))========== -->
+                    <button type="submit" class="btn btn-app bg-info" id="pay">
                         <i class="fas fa-cash-register"></i> Pay
-                    </a>
-                    <a class="btn btn-app bg-teal" id="bill">
+                    </button>
+                    <!-- ==============((end btn payment))========== -->
+                    <!-- ==============((bill payment))========== -->
+                    <button type="submit" class="btn btn-app bg-teal" id="bill">
                         <i class="fas fa-file-invoice"></i>Bill
-                    </a>
-                    <a class="btn btn-app bg-danger" id="delete">
+                    </button>
+                    <!-- ==============((end bill payment))========== -->
+                    <!-- ==============((delete tmp payment))========== -->
+                    <?= form_open('delete_tmp_payment', ['class' => 'deleteTmpPayment']); ?>
+                    <?= csrf_field(); ?>
+                    <button type="submit" class="btn btn-app bg-danger" id="delete">
                         <i class="fas fa-trash-can"></i> Delete
-                    </a>
+                    </button>
+                    <?php foreach ($tmpPayment as $t) : ?>
+                        <input type="hidden" class="noPesanan" name="noPesanan[]" value="<?= $t['no_pesanan']; ?>">
+                    <?php endforeach; ?>
+                    <?= form_close(); ?>
+                    <!-- ==============((end delete tmp payment))========== -->
                 </div>
             </div>
         </div>
@@ -95,6 +107,7 @@
 <?= $this->include('payment/cp-modal'); ?>
 <?= $this->include('payment/dp-modal'); ?>
 <!-- end modal petugas -->
+<script src="aplikasi.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -175,6 +188,35 @@
             } else {
                 $('#modal-dp').modal('show')
             }
+        });
+
+        //========( delete tmp payment )========>
+        $('.deleteTmpPayment').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: "post",
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                dataType: "json",
+                beforeSend: function() {
+                    $('#delete').attr('disable', 'disable')
+                    $('#delete').html('<i class="fa fa-spin fa-spinner"></i>')
+                },
+                complete: function() {
+                    $('#delete').removeAttr('disable')
+                    $('#delete').html(' <i class="fas fa-trash-can"></i> Delete')
+                },
+                success: function(response) {
+                    if (response.sukses) {
+                        $('.noCentang').prop('checked', false)
+                        $('#payment-detail').load('load_tmp_payment')
+                        $('#load-troli').html(response.data)
+                    }
+                },
+                error: function(xhr, throwError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+                }
+            });
         });
     });
 </script>

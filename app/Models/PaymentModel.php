@@ -49,6 +49,7 @@ class PaymentModel extends Model
             ->join('lebar', 'pesanan.id_lebar=lebar.id')
             ->join('finishing', 'pesanan.id_finishing=finishing.id')
             ->where('nama_customer', $nama)
+            ->where('tmp_pesanan.status', 'unpaid')
             ->get()
             ->getResultArray();
     }

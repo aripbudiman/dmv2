@@ -1,6 +1,8 @@
+<?= form_open('post_tmp_payment', ['class' => 'formsimpan']); ?>
+<?= csrf_field(); ?>
 <div class="row">
     <div class="col-12">
-        <button class="btn btn-primary">Insert All</button>
+        <button type="submit" class="btn bg-navy ml-3 my-2 insert-all">Insert All</button>
     </div>
     <div class="col-12">
         <table class="table">
@@ -10,7 +12,6 @@
                         <input type="checkbox" id="centangSemua">
                     </th>
                     <th scope="col">Nama Cetakan</th>
-                    <th scope="col">Pilih</th>
                 </tr>
             </thead>
             <tbody>
@@ -18,19 +19,57 @@
                 foreach ($tampildata as $t) : ?>
                     <tr>
                         <th>
-                            <input type="checkbox" name="noPesanan" class="noCentang" value="<?= $t['no']; ?>">
+                            <input type="checkbox" id="tes" name="noPesanan[]" class="noCentang" value="<?= $t['no']; ?>">
                         </th>
-                        <td><?= $t['nama_cetakan'] . ' (<span class="rp">' . $t['harga'] . '</span>)'; ?></td>
-                        <td><button class="btn btn-sm btn-info pilih" data-no="<?= $t['no']; ?>">Pilih</button></td>
+                        <td><?= $t['nama_cetakan'] . ' (<span class="rp text-navy">' . $t['harga'] . '</span>)'; ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </div>
-
+<?= form_close(); ?>
+<script src="aplikasi.js"></script>
 <script>
     $(document).ready(function() {
+        //========( form simpan ke tmp payment )========>
+        $('.formsimpan').submit(function(e) {
+            $('#customer').attr('disable', 'disable')
+            $('#btn-customer').attr('disable', 'disable')
+            e.preventDefault();
+            $.ajax({
+                type: "post",
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                dataType: "json",
+                beforeSend: function() {
+                    $('.insert-all').attr('disable', 'disable')
+                    $('.insert-all').html('<i class="fa fa-spin fa-spinner"></i>')
+                },
+                complete: function() {
+                    $('.insert-all').removeAttr('disable')
+                    $('.insert-all').html('Insert All')
+                },
+                success: function(response) {
+                    if (response.sukses) {
+                        $('.noCentang').prop('checked', false)
+                        $('#payment-detail').load('load_tmp_payment')
+                        $('#load-troli').html(response.data)
+                    }
+                },
+                error: function(xhr, throwError) {
+                    // alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+                    if (xhr.status == 500) {
+                        Swal.fire(
+                            'belum ada item yg di centang?',
+                            'Silahkan pilih item terlebih dahulu',
+                            'error'
+                        )
+                    }
+                }
+            });
+        });
+
         //========( centang semua di click )========>
         $('#centangSemua').click(function() {
             if ($(this).is(':checked')) {
@@ -49,29 +88,6 @@
             aSign: "Rp. "
         });
 
-        //========( tombol pilih di click )========>
-        $('.pilih').click(function(e) {
-            e.preventDefault();
-            let noPesanan = $(this).data('no');
-            $.ajax({
-                type: "post",
-                url: "post_tmp_payment",
-                data: {
-                    noPesanan: noPesanan
-                },
-                dataType: "json",
-                success: function(response) {
-                    if (response.data) {
-                        $('#payment-detail').load('load_tmp_payment')
-                    }
-                    if (response.error) {
-                        alert(response.error)
-                    }
-                },
-                error: function(xhr, throwError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
-                }
-            });
-        });
+
     });
 </script>

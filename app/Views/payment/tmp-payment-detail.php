@@ -17,7 +17,7 @@
         <?php $no = 1;
         $total = 0;
         foreach ($tmpPayment as $tp) : ?>
-            <tr>
+            <tr onclick="return alert('<?= $tp['no_pesanan']; ?>')">
                 <th scope="row"><?= $no++; ?></th>
                 <td><?= $tp['no_pesanan']; ?></td>
                 <td><?= $tp['nama_cetakan']; ?></td>

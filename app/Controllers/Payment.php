@@ -6,22 +6,26 @@ use App\Controllers\BaseController;
 use App\Models\PaymentModel;
 use App\Models\CustomerModel;
 use App\Models\tmpPaymentModel;
+use App\Models\TmpPesananModel;
 
 class Payment extends BaseController
 {
-    protected $payment, $customer, $tmpPayment;
+    protected $payment, $customer, $tmpPayment, $tmpPesanan;
     public function __construct()
     {
         $this->payment = new PaymentModel();
         $this->customer = new CustomerModel();
         $this->tmpPayment = new tmpPaymentModel();
+        $this->tmpPesanan = new TmpPesananModel();
     }
     public function index()
     {
         $data = [
             'title' => 'Payment',
             'nopayment' => $this->payment->nopayment(),
-            'customer' => $this->customer->findAll()
+            'customer' => $this->customer->findAll(),
+            'tmpPayment' => $this->tmpPayment->findAll(),
+            'tanggal' => date("d-m-Y H:i:s")
         ];
         return view('payment/index', $data);
     }
@@ -58,26 +62,28 @@ class Payment extends BaseController
             ];
         }
     }
-
     public function postTmpPayment()
     {
-        $data = $this->tmpPayment->findAll();
-        foreach ($data as $d) {
-            if ($d['no_pesanan'] == $this->request->getVar('noPesanan')) {
-                $json = [
-                    'error' => 'data sudah ada! silahkan cek lagi'
-                ];
-                return false;
-            } else {
-                $json = [
-                    'data' => $this->tmpPayment->save([
-                        'no_pesanan' => $this->request->getVar('noPesanan'),
-                        'status' => "pending"
-                    ])
+        if ($this->request->isAJAX()) {
+            if (!$this->validate([
+                'no_pesanan' => 'required|is_unique[tmp_payment.no_pesanan]'
+            ])) {
+                $noPesanan = $this->request->getVar('noPesanan');
+                $jmlData = count($noPesanan);
+                for ($i = 0; $i < $jmlData; $i++) {
+                    $this->tmpPayment->insert([
+                        'no_pesanan' => $noPesanan[$i]
+                    ]);
+                    $this->tmpPesanan->set('status', 'pending')->where('no_pesanan', $noPesanan[$i])->update();
+                }
+                $msg = [
+                    'sukses' => 'Data berhasil ditambahkan'
                 ];
             }
+            echo json_encode($msg);
+        } else {
+            exit('Maaf tidak bisa dilanjutklan!');
         }
-        echo json_encode($json);
     }
 
     public function loadTmpPayment()
@@ -86,5 +92,24 @@ class Payment extends BaseController
             'tmpPayment' => $this->tmpPayment->getTmpPayment()
         ];
         return view('payment/tmp-payment-detail', $data);
+    }
+
+    public function deleteTmpPayment()
+    {
+        if ($this->request->isAJAX()) {
+            $noPesanan = $this->request->getVar('noPesanan');
+            $jmlData = count($noPesanan);
+            for ($i = 0; $i < $jmlData; $i++) {
+                $this->tmpPayment->where('no_pesanan', $noPesanan[$i])->delete();
+                $this->tmpPesanan->set('status', 'unpaid')->where('no_pesanan', $noPesanan[$i])->update();
+            }
+            $msg = [
+                'sukses' => 'Data berhasil ditambahkan'
+            ];
+
+            echo json_encode($msg);
+        } else {
+            exit('Maaf tidak bisa dilanjutkan');
+        }
     }
 }

@@ -38,7 +38,7 @@
                                 <td><?= $p['nama_cetakan']; ?></td>
                                 <td><?= $p['panjang'] . ' Meter'; ?></td>
                                 <td class="harga" data-a-sign="Rp. "><?= $p['harga']; ?></td>
-                                <td><?= ($p['sts'] == 'unpaid') ? '<span class="badge rounded-pill bg-danger">Unpaid</span>' : '<span class="badge bg-primary rounded-pill">Down Payment</span>'; ?></td>
+                                <td><?= ($p['sts'] == 'unpaid') ? '<span class="badge rounded-pill bg-danger">Unpaid</span>' : (($p['sts'] == 'pending') ? '<span class="badge rounded-pill bg-warning">Pending</span>' : ((($p['sts'] == 'down payment')) ? '<span class="badge rounded-pill bg-info">Down Payment</span>' : '<span class="badge rounded-pill bg-success">Paid</span>')); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

@@ -67,6 +67,7 @@ $routes->post('input_modal_cs', 'payment::loadcs');
 $routes->post('load_troli', 'payment::load_troli');
 $routes->post('post_tmp_payment', 'payment::postTmpPayment');
 $routes->get('load_tmp_payment', 'payment::loadTmpPayment');
+$routes->post('delete_tmp_payment', 'payment::deleteTmpPayment');
 
 
 // tmp pesanan
