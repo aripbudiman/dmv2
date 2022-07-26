@@ -61,11 +61,22 @@ class Payment extends BaseController
 
     public function postTmpPayment()
     {
-        $noPesanan = $this->request->getVar('noPesanan');
-        $json = $this->tmpPayment->save([
-            'no_pesanan' => $noPesanan,
-            'status' => "pending"
-        ]);
+        $data = $this->tmpPayment->findAll();
+        foreach ($data as $d) {
+            if ($d['no_pesanan'] == $this->request->getVar('noPesanan')) {
+                $json = [
+                    'error' => 'data sudah ada! silahkan cek lagi'
+                ];
+                return false;
+            } else {
+                $json = [
+                    'data' => $this->tmpPayment->save([
+                        'no_pesanan' => $this->request->getVar('noPesanan'),
+                        'status' => "pending"
+                    ])
+                ];
+            }
+        }
         echo json_encode($json);
     }
 

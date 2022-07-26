@@ -59,14 +59,14 @@
                     </div>
                 </div>
                 <div class="form-group d-flex mb-3">
-                    <a class="btn btn-app bg-info">
-                        <i class="fas fa-cash-register" id="pay"></i> Pay
+                    <a class="btn btn-app bg-info" id="pay">
+                        <i class="fas fa-cash-register"></i> Pay
                     </a>
-                    <a class="btn btn-app bg-teal">
-                        <i class="fas fa-file-invoice" id="bill"></i>Bill
+                    <a class="btn btn-app bg-teal" id="bill">
+                        <i class="fas fa-file-invoice"></i>Bill
                     </a>
-                    <a class="btn btn-app bg-danger">
-                        <i class="fas fa-trash-can" id="delete"></i> Delete
+                    <a class="btn btn-app bg-danger" id="delete">
+                        <i class="fas fa-trash-can"></i> Delete
                     </a>
                 </div>
             </div>

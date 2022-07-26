@@ -61,8 +61,11 @@
                 },
                 dataType: "json",
                 success: function(response) {
-                    if (response) {
+                    if (response.data) {
                         $('#payment-detail').load('load_tmp_payment')
+                    }
+                    if (response.error) {
+                        alert(response.error)
                     }
                 },
                 error: function(xhr, throwError) {
