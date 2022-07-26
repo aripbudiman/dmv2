@@ -75,9 +75,7 @@
                     <button type="submit" class="btn btn-app bg-danger" id="delete">
                         <i class="fas fa-trash-can"></i> Delete
                     </button>
-                    <?php foreach ($tmpPayment as $t) : ?>
-                        <input type="hidden" class="noPesanan" name="noPesanan[]" value="<?= $t['no_pesanan']; ?>">
-                    <?php endforeach; ?>
+                    <div id="list-delete"></div>
                     <?= form_close(); ?>
                     <!-- ==============((end delete tmp payment))========== -->
                 </div>
@@ -123,6 +121,7 @@
     $(document).ready(function() {
         //========( load tmp payment detail )========>
         $('#payment-detail').load('load_tmp_payment')
+        $('#list-delete').load('loadListTmpPayment')
 
         //========( btn menu customer di click )========>
         $('#btn-customer').click(function(e) {
@@ -189,10 +188,9 @@
                 $('#modal-dp').modal('show')
             }
         });
-
         //========( delete tmp payment )========>
         $('.deleteTmpPayment').submit(function(e) {
-            e.preventDefault();
+            e.preventDefault()
             $.ajax({
                 type: "post",
                 url: $(this).attr('action'),
@@ -210,6 +208,7 @@
                     if (response.sukses) {
                         $('.noCentang').prop('checked', false)
                         $('#payment-detail').load('load_tmp_payment')
+                        $('#list-delete').load('loadListTmpPayment')
                         $('#load-troli').html(response.data)
                     }
                 },
@@ -218,6 +217,7 @@
                 }
             });
         });
+
     });
 </script>
 <?= $this->endSection(); ?>

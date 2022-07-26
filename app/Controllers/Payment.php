@@ -94,6 +94,15 @@ class Payment extends BaseController
         return view('payment/tmp-payment-detail', $data);
     }
 
+    public function loadListTmpPayment()
+    {
+        $data = [
+            'tmpPayment' => $this->tmpPayment->findAll()
+        ];
+
+        return view('payment/list-tmp-payment', $data);
+    }
+
     public function deleteTmpPayment()
     {
         if ($this->request->isAJAX()) {

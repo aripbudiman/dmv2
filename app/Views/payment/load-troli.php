@@ -54,6 +54,7 @@
                     if (response.sukses) {
                         $('.noCentang').prop('checked', false)
                         $('#payment-detail').load('load_tmp_payment')
+                        $('#list-delete').load('loadListTmpPayment')
                         $('#load-troli').html(response.data)
                     }
                 },
