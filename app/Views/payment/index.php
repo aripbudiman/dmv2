@@ -21,6 +21,7 @@
                     </div>
                     <div class="col-6">
                         <input type="text" id="no_payment" class="form-control" name="no_payment" value="<?= $nopayment; ?>" readonly>
+                        <input type="text" id="indexPay" class="form-control" name="indexPay" value="<?= $index; ?>" readonly>
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-3">
@@ -28,7 +29,7 @@
                         <label for="trx_date" class="col-form-label">Tanggal Transaksi</label>
                     </div>
                     <div class="col-6">
-                        <input type="text" id="no_payment" class="form-control datepicker" name="trx_date" id="trx_date" value="<?= $tanggal; ?>" placeholder="Tanggal Transaksi" autocomplete="off" readonly>
+                        <input type="text" class="form-control datepicker" name="trx_date" id="trx_date" value="<?= $tanggal; ?>" placeholder="Tanggal Transaksi" autocomplete="off" readonly>
                     </div>
                 </div>
                 <div class="form-group d-flex mb-3">
@@ -182,7 +183,11 @@
         $('#pay').click(function() {
             let cp = $('#paymentMethod1').val()
             let dp = $('#paymentMethod2').val()
+            let noPayment = $('#no_payment').val();
+            let trxDate = $('#trx_date').val();
             if ($('#paymentMethod1').is(':checked')) {
+                $('#no_payment_modal').val(noPayment)
+                $('#trx_date_modal').val(trxDate)
                 $('#modal-cp').modal('show')
             } else {
                 $('#modal-dp').modal('show')

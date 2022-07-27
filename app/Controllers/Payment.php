@@ -25,7 +25,8 @@ class Payment extends BaseController
             'nopayment' => $this->payment->nopayment(),
             'customer' => $this->customer->findAll(),
             'tmpPayment' => $this->tmpPayment->findAll(),
-            'tanggal' => date("d-m-Y H:i:s")
+            'tanggal' => date("d-m-Y"),
+            'index' => $this->payment->indexPayment()
         ];
         return view('payment/index', $data);
     }
@@ -119,6 +120,27 @@ class Payment extends BaseController
             echo json_encode($msg);
         } else {
             exit('Maaf tidak bisa dilanjutkan');
+        }
+    }
+
+    public function cashPayment()
+    {
+        if ($this->request->isAJAX()) {
+            $noPesanan = $this->request->getVar('noPesanan');
+            $indexPay = $this->request->getVar('indexPay');
+
+            //========( update status tmp_pesanan )========>
+            foreach ($noPesanan as $no) {
+                $this->tmpPesanan->set('status', 'paid')->where('no_pesanan', $no)->update();
+            }
+
+            //========( update tmp_payment )========>
+            foreach ($noPesanan as $no) {
+                $this->tmpPayment->set('status', 'paid')->where('no_pesanan', $no)->update();
+                $this->tmpPayment->set('indexPay', $indexPay)->where('no_pesanan', $no)->update();
+            }
+        } else {
+            exit('maaf tidak bisa dilanjutkan');
         }
     }
 }

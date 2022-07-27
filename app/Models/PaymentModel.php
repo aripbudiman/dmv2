@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class PaymentModel extends Model
 {
     protected $table            = 'payment';
-    protected $allowedFields    = ['id_pesanan', 'no_payment', 'amount', 'discount', 'trx_date'];
+    protected $allowedFields    = ['no_payment', 'amount', 'amount_pay', 'discount', 'trx_date'];
 
     public function nopayment()
     {
@@ -36,6 +36,21 @@ class PaymentModel extends Model
             ->where('nama_customer', $cs)
             ->get()
             ->getResultArray();
+    }
+
+    public function indexPayment()
+    {
+        $kode = $this->db->table('payment')
+            ->select('count(id) as kode', FALSE)
+            ->orderBy('id', 'DESC')
+            ->limit(1)->get()->getRowArray();
+
+        if ($kode['kode'] == NULL) {
+            $no = 1;
+        } else {
+            $no = intval($kode['kode']) + 1;
+        }
+        return $no;
     }
 
     public function loadTroli($nama)
