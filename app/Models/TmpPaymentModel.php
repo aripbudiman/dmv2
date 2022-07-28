@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class TmpPaymentModel extends Model
 {
     protected $table            = 'tmp_payment';
-    protected $allowedFields    = ['no_payment', 'no_pesanan', 'trx_date'];
+    protected $allowedFields    = ['no_payment', 'no_pesanan', 'status', 'indexPay', 'trx_date'];
 
     public function getTmpPayment()
     {

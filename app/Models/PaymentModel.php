@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class PaymentModel extends Model
 {
     protected $table            = 'payment';
-    protected $allowedFields    = ['no_payment', 'amount', 'amount_pay', 'discount', 'trx_date'];
+    protected $allowedFields    = ['no_payment', 'indexPay', 'amount', 'amount_pay', 'discount', 'trx_date'];
 
     public function nopayment()
     {

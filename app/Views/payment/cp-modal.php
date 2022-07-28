@@ -10,14 +10,14 @@
                 <div class="row">
                     <div class="col-12 col-lg-8">
                         <div class="form-group">
+                            <!-- <label for="amount">Total Harga</label> -->
+                            <input type="hidden" name="totalHarga" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="totalHargaModal">
                             <label for="amount">Jumlah Uang</label>
-                            <input type="text" name="jumlah_uang" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="amount" placeholder="amount">
+                            <input type="text" name="amount" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="amount" placeholder="amount">
                             <label for="discount">discount %</label>
-                            <input type="text" name="discount" class="rp form-control border-0 text-xl text-indigo text-bold" id="discount" placeholder="discount">
-                        </div>
-                        <div class="form-group">
+                            <input type="text" name="discount" class="rp form-control border-0 text-xl text-indigo text-bold" id="discount" placeholder="discount %">
                             <label for="amount_pay">Total Bayar</label>
-                            <input type="text" name="amount_pay" class="rp form-control border-0 text-xl text-indigo text-bold bg-white mb-2" id="amount_pay" placeholder="amount pay" readonly>
+                            <input type="text" name="amount_pay" class="rp form-control border-0 text-xl text-indigo text-bold bg-white mb-2" id="amount_pay" readonly>
                             <label for="kembalian">Kembalian</label>
                             <input type="text" name="kembalian" class="rp form-control border-0 text-xl text-indigo text-bold bg-white" id="kembalian" placeholder="kembalian" readonly>
                         </div>
@@ -26,9 +26,9 @@
                         <div id="list-modal-cp">
                         </div>
                         <div id="list-payment">
-                            <input type="text" id="indexPay" class="indexPay" name="indexPay" value="<?= $index; ?>">
-                            <input type="text" id="no_payment_modal" class="no_payment" name="no_payment">
-                            <input type="text" id="trx_date_modal" class="trx_date" name="trx_date">
+                            <input type="hidden" id="indexPay" class="indexPay" name="indexPay" value="<?= $index; ?>">
+                            <input type="hidden" id="no_payment_modal" class="no_payment" name="no_payment">
+                            <input type="hidden" id="trx_date_modal" class="trx_date" name="trx_date">
                         </div>
                     </div>
                 </div>
@@ -47,17 +47,14 @@
     $(document).ready(function() {
         loadGroupPayment()
 
-
         //========( hitung payment )========>
-        $('#amount, #discount').keyup(function(e) {
-            let amount = $('#amount').val();
-            let discount = $('#discount').val();
-            let amountPay = $('#amount_pay').val();
-            let kembalian = $('#kembalian').val();
-            let totalBayar = parseFloat(amount) - parseFloat(discount)
-            $('#amount_pay').val(totalBayar)
+        $('#discount').keyup(function(e) {
+            hitungDiskon()
+            hitungKembalian()
         });
-
+        $('#amount').keyup(function(e) {
+            hitungKembalian()
+        });
         //========( tombol bayar di klik )========>
         $('.cashPayment').submit(function(e) {
             e.preventDefault()
@@ -79,10 +76,28 @@
 
         //========( format rupiah )========>
         $('.rp').autoNumeric('init', {
-            aSep: ',',
-            aDec: '.',
-            mDec: '0',
-            aSign: "Rp. "
+            aSep: '.',
+            aDec: ',',
+            mDec: '0'
         });
     });
+
+
+    function hitungDiskon() {
+        let total = $('#totalHargaModal').autoNumeric('get');
+        let discount = ($('#discount').val() == "") ? 0 : $('#discount').autoNumeric('get');
+        let hasil = parseFloat(total) - (parseFloat(total) * parseFloat(discount) / 100);
+        $('#amount_pay').val(hasil);
+        let totalBersih = $('#amount_pay').val()
+        $('#amount_pay').autoNumeric('set', totalBersih)
+    }
+
+    function hitungKembalian() {
+        let amount = ($('#amount').val() == "") ? 0 : $('#amount').autoNumeric('get');
+        let totalBersih = $('#amount_pay').autoNumeric('get');
+        let kembalian = parseFloat(amount) - parseFloat(totalBersih);
+        $('#kembalian').val(kembalian);
+        let hasil = $('#kembalian').val();
+        $('#kembalian').autoNumeric('set', hasil);
+    }
 </script>

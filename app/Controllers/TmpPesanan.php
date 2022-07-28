@@ -35,6 +35,9 @@ class TmpPesanan extends BaseController
         $nama = $this->request->getVar('customer');
         $namacetakan = $this->request->getVar('namaCetakan');
         $idpesanan = $this->pesanan->idpesanan();
+
+        //========( proses jurnal pesanan )========>
+        //========( isi jurnal )========>
         $this->isijurnal->save([
             'no_jurnal' => $idpesanan,
             'tgl_jurnal' => $this->request->getVar('tanggal'),
@@ -54,9 +57,12 @@ class TmpPesanan extends BaseController
                 'd/c' => 'C'
             ]
         ];
+        //========( jurnal )========>
         foreach ($array as $r) {
             $this->jurnal->save($r);
         }
+        //========( end jurnal )========>
+
         // update status pesanan ketika sudah di approve
         $this->pesanan->updatePesanan('A', $no);
         // masukan pesanan ke tmp_pesanan

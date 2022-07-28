@@ -21,7 +21,7 @@
                     </div>
                     <div class="col-6">
                         <input type="text" id="no_payment" class="form-control" name="no_payment" value="<?= $nopayment; ?>" readonly>
-                        <input type="text" id="indexPay" class="form-control" name="indexPay" value="<?= $index; ?>" readonly>
+                        <input type="hidden" id="indexPay" class="form-control" name="indexPay" value="<?= $index; ?>" readonly>
                     </div>
                 </div>
                 <div class="row g-3 align-items-center mb-3">
@@ -185,9 +185,12 @@
             let dp = $('#paymentMethod2').val()
             let noPayment = $('#no_payment').val();
             let trxDate = $('#trx_date').val();
+            let totalHarga = $('#totalHarga').val();
             if ($('#paymentMethod1').is(':checked')) {
                 $('#no_payment_modal').val(noPayment)
                 $('#trx_date_modal').val(trxDate)
+                $('#totalHargaModal').autoNumeric('set', totalHarga);
+                $('#amount_pay').autoNumeric('set', totalHarga);
                 $('#modal-cp').modal('show')
             } else {
                 $('#modal-dp').modal('show')
