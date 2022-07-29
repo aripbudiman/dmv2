@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Down Payment</h5>
+                <h5 class="modal-title text-bold text-xl text-navy text-center">Down Payment</h5>
                 <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-x"></i></a>
             </div>
             <div class="modal-body">

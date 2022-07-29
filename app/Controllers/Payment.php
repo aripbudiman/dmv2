@@ -134,6 +134,11 @@ class Payment extends BaseController
         if ($this->request->isAJAX()) {
             $noPesanan = $this->request->getVar('noPesanan');
             $indexPay = $this->request->getVar('indexPay');
+            $idpesanan = $this->pesanan->idpesanan();
+            $totalHarga = str_replace(',', '', $this->request->getVar('totalHarga'));
+            $amount = str_replace('.', '', $this->request->getVar('amount_pay'));
+            $diskon = (str_replace('.', '', $this->request->getVar('totalHarga')) * $this->request->getVar('discount')  / 100);
+            $noPayment = $this->request->getVar('no_payment');
 
             //========( update status tmp_pesanan )========>
             foreach ($noPesanan as $no) {
@@ -146,15 +151,59 @@ class Payment extends BaseController
                 $this->tmpPayment->set('indexPay', $indexPay)->where('no_pesanan', $no)->update();
             }
 
-            //========( payment )========>
-            $this->payment->save([
-                'no_payment' => $this->request->getVar('no_payment'),
-                'indexPay' => $this->request->getVar($indexPay),
-                'amount' => str_replace('.', '', $this->request->getVar('amount')),
-                'amount_pay' => str_replace('.', '', $this->request->getVar('amount_pay')),
-                'discount' => $this->request->getVar('discount'),
-                'trx_date' => $this->request->getVar('trx_date')
+            //========( jurnal isi )========>
+            $this->isijurnal->save([
+                'no_jurnal' => $idpesanan,
+                'tgl_jurnal' => $this->request->getVar('trx_date'),
+                'deskripsi' => 'Payment a/n ' . htmlspecialchars($this->request->getVar('customer-cp')) . ' (' . htmlspecialchars($this->request->getVar('no_payment')) . ')'
             ]);
+            $array = [
+                [
+                    'jurnal_no' => $idpesanan,
+                    'kode_akun' => '1-113',
+                    'nominal' => $totalHarga,
+                    'd/c' => 'D'
+                ],
+                [
+                    'jurnal_no' => $idpesanan,
+                    'kode_akun' => '1-112',
+                    'nominal' => $amount,
+                    'd/c' => 'C'
+                ],
+                [
+                    'jurnal_no' => $idpesanan,
+                    'kode_akun' => '5-116',
+                    'nominal' => $diskon,
+                    'd/c' => 'C'
+                ]
+            ];
+            //========( jurnal )========>
+            foreach ($array as $r) {
+                $this->jurnal->save($r);
+            }
+            //========( end jurnal payment )========>
+
+            //========( payment )========>
+            $amount = str_replace('.', '', $this->request->getVar('amount'));
+            $amountPay = str_replace('.', '', $this->request->getVar('amount_pay'));
+            if ($amount < $amountPay) {
+                $msg = [
+                    'error' => 'Nominal uang tidak cukup!'
+                ];
+            } else {
+                $this->payment->save([
+                    'no_payment' => $this->request->getVar('no_payment'),
+                    'indexPay' => $indexPay,
+                    'amount' => str_replace('.', '', $this->request->getVar('amount')),
+                    'amount_pay' => str_replace('.', '', $this->request->getVar('amount_pay')),
+                    'discount' => $this->request->getVar('discount'),
+                    'trx_date' => $this->request->getVar('trx_date')
+                ]);
+                $msg = [
+                    'sukses' => 'Pembayaran berhasil dilakukan, Terimakasih!'
+                ];
+            }
+            echo json_encode($msg);
         } else {
             exit('maaf tidak bisa dilanjutkan');
         }

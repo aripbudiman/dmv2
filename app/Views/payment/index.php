@@ -138,7 +138,7 @@
             $('#menu-customer').modal('hide')
         });
 
-        //========( modal troli )========>
+        //========( button troli )========>
         $('#troli').click(function(e) {
             e.preventDefault();
             let customer = $('#customer').val()
@@ -186,9 +186,11 @@
             let noPayment = $('#no_payment').val();
             let trxDate = $('#trx_date').val();
             let totalHarga = $('#totalHarga').val();
+            let customer = $('#customer').val();
             if ($('#paymentMethod1').is(':checked')) {
                 $('#no_payment_modal').val(noPayment)
                 $('#trx_date_modal').val(trxDate)
+                $('#customer-cp').val(customer)
                 $('#totalHargaModal').autoNumeric('set', totalHarga);
                 $('#amount_pay').autoNumeric('set', totalHarga);
                 $('#modal-cp').modal('show')

@@ -19,6 +19,7 @@ class TmpPaymentModel extends Model
             ->join('bahan', 'pesanan.id_bahan=bahan.id')
             ->join('lebar', 'pesanan.id_lebar=lebar.id')
             ->join('finishing', 'pesanan.id_finishing=finishing.id')
+            ->where('tmp_payment.status', 'pending')
             ->get()
             ->getResultArray();
     }

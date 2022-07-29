@@ -41,7 +41,7 @@ class TmpPesanan extends BaseController
         $this->isijurnal->save([
             'no_jurnal' => $idpesanan,
             'tgl_jurnal' => $this->request->getVar('tanggal'),
-            'deskripsi' => 'Pesanan a/n ' . htmlspecialchars($nama) . ' (' . htmlspecialchars($namacetakan) . ')'
+            'deskripsi' => 'Pesanan no ' . $no . ' a/n ' . htmlspecialchars($nama) . ' (' . htmlspecialchars($namacetakan) . ')'
         ]);
         $array = [
             [

@@ -1,9 +1,9 @@
-<div class="modal fade" tabindex="-1" id="modal-cp">
+<div class="modal fade" tabindex="-1" id="modal-cp" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Cash Payment</h5>
-                <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-x"></i></a>
+                <h5 class="modal-title text-bold text-xl text-info text-center">Cash Payment</h5>
+                <!-- <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-x"></i></a> -->
             </div>
             <?= form_open('cash_payment', ['class' => 'cashPayment']); ?>
             <div class="modal-body">
@@ -11,11 +11,14 @@
                     <div class="col-12 col-lg-8">
                         <div class="form-group">
                             <!-- <label for="amount">Total Harga</label> -->
+                            <input type="hidden" name="customer-cp" class="form-control border-0 text-xl text-indigo text-bold mb-2" id="customer-cp">
                             <input type="hidden" name="totalHarga" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="totalHargaModal">
                             <label for="amount">Jumlah Uang</label>
-                            <input type="text" name="amount" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="amount" placeholder="amount">
+                            <input type="text" name="amount" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="amount" placeholder="amount" autocomplete="off">
+                            <div id="amount-feedback" class="invalid-feedback">
+                            </div>
                             <label for="discount">discount %</label>
-                            <input type="text" name="discount" class="rp form-control border-0 text-xl text-indigo text-bold" id="discount" placeholder="discount %">
+                            <input type="text" name="discount" class="rp form-control border-0 text-xl text-indigo text-bold" id="discount" placeholder="discount %" autocomplete="off">
                             <label for="amount_pay">Total Bayar</label>
                             <input type="text" name="amount_pay" class="rp form-control border-0 text-xl text-indigo text-bold bg-white mb-2" id="amount_pay" readonly>
                             <label for="kembalian">Kembalian</label>
@@ -35,7 +38,7 @@
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="submit" class="btn bg-teal">Bayar</button>
-                <button type="button" class="btn bg-navy" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="close" class="btn bg-navy" data-bs-dismiss="modal">Close</button>
             </div>
             <?= form_close(); ?>
         </div>
@@ -46,6 +49,13 @@
 <script>
     $(document).ready(function() {
         loadGroupPayment()
+
+        $('#close').click(function(e) {
+            e.preventDefault();
+            $('#amount').val('');
+            $('#discount').val('');
+            $('#kembalian').val('');
+        });
 
         //========( hitung payment )========>
         $('#discount').keyup(function(e) {
@@ -58,20 +68,36 @@
         //========( tombol bayar di klik )========>
         $('.cashPayment').submit(function(e) {
             e.preventDefault()
-            $.ajax({
-                type: "post",
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                dataType: "json",
-                success: function(response) {
-                    if (response.sukses) {
-                        alert('pembayaran berhasil')
+            let totalHarga = $('#totalHarga').val();
+            if (totalHarga == 0) {
+                alert('belum ada pesanan yg dipilih!');
+            } else {
+                $.ajax({
+                    type: "post",
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.sukses) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sukses',
+                                text: response.sukses
+                            })
+                            $('#modal-cp').modal('hide')
+                        }
+                        if (response.error) {
+                            alert(response.error)
+                            $('#amount').addClass('is-invalid');
+                            $('#amount').removeClass('border-0');
+                            $('#amount-feedback').html(response.error);
+                        }
+                    },
+                    error: function(xhr, throwError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
                     }
-                },
-                error: function(xhr, throwError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
-                }
-            });
+                });
+            }
         });
 
         //========( format rupiah )========>

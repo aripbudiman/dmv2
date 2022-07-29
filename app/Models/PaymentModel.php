@@ -12,7 +12,7 @@ class PaymentModel extends Model
     public function nopayment()
     {
         $kode = $this->db->table('payment')
-            ->select('max(right(no_payment,4)) as kode', FALSE)
+            ->select('max(right(no_payment,5)) as kode', FALSE)
             ->orderBy('no_payment', 'DESC')
             ->limit(1)->get()->getRowArray();
 
@@ -21,8 +21,8 @@ class PaymentModel extends Model
         } else {
             $no = intval($kode['kode']) + 1;
         }
-        $barang = 'PY' . date('dmy');
-        $batas = str_pad($no, 3, "0", STR_PAD_LEFT);
+        $barang = 'PY' . date('d');
+        $batas = str_pad($no, 5, "0", STR_PAD_LEFT);
         $kodebarang = $barang . $batas;
         return $kodebarang;
     }
