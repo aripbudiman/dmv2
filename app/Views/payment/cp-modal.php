@@ -82,7 +82,17 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Sukses',
+                                confirmButtonText: '<i class="fa-solid fa-print"></i> Print Struk',
                                 text: response.sukses
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    let noPayment = $('#no_payment_modal').val();
+                                    var url = "get_invoice_cp/" + noPayment
+                                    window.open(url, '_blank');
+                                    window.location.reload()
+                                } else if (result.isDenied) {
+                                    Swal.fire('Changes are not saved', '', 'info')
+                                }
                             })
                             $('#modal-cp').modal('hide')
                         }

@@ -71,6 +71,8 @@ $routes->post('delete_tmp_payment', 'payment::deleteTmpPayment');
 $routes->get('loadListTmpPayment', 'payment::loadListTmpPayment');
 $routes->post('cash_payment', 'payment::cashPayment');
 $routes->get('get_bill', 'payment::getBill');
+$routes->get('history_payment', 'payment::historyPayment');
+$routes->get('get_invoice_cp/(:any)', 'payment::strukPembayaran/$1');
 
 
 // tmp pesanan

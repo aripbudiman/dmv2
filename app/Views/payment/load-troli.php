@@ -36,6 +36,8 @@
         $('.formsimpan').submit(function(e) {
             $('#customer').attr('disable', 'disable')
             $('#btn-customer').attr('disable', 'disable')
+            let customer = $('#customer').val()
+            localStorage.setItem('customer', customer);
             e.preventDefault();
             $.ajax({
                 type: "post",

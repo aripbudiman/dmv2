@@ -66,7 +66,7 @@
                     </button>
                     <!-- ==============((end btn payment))========== -->
                     <!-- ==============((bill payment))========== -->
-                    <a href="<?= base_url('get_bill'); ?>" class="btn btn-app bg-teal" id="bill">
+                    <a href="<?= base_url('get_bill'); ?>" target="_blank" class="btn btn-app bg-teal" id="bill">
                         <i class="fas fa-file-invoice"></i>Bill
                     </a>
                     <!-- ==============((end bill payment))========== -->
@@ -74,7 +74,7 @@
                     <?= form_open('delete_tmp_payment', ['class' => 'deleteTmpPayment']); ?>
                     <?= csrf_field(); ?>
                     <button type="submit" class="btn btn-app bg-danger" id="delete">
-                        <i class="fas fa-trash-can"></i> Delete
+                        <i class="fas fa-trash-can"></i> Batal Transaksi
                     </button>
                     <div id="list-delete"></div>
                     <?= form_close(); ?>
@@ -120,6 +120,10 @@
     });
 
     $(document).ready(function() {
+        let csL = localStorage.getItem('customer');
+        if ($('#customer').val() == '') {
+            $('#customer').val(csL)
+        }
         //========( load tmp payment detail )========>
         $('#payment-detail').load('load_tmp_payment')
         $('#list-delete').load('loadListTmpPayment')
@@ -138,10 +142,17 @@
             $('#menu-customer').modal('hide')
         });
 
+        //========( btn delete di click )========>
+        $('#delete').click(function(e) {
+            localStorage.removeItem('customer')
+        });
+
         //========( button troli )========>
         $('#troli').click(function(e) {
             e.preventDefault();
             let customer = $('#customer').val()
+            // localStorage.setItem('customer', customer);
+            $('#customer').prop('readonly', true);
             if (customer == '') {
                 Swal.fire(
                     'nama customer belum dimasukan?',

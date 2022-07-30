@@ -21,7 +21,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="<?= base_url('/'); ?>" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -91,9 +91,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                            <a href="<?= base_url('/history_payment'); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Down Payment</p>
+                                <p>History Payment</p>
                             </a>
                         </li>
                     </ul>

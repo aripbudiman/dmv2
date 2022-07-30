@@ -11,11 +11,13 @@ use App\Models\IsijurnalModel;
 use App\Models\JurnalModel;
 use App\Models\Pesananinput;
 use Dompdf\Dompdf;
+use Dompdf\Options;
 
 
 class Payment extends BaseController
 {
-    protected $payment, $customer, $tmpPayment, $tmpPesanan, $isijurnal, $jurnal;
+    protected $payment, $customer, $tmpPesanan, $isijurnal, $jurnal;
+    public $tmpPayment;
     public function __construct()
     {
         $this->payment = new PaymentModel();
@@ -32,6 +34,7 @@ class Payment extends BaseController
             'title' => 'Payment',
             'nopayment' => $this->payment->nopayment(),
             'customer' => $this->customer->findAll(),
+            'transaksi' => $this->tmpPayment->findAll(),
             'tmpPayment' => $this->tmpPayment->getTmpPayment(),
             'tanggal' => date("Y-m-d H:i:s"),
             'index' => $this->payment->indexPayment()
@@ -136,56 +139,14 @@ class Payment extends BaseController
     public function cashPayment()
     {
         if ($this->request->isAJAX()) {
+            $dis = ($this->request->getVar('discount') == '') ? 0 : $this->request->getVar('discount');
             $noPesanan = $this->request->getVar('noPesanan');
             $indexPay = $this->request->getVar('indexPay');
             $idpesanan = $this->pesanan->idpesanan();
             $totalHarga = str_replace(',', '', $this->request->getVar('totalHarga'));
             $amount = str_replace('.', '', $this->request->getVar('amount_pay'));
-            $diskon = (str_replace('.', '', $this->request->getVar('totalHarga')) * $this->request->getVar('discount')  / 100);
+            $diskon = ($totalHarga * $dis  / 100);
             $noPayment = $this->request->getVar('no_payment');
-
-            //========( update status tmp_pesanan )========>
-            foreach ($noPesanan as $no) {
-                $this->tmpPesanan->set('status', 'paid')->where('no_pesanan', $no)->update();
-            }
-
-            //========( update tmp_payment )========>
-            foreach ($noPesanan as $no) {
-                $this->tmpPayment->set('status', 'paid')->where('no_pesanan', $no)->update();
-                $this->tmpPayment->set('indexPay', $indexPay)->where('no_pesanan', $no)->update();
-            }
-
-            //========( jurnal isi )========>
-            $this->isijurnal->save([
-                'no_jurnal' => $idpesanan,
-                'tgl_jurnal' => $this->request->getVar('trx_date'),
-                'deskripsi' => 'Payment a/n ' . htmlspecialchars($this->request->getVar('customer-cp')) . ' (' . htmlspecialchars($this->request->getVar('no_payment')) . ')'
-            ]);
-            $array = [
-                [
-                    'jurnal_no' => $idpesanan,
-                    'kode_akun' => '1-113',
-                    'nominal' => $totalHarga,
-                    'd/c' => 'D'
-                ],
-                [
-                    'jurnal_no' => $idpesanan,
-                    'kode_akun' => '1-112',
-                    'nominal' => $amount,
-                    'd/c' => 'C'
-                ],
-                [
-                    'jurnal_no' => $idpesanan,
-                    'kode_akun' => '5-116',
-                    'nominal' => $diskon,
-                    'd/c' => 'C'
-                ]
-            ];
-            //========( jurnal )========>
-            foreach ($array as $r) {
-                $this->jurnal->save($r);
-            }
-            //========( end jurnal payment )========>
 
             //========( payment )========>
             $amount = str_replace('.', '', $this->request->getVar('amount'));
@@ -195,9 +156,52 @@ class Payment extends BaseController
                     'error' => 'Nominal uang tidak cukup!'
                 ];
             } else {
+                //========( update status tmp_pesanan )========>
+                foreach ($noPesanan as $no) {
+                    $this->tmpPesanan->set('status', 'paid')->where('no_pesanan', $no)->update();
+                }
+
+                //========( update tmp_payment )========>
+                foreach ($noPesanan as $no) {
+                    $this->tmpPayment->set('status', 'paid')->where('no_pesanan', $no)->update();
+                    $this->tmpPayment->set('indexPay', $indexPay)->where('no_pesanan', $no)->update();
+                }
+
+                //========( jurnal isi )========>
+                $this->isijurnal->save([
+                    'no_jurnal' => $idpesanan,
+                    'tgl_jurnal' => $this->request->getVar('trx_date'),
+                    'deskripsi' => 'Payment a/n ' . htmlspecialchars($this->request->getVar('customer-cp')) . ' (' . htmlspecialchars($this->request->getVar('no_payment')) . ')'
+                ]);
+                $array = [
+                    [
+                        'jurnal_no' => $idpesanan,
+                        'kode_akun' => '1-113',
+                        'nominal' => $totalHarga,
+                        'd/c' => 'D'
+                    ],
+                    [
+                        'jurnal_no' => $idpesanan,
+                        'kode_akun' => '1-112',
+                        'nominal' => $amount,
+                        'd/c' => 'C'
+                    ],
+                    [
+                        'jurnal_no' => $idpesanan,
+                        'kode_akun' => '5-116',
+                        'nominal' => $diskon,
+                        'd/c' => 'C'
+                    ]
+                ];
+                //========( jurnal )========>
+                foreach ($array as $r) {
+                    $this->jurnal->save($r);
+                }
+                //========( end jurnal payment )========>
                 $this->payment->save([
                     'no_payment' => $this->request->getVar('no_payment'),
                     'indexPay' => $indexPay,
+                    'harga_kotor' => $totalHarga,
                     'amount' => str_replace('.', '', $this->request->getVar('amount')),
                     'amount_pay' => str_replace('.', '', $this->request->getVar('amount_pay')),
                     'discount' => $this->request->getVar('discount'),
@@ -218,15 +222,47 @@ class Payment extends BaseController
     {
         // instantiate and use the dompdf class
         $dompdf = new Dompdf();
-        $dompdf->loadHtml('hello world');
+        $tes = [
+            'tmpPayment' => $this->tmpPayment->getTmpPayment()
+        ];
+        $data = view('payment/bill', $tes);
+        $dompdf->loadHtml($data);
 
         // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->setPaper('A4', 'potrait');
 
         // Render the HTML as PDF
         $dompdf->render();
 
         // Output the generated PDF to Browser
-        $dompdf->stream($this->filename, array("Attachment" => false));
+        $dompdf->stream("", array("Attachment" => false));
+        // $this->filename, array("Attachment" => false)
+    }
+
+    public function historyPayment()
+    {
+        $data = [
+            'title' => 'History Payment',
+            'payment' => $this->payment->findAll()
+        ];
+        return view('payment/history_payment', $data);
+    }
+
+    public function strukPembayaran($noPayment)
+    {
+        $data = [
+            'title' => 'StrukPembayaran' . time(),
+            'payment' => $this->payment->getStruk($noPayment)
+        ];
+        $view = view('payment/invoice-pembayaran', $data);
+        $options = new Options();
+        // $options->set('defaultFont', '');
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($view);
+        // Render the HTML as PDF
+        $dompdf->render();
+        $this->response->setContentType('application/pdf');
+        // Output the generated PDF to Browser
+        $dompdf->stream("Laporan Pesanan", array("Attachment" => false));
     }
 }
