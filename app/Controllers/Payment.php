@@ -69,6 +69,7 @@ class Payment extends BaseController
             ];
         }
     }
+
     public function postTmpPayment()
     {
         if ($this->request->isAJAX()) {
@@ -128,6 +129,7 @@ class Payment extends BaseController
             exit('Maaf tidak bisa dilanjutkan');
         }
     }
+
 
     public function cashPayment()
     {
