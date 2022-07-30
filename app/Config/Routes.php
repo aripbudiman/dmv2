@@ -79,6 +79,9 @@ $routes->post('approve_pesanan', 'TmpPesanan::approve');
 $routes->get('customer', 'Customer::index');
 $routes->post('simpancustomer', 'Customer::simpancustomer');
 
+//========( jurnal )========>
+$routes->get('list_jurnal_transaksi', 'jurnalController::listJurnalTransaksi');
+
 
 // akun
 $routes->get('akun', 'Akun::index');

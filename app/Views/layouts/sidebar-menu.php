@@ -239,6 +239,12 @@
                                 <p>Jurnal Transaksi</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url('list_jurnal_transaksi'); ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List Jurnal Transaksi</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>
