@@ -66,9 +66,9 @@
                     </button>
                     <!-- ==============((end btn payment))========== -->
                     <!-- ==============((bill payment))========== -->
-                    <button type="submit" class="btn btn-app bg-teal" id="bill">
+                    <a href="<?= base_url('get_bill'); ?>" class="btn btn-app bg-teal" id="bill">
                         <i class="fas fa-file-invoice"></i>Bill
-                    </button>
+                    </a>
                     <!-- ==============((end bill payment))========== -->
                     <!-- ==============((delete tmp payment))========== -->
                     <?= form_open('delete_tmp_payment', ['class' => 'deleteTmpPayment']); ?>
@@ -178,6 +178,8 @@
             let noPesanan = $(this).data('noPesanan');
             alert(noPesanan)
         })
+
+        //========( btn bill di klik )========>
 
         //========( btn payy klik )========>
         $('#pay').click(function() {

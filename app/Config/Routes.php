@@ -70,6 +70,7 @@ $routes->get('load_tmp_payment', 'payment::loadTmpPayment');
 $routes->post('delete_tmp_payment', 'payment::deleteTmpPayment');
 $routes->get('loadListTmpPayment', 'payment::loadListTmpPayment');
 $routes->post('cash_payment', 'payment::cashPayment');
+$routes->get('get_bill', 'payment::getBill');
 
 
 // tmp pesanan
