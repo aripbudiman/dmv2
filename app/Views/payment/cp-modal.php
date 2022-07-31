@@ -86,6 +86,7 @@
                                 text: response.sukses
                             }).then((result) => {
                                 if (result.isConfirmed) {
+                                    localStorage.removeItem('item')
                                     let noPayment = $('#no_payment_modal').val();
                                     var url = "get_invoice_cp/" + noPayment
                                     window.open(url, '_blank');

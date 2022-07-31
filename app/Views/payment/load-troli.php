@@ -21,6 +21,7 @@
                         <th>
                             <input type="checkbox" id="tes" name="noPesanan[]" class="noCentang" value="<?= $t['no']; ?>">
                         </th>
+                        <td class="d-none"><input type="hidden" id="nilai" class="nilai" value="<?= $t['no']; ?>"></td>
                         <td><?= $t['nama_cetakan'] . ' (<span class="rp text-navy">' . $t['harga'] . '</span>)'; ?></td>
                     </tr>
                 <?php endforeach; ?>
@@ -32,6 +33,7 @@
 <script src="aplikasi.js"></script>
 <script>
     $(document).ready(function() {
+
         //========( form simpan ke tmp payment )========>
         $('.formsimpan').submit(function(e) {
             $('#customer').attr('disable', 'disable')
@@ -54,6 +56,14 @@
                 },
                 success: function(response) {
                     if (response.sukses) {
+                        //========( storage notifikasi pembayaran )========>
+                        let nilai = document.querySelectorAll('.nilai');
+                        let array = [];
+                        nilai.forEach(n => {
+                            let result = array.push(n.value)
+                            localStorage.setItem('item', JSON.stringify(result))
+                        });
+                        //========( end localstrorage )========>
                         $('.noCentang').prop('checked', false)
                         loadGroupPayment()
                         $('#load-troli').html(response.data)
@@ -79,7 +89,6 @@
             } else {
                 $('.noCentang').prop('checked', false)
             }
-
         })
 
         //========( format rupiah )========>

@@ -4,6 +4,8 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
+        <a id="notif_pembayaran">
+        </a>
     </ul>
 
     <!-- Right navbar links -->
@@ -127,3 +129,18 @@
         </li>
     </ul>
 </nav>
+
+<script>
+    $(document).ready(function() {
+        if (localStorage.getItem('item')) {
+            let item = localStorage.getItem('item')
+            $('#notif_pembayaran').attr({
+                "href": "payment",
+                "title": "payment"
+            });
+            $('#notif_pembayaran').html(`<h4 class="text-teal">${item} item belum di bayar</h4>`)
+        } else {
+            $('#notif_pembayaran').html('')
+        }
+    });
+</script>

@@ -145,13 +145,13 @@
         //========( btn delete di click )========>
         $('#delete').click(function(e) {
             localStorage.removeItem('customer')
+            localStorage.removeItem('item')
         });
 
         //========( button troli )========>
         $('#troli').click(function(e) {
             e.preventDefault();
             let customer = $('#customer').val()
-            // localStorage.setItem('customer', customer);
             $('#customer').prop('readonly', true);
             if (customer == '') {
                 Swal.fire(
