@@ -30,13 +30,17 @@
     $(document).ready(function() {
         $('#table-bahan').dataTable({
             scrollX: true,
-            paging: false
+            paging: true,
+            columnDefs: [{
+                targets: 4,
+                render: $.fn.dataTable.render.number('.', ',', 0, 'Rp ')
+            }],
         })
-        $('.td').autoNumeric('init', {
-            aSep: ',',
-            aDec: '.',
-            mDec: '0'
-        });
+        // $('.td').autoNumeric('init', {
+        //     aSep: ',',
+        //     aDec: '.',
+        //     mDec: '0'
+        // });
         $('.delete-lebar').click(function(e) {
             e.preventDefault();
             let id = $(this).data('id');

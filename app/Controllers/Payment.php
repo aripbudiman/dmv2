@@ -17,7 +17,7 @@ use Dompdf\Options;
 class Payment extends BaseController
 {
     protected $payment, $customer, $tmpPesanan, $isijurnal, $jurnal;
-    public $tmpPayment;
+    protected $tmpPayment;
     public function __construct()
     {
         $this->payment = new PaymentModel();
@@ -173,30 +173,52 @@ class Payment extends BaseController
                     'tgl_jurnal' => $this->request->getVar('trx_date'),
                     'deskripsi' => 'Payment a/n ' . htmlspecialchars($this->request->getVar('customer-cp')) . ' (' . htmlspecialchars($this->request->getVar('no_payment')) . ')'
                 ]);
-                $array = [
-                    [
-                        'jurnal_no' => $idpesanan,
-                        'kode_akun' => '1-113',
-                        'nominal' => $totalHarga,
-                        'd/c' => 'D'
-                    ],
-                    [
-                        'jurnal_no' => $idpesanan,
-                        'kode_akun' => '1-112',
-                        'nominal' => $amount,
-                        'd/c' => 'C'
-                    ],
-                    [
-                        'jurnal_no' => $idpesanan,
-                        'kode_akun' => '5-116',
-                        'nominal' => $diskon,
-                        'd/c' => 'C'
-                    ]
-                ];
-                //========( jurnal )========>
-                foreach ($array as $r) {
-                    $this->jurnal->save($r);
+                if ($diskon === 0) {
+                    $array = [
+                        [
+                            'jurnal_no' => $idpesanan,
+                            'kode_akun' => '1-113',
+                            'nominal' => $amountPay,
+                            'd/c' => 'D'
+                        ],
+                        [
+                            'jurnal_no' => $idpesanan,
+                            'kode_akun' => '1-112',
+                            'nominal' => $totalHarga,
+                            'd/c' => 'C'
+                        ]
+                    ];
+                    //========( jurnal )========>
+                    foreach ($array as $r) {
+                        $this->jurnal->save($r);
+                    }
+                } else {
+                    $array = [
+                        [
+                            'jurnal_no' => $idpesanan,
+                            'kode_akun' => '1-113',
+                            'nominal' => $amountPay,
+                            'd/c' => 'D'
+                        ],
+                        [
+                            'jurnal_no' => $idpesanan,
+                            'kode_akun' => '5-116',
+                            'nominal' => $diskon,
+                            'd/c' => 'D'
+                        ],
+                        [
+                            'jurnal_no' => $idpesanan,
+                            'kode_akun' => '1-112',
+                            'nominal' => $totalHarga,
+                            'd/c' => 'C'
+                        ]
+                    ];
+                    //========( jurnal )========>
+                    foreach ($array as $r) {
+                        $this->jurnal->save($r);
+                    }
                 }
+
                 //========( end jurnal payment )========>
                 $this->payment->save([
                     'no_payment' => $this->request->getVar('no_payment'),
@@ -264,5 +286,17 @@ class Payment extends BaseController
         $this->response->setContentType('application/pdf');
         // Output the generated PDF to Browser
         $dompdf->stream("Laporan Pesanan", array("Attachment" => false));
+    }
+
+    public function down_payment()
+    {
+        if ($this->request->isAJAX()) {
+            $msg = [
+                'sukses' => "Berhasil"
+            ];
+            echo json_encode($msg);
+        } else {
+            exit('maaf tidak bisa dilanjutkan');
+        }
     }
 }

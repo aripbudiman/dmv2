@@ -37,7 +37,7 @@
                                 <td><?= $p['no']; ?></td>
                                 <td><?= $p['nama_cetakan']; ?></td>
                                 <td><?= $p['panjang'] . ' Meter'; ?></td>
-                                <td class="harga" data-a-sign="Rp. "><?= $p['harga']; ?></td>
+                                <td class="harga"><?= $p['harga']; ?></td>
                                 <td><?= ($p['sts'] == 'unpaid') ? '<span class="badge rounded-pill bg-danger">Unpaid</span>' : (($p['sts'] == 'pending') ? '<span class="badge rounded-pill bg-warning">Pending</span>' : ((($p['sts'] == 'down payment')) ? '<span class="badge rounded-pill bg-info">Down Payment</span>' : '<span class="badge rounded-pill bg-success">Paid</span>')); ?></td>
                             </tr>
                         <?php endforeach; ?>
@@ -49,7 +49,12 @@
 </div>
 <script>
     $(document).ready(function() {
-        $("#list-pesanan").DataTable()
+        $("#list-pesanan").DataTable({
+            columnDefs: [{
+                targets: 4,
+                render: $.fn.dataTable.render.number('.', ',', 0, 'Rp ')
+            }]
+        })
         // fungsi format rupiah
         $('.harga').autoNumeric('init', {
             aSep: ',',

@@ -75,6 +75,9 @@ $routes->get('history_payment', 'payment::historyPayment');
 $routes->get('get_invoice_cp/(:any)', 'payment::strukPembayaran/$1');
 
 
+$routes->post('bayar_dp', 'payment::down_payment');
+
+
 // tmp pesanan
 $routes->get('list_pesanan', 'TmpPesanan::index');
 $routes->post('approve_pesanan', 'TmpPesanan::approve');

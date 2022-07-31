@@ -208,6 +208,11 @@
                 $('#amount_pay').autoNumeric('set', totalHarga);
                 $('#modal-cp').modal('show')
             } else {
+                $('#total_harga').autoNumeric('set', totalHarga);
+                $('#totalBayar').autoNumeric('set', totalHarga);
+                $('#dp_customer').val(customer)
+                $('#no_payment_modal-dp').val(noPayment)
+                $('#trx_date_modal-dp').val(trxDate)
                 $('#modal-dp').modal('show')
             }
         });

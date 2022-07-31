@@ -11,8 +11,8 @@
                     <div class="col-12 col-lg-8">
                         <div class="form-group">
                             <!-- <label for="amount">Total Harga</label> -->
-                            <input type="hidden" name="customer-cp" class="form-control border-0 text-xl text-indigo text-bold mb-2" id="customer-cp">
-                            <input type="hidden" name="totalHarga" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="totalHargaModal">
+                            <input type="text" name="customer-cp" class="form-control border-0 text-xl text-indigo text-bold mb-2" id="customer-cp">
+                            <input type="text" name="totalHarga" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="totalHargaModal">
                             <label for="amount">Jumlah Uang</label>
                             <input type="text" name="amount" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="amount" placeholder="amount" autocomplete="off">
                             <div id="amount-feedback" class="invalid-feedback">
@@ -87,6 +87,7 @@
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     localStorage.removeItem('item')
+                                    localStorage.removeItem('customer')
                                     let noPayment = $('#no_payment_modal').val();
                                     var url = "get_invoice_cp/" + noPayment
                                     window.open(url, '_blank');
