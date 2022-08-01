@@ -291,9 +291,26 @@ class Payment extends BaseController
     public function down_payment()
     {
         if ($this->request->isAJAX()) {
-            $msg = [
-                'sukses' => "Berhasil"
-            ];
+
+            $noPesanan = $this->request->getVar('noPesanan');
+            $totalHarga = $this->request->getVar('totalHarga');
+            $jumlahUang = $this->request->getVar('jumlahUang');
+            $totalBayar = $this->request->getVar('totalBayar');
+
+            if ($jumlahUang >= $totalBayar) {
+                $msg = [
+                    'errorNominal' => 'Sebaiknya bayar cash aja'
+                ];
+            } else {
+                //========( update status tmp_payment menjadi down payment )========>
+                foreach ($noPesanan as $no) {
+                    $this->tmpPayment->set('status', 'down payment')->where('no_pesanan', $no)->update();
+                }
+                $msg = [
+                    'sukses' => "Pembayaran berhasil dilakukan, Terimakasih"
+                ];
+            }
+
             echo json_encode($msg);
         } else {
             exit('maaf tidak bisa dilanjutkan');

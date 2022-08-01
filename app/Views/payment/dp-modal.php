@@ -76,8 +76,24 @@
                     dataType: "json",
                     success: function(response) {
                         if (response.sukses) {
-                            notif(response.sukses)
+                            sukses('Transaksi Berhasil', response.sukses, 'success')
                         }
+                        if (response.errorNominal) {
+                            Swal.fire({
+                                title: 'Do you want to save the changes?',
+                                showDenyButton: true,
+                                showCancelButton: true,
+                                confirmButtonText: 'Save',
+                                denyButtonText: `Don't save`,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    Swal.fire('Saved!', '', 'success')
+                                } else if (result.isDenied) {
+                                    Swal.fire('Changes are not saved', '', 'info')
+                                }
+                            })
+                        }
+                        $('#modal-dp').modal('hide')
                     },
                     error: function(xhr, throwError) {
                         alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
@@ -94,6 +110,14 @@
             'Transaksi GAGAGL!!',
             text,
             'warning'
+        )
+    }
+
+    function sukses(judul, text, icon) {
+        Swal.fire(
+            judul,
+            text,
+            icon
         )
     }
     //========( hitung diskon )========>
