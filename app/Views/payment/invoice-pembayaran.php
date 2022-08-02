@@ -124,18 +124,7 @@
             float: right;
         }
 
-        /*
-        /* 
-        p {
-            text-transform: uppercase;
-            font-size: 11px;
-        }
-
-        table {
-            font-size: 10px;
-        }
-*/
-        h5 {
+        */ h5 {
             text-align: center;
             padding-top: 0px;
             font-size: 9px;
