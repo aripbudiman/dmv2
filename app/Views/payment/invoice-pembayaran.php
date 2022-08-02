@@ -155,12 +155,14 @@
             <p>Tanggal Pembayaran</p>
             <p>Customer</p>
             <p>Kasir</p>
+            <p>Metode Pembayaran</p>
         </div>
         <div class="identitas-isi">
             <p><?= $payment[0]['no_payment']; ?></p>
             <p><?= $payment[0]['trx_date']; ?></p>
             <p><?= $payment[0]['nama_customer']; ?></p>
             <p></p>
+            <p><?= $payment[0]['sts']; ?></p>
         </div>
     </div>
     <p class="garis">-------------------------------------------------------------------</p>

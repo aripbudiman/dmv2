@@ -28,9 +28,9 @@
                         <div id="list-modal-dp">
                         </div>
                         <div id="list-payment">
-                            <input type="text" id="indexPay" class="indexPay" name="indexPay" value="<?= $index; ?>">
-                            <input type="text" id="no_payment_modal-dp" class="no_payment" name="no_payment">
-                            <input type="text" id="trx_date_modal-dp" class="trx_date" name="trx_date">
+                            <input type="hidden" id="indexPay" class="indexPay" name="indexPay" value="<?= $index; ?>">
+                            <input type="hidden" id="no_payment_modal-dp" class="no_payment" name="no_payment">
+                            <input type="hidden" id="trx_date_modal-dp" class="trx_date" name="trx_date">
                         </div>
                     </div>
                 </div>
@@ -70,6 +70,10 @@
                 alert('pembayaran di batalkan');
                 window.location.reload()
                 return false;
+            } else if (totalUang == '') {
+                alert('pembayaran di batalkan');
+                window.location.reload()
+                return false;
             }
             $.ajax({
                 type: "post",
@@ -84,6 +88,11 @@
                             'success'
                         ).then((result) => {
                             if (result.isConfirmed) {
+                                localStorage.removeItem('item')
+                                localStorage.removeItem('customer')
+                                let noPayment = $('#no_payment_modal-dp').val();
+                                var url = "get_invoice_cp/" + noPayment
+                                window.open(url, '_blank');
                                 window.location.reload()
                             } else if (result.isDenied) {
                                 Swal.fire('Changes are not saved', '', 'info')

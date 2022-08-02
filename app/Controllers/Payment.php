@@ -272,6 +272,7 @@ class Payment extends BaseController
 
     public function strukPembayaran($noPayment)
     {
+        // dd($this->payment->getStruk($noPayment));
         $data = [
             'title' => 'StrukPembayaran' . time(),
             'payment' => $this->payment->getStruk($noPayment)
@@ -294,11 +295,13 @@ class Payment extends BaseController
 
             $noPesanan = $this->request->getVar('noPesanan');
             $totalHarga = $this->request->getVar('totalHarga');
-            $jumlahUang = $this->request->getVar('jumlahUang');
-            $totalBayar = $this->request->getVar('totalBayar');
-            $sisaPiutang = $this->request->getVar('sisaPiutang');
+            $jumlahUang = str_replace('.', '', $this->request->getVar('jumlahUang'));
+            $totalBayar = str_replace('.', '', $this->request->getVar('totalBayar'));
+            $sisaPiutang = str_replace('.', '', $this->request->getVar('sisaPiutang'));
+            $indexPay = $this->request->getVar('indexPay');
             $idpesanan = $this->pesanan->idpesanan();
-            $diskon = $this->request->getVar('diskon');
+            $dis = $this->request->getVar('diskon');
+            $diskon = ($totalHarga * $dis / 100);
 
             //========( update status tmp_pesanan menjadi down payment )========>
             foreach ($noPesanan as $no) {
@@ -307,12 +310,13 @@ class Payment extends BaseController
             //========( update status tmp_payment menjadi down payment )========>
             foreach ($noPesanan as $no) {
                 $this->tmpPayment->set('status', 'down payment')->where('no_pesanan', $no)->update();
+                $this->tmpPayment->set('indexPay', $indexPay)->where('no_pesanan', $no)->update();
             }
             //========( jurnal isi )========>
             $this->isijurnal->save([
                 'no_jurnal' => $idpesanan,
                 'tgl_jurnal' => $this->request->getVar('trx_date'),
-                'deskripsi' => 'Payment a/n ' . htmlspecialchars($this->request->getVar('customer-cp')) . ' (' . htmlspecialchars($this->request->getVar('no_payment')) . ')'
+                'deskripsi' => 'Downpayment a/n ' . htmlspecialchars($this->request->getVar('dpCustomer')) . ' (' . htmlspecialchars($this->request->getVar('no_payment')) . ')'
             ]);
             if ($diskon === 0) {
                 $array = [
@@ -350,7 +354,7 @@ class Payment extends BaseController
                     [
                         'jurnal_no' => $idpesanan,
                         'kode_akun' => '1-112',
-                        'nominal' => $jumlahUang,
+                        'nominal' => $jumlahUang + $diskon,
                         'd/c' => 'C'
                     ]
                 ];
@@ -359,6 +363,15 @@ class Payment extends BaseController
                     $this->jurnal->save($r);
                 }
             }
+            $this->payment->save([
+                'no_payment' => $this->request->getVar('no_payment'),
+                'indexPay' => $indexPay,
+                'harga_kotor' => $totalHarga,
+                'amount' => $jumlahUang,
+                'amount_pay' => $jumlahUang,
+                'discount' => $this->request->getVar('diskon'),
+                'trx_date' => $this->request->getVar('trx_date')
+            ]);
             $msg = [
                 'sukses' => "Pembayaran berhasil dilakukan, Terimakasih"
             ];
