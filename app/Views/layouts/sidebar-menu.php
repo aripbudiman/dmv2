@@ -96,6 +96,12 @@
                                 <p>History Payment</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url('/list_down_payment'); ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>List Down Payment</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 

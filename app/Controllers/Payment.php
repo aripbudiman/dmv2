@@ -380,4 +380,13 @@ class Payment extends BaseController
             exit('maaf tidak bisa dilanjutkan');
         }
     }
+
+    public function listDownPayment()
+    {
+        $data = [
+            'title' => 'List down payment',
+            'payment' => $this->tmpPayment->where('status', 'down payment')->find()
+        ];
+        return view('payment/list-down-payment', $data);
+    }
 }

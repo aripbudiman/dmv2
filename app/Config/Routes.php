@@ -73,6 +73,7 @@ $routes->post('cash_payment', 'payment::cashPayment');
 $routes->get('get_bill', 'payment::getBill');
 $routes->get('history_payment', 'payment::historyPayment');
 $routes->get('get_invoice_cp/(:any)', 'payment::strukPembayaran/$1');
+$routes->get('list_down_payment', 'payment::listDownPayment');
 
 
 $routes->post('bayar_dp', 'payment::down_payment');
