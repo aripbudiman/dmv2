@@ -67,39 +67,35 @@
             let totalUang = $("#jumlahUang").val()
             let totalBayar = $("#totalBayar").val()
             if (totalUang >= totalBayar) {
-                notif('DP tidak boleh lebih dari harga , sebaiknya bayar cash aja')
-            } else {
-                $.ajax({
-                    type: "post",
-                    url: $(this).attr('action'),
-                    data: $(this).serialize(),
-                    dataType: "json",
-                    success: function(response) {
-                        if (response.sukses) {
-                            sukses('Transaksi Berhasil', response.sukses, 'success')
-                        }
-                        if (response.errorNominal) {
-                            Swal.fire({
-                                title: 'Do you want to save the changes?',
-                                showDenyButton: true,
-                                showCancelButton: true,
-                                confirmButtonText: 'Save',
-                                denyButtonText: `Don't save`,
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    Swal.fire('Saved!', '', 'success')
-                                } else if (result.isDenied) {
-                                    Swal.fire('Changes are not saved', '', 'info')
-                                }
-                            })
-                        }
-                        $('#modal-dp').modal('hide')
-                    },
-                    error: function(xhr, throwError) {
-                        alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
-                    }
-                });
+                alert('pembayaran di batalkan');
+                window.location.reload()
+                return false;
             }
+            $.ajax({
+                type: "post",
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                dataType: "json",
+                success: function(response) {
+                    if (response.sukses) {
+                        Swal.fire(
+                            'Transaksi Berhasil!',
+                            response.sukses,
+                            'success'
+                        ).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload()
+                            } else if (result.isDenied) {
+                                Swal.fire('Changes are not saved', '', 'info')
+                            }
+                        })
+                    }
+                    $('#modal-dp').modal('hide')
+                },
+                error: function(xhr, throwError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+                }
+            });
         });
 
     });

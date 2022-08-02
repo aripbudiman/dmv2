@@ -296,21 +296,72 @@ class Payment extends BaseController
             $totalHarga = $this->request->getVar('totalHarga');
             $jumlahUang = $this->request->getVar('jumlahUang');
             $totalBayar = $this->request->getVar('totalBayar');
+            $sisaPiutang = $this->request->getVar('sisaPiutang');
+            $idpesanan = $this->pesanan->idpesanan();
+            $diskon = $this->request->getVar('diskon');
 
-            if ($jumlahUang >= $totalBayar) {
-                $msg = [
-                    'errorNominal' => 'Sebaiknya bayar cash aja'
-                ];
-            } else {
-                //========( update status tmp_payment menjadi down payment )========>
-                foreach ($noPesanan as $no) {
-                    $this->tmpPayment->set('status', 'down payment')->where('no_pesanan', $no)->update();
-                }
-                $msg = [
-                    'sukses' => "Pembayaran berhasil dilakukan, Terimakasih"
-                ];
+            //========( update status tmp_pesanan menjadi down payment )========>
+            foreach ($noPesanan as $no) {
+                $this->tmpPesanan->set('status', 'down payment')->where('no_pesanan', $no)->update();
             }
-
+            //========( update status tmp_payment menjadi down payment )========>
+            foreach ($noPesanan as $no) {
+                $this->tmpPayment->set('status', 'down payment')->where('no_pesanan', $no)->update();
+            }
+            //========( jurnal isi )========>
+            $this->isijurnal->save([
+                'no_jurnal' => $idpesanan,
+                'tgl_jurnal' => $this->request->getVar('trx_date'),
+                'deskripsi' => 'Payment a/n ' . htmlspecialchars($this->request->getVar('customer-cp')) . ' (' . htmlspecialchars($this->request->getVar('no_payment')) . ')'
+            ]);
+            if ($diskon === 0) {
+                $array = [
+                    [
+                        'jurnal_no' => $idpesanan,
+                        'kode_akun' => '1-113',
+                        'nominal' => $jumlahUang,
+                        'd/c' => 'D'
+                    ],
+                    [
+                        'jurnal_no' => $idpesanan,
+                        'kode_akun' => '1-112',
+                        'nominal' => $jumlahUang,
+                        'd/c' => 'C'
+                    ]
+                ];
+                //========( jurnal )========>
+                foreach ($array as $r) {
+                    $this->jurnal->save($r);
+                }
+            } else {
+                $array = [
+                    [
+                        'jurnal_no' => $idpesanan,
+                        'kode_akun' => '1-113',
+                        'nominal' => $jumlahUang,
+                        'd/c' => 'D'
+                    ],
+                    [
+                        'jurnal_no' => $idpesanan,
+                        'kode_akun' => '5-116',
+                        'nominal' => $diskon,
+                        'd/c' => 'D'
+                    ],
+                    [
+                        'jurnal_no' => $idpesanan,
+                        'kode_akun' => '1-112',
+                        'nominal' => $jumlahUang,
+                        'd/c' => 'C'
+                    ]
+                ];
+                //========( jurnal )========>
+                foreach ($array as $r) {
+                    $this->jurnal->save($r);
+                }
+            }
+            $msg = [
+                'sukses' => "Pembayaran berhasil dilakukan, Terimakasih"
+            ];
             echo json_encode($msg);
         } else {
             exit('maaf tidak bisa dilanjutkan');
