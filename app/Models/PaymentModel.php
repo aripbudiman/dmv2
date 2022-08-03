@@ -86,5 +86,8 @@ class PaymentModel extends Model
     }
 
 
+
+
+
     // ->select('no_payment, payment.indexPay as index, harga_kotor, amount, amount_pay,discount,trx_date,pesanan.no_pesanan as noP, tmp_payment.status as sts, nama_customer, nama_cetakan,nama_tipe,nama_bahan,meter,deskripsi_finishing,panjang,qty,harga')
 }

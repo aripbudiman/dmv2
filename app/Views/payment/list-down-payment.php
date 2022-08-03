@@ -12,27 +12,30 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-bordered" id="table-dp">
+                <table class="table table-sm table-bordered" id="table-dp" style="width:100%">
                     <thead>
                         <tr>
                             <th style="width: 10px">No</th>
                             <th>Customer</th>
                             <th>No Payment</th>
-                            <th style="width: 40px">Status</th>
+                            <th>Sisa Piutang</th>
+                            <th style="width:100px">Status</th>
+                            <th style="width: 40px">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $no = 1;
                         foreach ($payment as $p) : ?>
+                            <?php $diskon = ($p['harga'] * $p['discount'] / 100) ?>
                             <tr>
                                 <td class="text-center"><?= $no++; ?></td>
-                                <td><?= $p['no_pesanan']; ?></td>
+                                <td><?= $p['nama_customer']; ?></td>
+                                <td><?= $p['no_payment']; ?></td>
+                                <td><?= ($p['harga'] - $p['amount_pay'] - $diskon); ?></td>
                                 <td>
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                    </div>
+                                    <div class="bg-info text-center color-palette"><span><?= $p['sts']; ?></span></div>
                                 </td>
-                                <td><span class="badge bg-danger">pelunasan</span></td>
+                                <td><a href="<?= base_url('formPelunasan'); ?>">Verifikasi</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -44,7 +47,11 @@
 <script>
     $(document).ready(function() {
         $('#table-dp').DataTable({
-
+            "columnDefs": [{
+                targets: 3,
+                render: $.fn.dataTable.render.number('.', ',', 0, 'Rp ')
+            }],
+            scrollX: true,
         })
     });
 </script>

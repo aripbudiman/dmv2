@@ -383,10 +383,17 @@ class Payment extends BaseController
 
     public function listDownPayment()
     {
+        // dd($this->tmpPayment->getListDp());
         $data = [
             'title' => 'List down payment',
-            'payment' => $this->tmpPayment->where('status', 'down payment')->find()
+            'payment' => $this->tmpPayment->getListDp()
         ];
         return view('payment/list-down-payment', $data);
+    }
+
+    public function formPelunasan()
+    {
+        $data = ['title' => 'form pelunasan'];
+        return view('payment/form-pelunasan', $data);
     }
 }
