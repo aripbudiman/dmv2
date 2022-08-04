@@ -274,7 +274,7 @@ class Payment extends BaseController
     {
         // dd($this->payment->getStruk($noPayment));
         $data = [
-            'title' => 'StrukPembayaran' . time(),
+            'title' => 'StrukPembayaran' . $noPayment,
             'payment' => $this->payment->getStruk($noPayment)
         ];
         $view = view('payment/invoice-pembayaran', $data);
@@ -379,6 +379,25 @@ class Payment extends BaseController
         } else {
             exit('maaf tidak bisa dilanjutkan');
         }
+    }
+
+    public function strukDp($noPayment)
+    {
+        // dd($this->payment->getStruk($noPayment));
+        $data = [
+            'title' => 'StrukPembayaran' . $noPayment,
+            'payment' => $this->payment->getStruk($noPayment)
+        ];
+        $view = view('payment/invoice-dp', $data);
+        $options = new Options();
+        // $options->set('defaultFont', '');
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($view);
+        // Render the HTML as PDF
+        $dompdf->render();
+        $this->response->setContentType('application/pdf');
+        // Output the generated PDF to Browser
+        $dompdf->stream("Laporan Pesanan", array("Attachment" => false));
     }
 
     public function listDownPayment()
