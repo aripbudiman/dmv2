@@ -91,7 +91,7 @@
                                 localStorage.removeItem('item')
                                 localStorage.removeItem('customer')
                                 let noPayment = $('#no_payment_modal-dp').val();
-                                var url = "get_invoice_cp/" + noPayment
+                                var url = "get_invoice_dp/" + noPayment
                                 window.open(url, '_blank');
                                 window.location.reload()
                             } else if (result.isDenied) {

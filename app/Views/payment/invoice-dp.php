@@ -64,7 +64,7 @@
 
         .identitas-isi {
             display: inline-block;
-            float: right;
+            /* float: right; */
             text-align: right;
             line-height: 5px;
         }

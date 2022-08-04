@@ -415,18 +415,62 @@ class Payment extends BaseController
         $data = [
             'title' => 'form pelunasan',
             'pelunasan' => $this->tmpPayment->getPelunasanDp($nopayment),
+            'items' => $this->tmpPayment->where('tmp_payment.indexPay', $nopayment)->find(),
+            'nopayment' => $this->payment->nopayment(),
             'payment' => $this->payment->getStruk($nopayment),
-            'struk' => $this->loadStruk($nopayment)
+            'index' => $this->payment->indexPayment()
         ];
         return view('payment/form-pelunasan', $data);
     }
 
-    public function loadStruk($nopayment)
+    public function prosesPelunasan()
     {
-        $data = [
-            'title' => 'StrukPembayaran' . $nopayment,
-            'payment' => $this->payment->getStruk($nopayment)
+        //========( update status tmp_payment )========>
+        $noPesanan = $this->request->getVar('no_pesanan');
+        $idpesanan = $this->pesanan->idpesanan();
+        foreach ($noPesanan as $p) {
+            $this->tmpPayment->set('status', 'paid')->where('no_pesanan', $p)->update();
+        }
+
+        //========( update status tmp_pesanan )========>
+        foreach ($noPesanan as $p) {
+            $this->tmpPesanan->set('status', 'paid')->where('no_pesanan', $p)->update();
+        }
+
+        //========( jurnal isi )========>
+        $this->isijurnal->save([
+            'no_jurnal' => $idpesanan,
+            'tgl_jurnal' => $this->request->getVar('trx_date'),
+            'deskripsi' => 'Pelunasan a/n ' . htmlspecialchars($this->request->getVar('customer')) . ' (' . htmlspecialchars($this->request->getVar('no_payment')) . ')'
+        ]);
+        $array = [
+            [
+                'jurnal_no' => $idpesanan,
+                'kode_akun' => '1-113',
+                'nominal' => str_replace('.', '', $this->request->getVar('amount_pay')),
+                'd/c' => 'D'
+            ],
+            [
+                'jurnal_no' => $idpesanan,
+                'kode_akun' => '1-112',
+                'nominal' => str_replace('.', '', $this->request->getVar('amount_pay')),
+                'd/c' => 'C'
+            ]
         ];
-        return view('payment/invoice-dp', $data);
+        //========( jurnal )========>
+        foreach ($array as $r) {
+            $this->jurnal->save($r);
+        }
+
+        $this->payment->insert([
+            'no_payment' => $this->request->getVar('no_payment'),
+            'indexPay' => $this->request->getVar('indexPay'),
+            'harga_kotor' => $this->request->getVar('amount_pay'),
+            'amount' => str_replace('.', '', $this->request->getVar('amount')),
+            'amount_pay' => $this->request->getVar('amount_pay'),
+            'discount' => 0,
+            'trx_date' => $this->request->getVar('trx_date')
+        ]);
+        return redirect()->to('/list_down_payment');
     }
 }

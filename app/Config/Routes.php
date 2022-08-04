@@ -78,6 +78,7 @@ $routes->get('formPelunasan/(:any)', 'payment::formPelunasan/$1');
 $routes->get('get_invoice_dp/(:any)', 'payment::strukDp/$1');
 $routes->get('loadstruk/(:any)', 'payment::loadStruk/$1');
 $routes->post('bayar_dp', 'payment::down_payment');
+$routes->post('proses_pelunasan', 'payment::prosesPelunasan');
 
 
 // tmp pesanan

@@ -35,7 +35,7 @@
                                 <td>
                                     <div class="bg-info text-center color-palette"><span><?= $p['sts']; ?></span></div>
                                 </td>
-                                <td><a href="<?= base_url(); ?>/formPelunasan/<?= $p['no_payment']; ?>">Verifikasi</a></td>
+                                <td><a href="<?= base_url(); ?>/formPelunasan/<?= $p['index']; ?>" class="nav-link">Pelunasan</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

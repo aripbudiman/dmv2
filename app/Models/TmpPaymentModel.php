@@ -53,7 +53,7 @@ class TmpPaymentModel extends Model
             ->join('lebar', 'pesanan.id_lebar=lebar.id')
             ->join('members', 'customer.id_member=members.id')
             ->join('finishing', 'pesanan.id_finishing=finishing.id')
-            ->where('payment.no_payment', $nopayment)
+            ->where('payment.indexPay', $nopayment)
             ->groupBy('payment.indexPay')
             ->get()
             ->getResultArray();
