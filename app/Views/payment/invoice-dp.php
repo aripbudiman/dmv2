@@ -162,13 +162,17 @@
         <?php endforeach; ?>
     </div>
     <p class="garis">-------------------------------------------------------------------</p>
-    <p class="subtotal"><span>Subtotal</span><span class="subtotal-rupiah"><?= number_format($p['harga_kotor'], 0, ',', '.'); ?></span></p>
+    <?php $hargaKotor = $p['harga_kotor'];
+    $diskon = ($p['harga_kotor'] * $p['discount'] / 100);
+    $total = ($hargaKotor - $diskon);
+    ?>
+    <p class="subtotal"><span>Subtotal</span><span class="subtotal-rupiah"><?= number_format($hargaKotor, 0, ',', '.'); ?></span></p>
     <p class="garis">-------------------------------------------------------------------</p>
-    <p class="diskon"><span>Diskon</span><span class="diskon-rupiah"><?= number_format(($p['harga_kotor'] * $p['discount'] / 100), 0, ',', '.'); ?></span></p>
-    <p class="total"><span>Total</span><span class="total-rupiah"><?= number_format($p['amount_pay'], 0, ',', '.'); ?></span></p>
+    <p class="diskon"><span>Diskon</span><span class="diskon-rupiah"><?= number_format($diskon, 0, ',', '.'); ?></span></p>
+    <p class="total"><span>Total</span><span class="total-rupiah"><?= number_format($total, 0, ',', '.'); ?></span></p>
     <p class="garis">-------------------------------------------------------------------</p>
     <p class="bayar"><span>Bayar</span><span class="bayar-rupiah"><?= number_format($p['amount'], 0, ',', '.'); ?></span></p>
-    <p class="kembalian"><span>Kembalian</span><span class="kembalian-rupiah"><?= number_format($p['amount'] - $p['amount_pay'], 0, ',', '.'); ?></span></p>
+    <p class="kembalian"><span>Sisa Hutang</span><span class="kembalian-rupiah"><?= number_format($total - $p['amount'], 0, ',', '.'); ?></span></p>
     <p class="garis">-------------------------------------------------------------------</p>
     <p style="text-align: center; font-size:10px;line-height:0px;">Terimakasih sudah menggunakan jasa kami!</p>
 </body>

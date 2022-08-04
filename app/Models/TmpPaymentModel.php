@@ -40,4 +40,22 @@ class TmpPaymentModel extends Model
             ->get()
             ->getResultArray();
     }
+
+    public function getPelunasanDp($nopayment)
+    {
+        return $this->db->table('payment')
+            ->select('no_payment, payment.indexPay as index, harga_kotor,member, amount, amount_pay,discount,trx_date,pesanan.no_pesanan as noP, tmp_payment.status as sts, nama_customer, nama_cetakan,nama_tipe,nama_bahan,meter,deskripsi_finishing,panjang,qty,sum(harga) as harga')
+            ->join('tmp_payment', 'payment.indexPay=tmp_payment.indexPay')
+            ->join('pesanan', 'tmp_payment.no_pesanan=pesanan.no_pesanan')
+            ->join('customer', 'pesanan.id_customer=customer.id')
+            ->join('tipe', 'pesanan.id_tipe=tipe.id')
+            ->join('bahan', 'pesanan.id_bahan=bahan.id')
+            ->join('lebar', 'pesanan.id_lebar=lebar.id')
+            ->join('members', 'customer.id_member=members.id')
+            ->join('finishing', 'pesanan.id_finishing=finishing.id')
+            ->where('payment.no_payment', $nopayment)
+            ->groupBy('payment.indexPay')
+            ->get()
+            ->getResultArray();
+    }
 }

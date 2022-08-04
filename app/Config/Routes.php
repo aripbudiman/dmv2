@@ -74,9 +74,9 @@ $routes->get('get_bill', 'payment::getBill');
 $routes->get('history_payment', 'payment::historyPayment');
 $routes->get('get_invoice_cp/(:any)', 'payment::strukPembayaran/$1');
 $routes->get('list_down_payment', 'payment::listDownPayment');
-$routes->get('formPelunasan', 'payment::formPelunasan');
-
-
+$routes->get('formPelunasan/(:any)', 'payment::formPelunasan/$1');
+$routes->get('get_invoice_dp/(:any)', 'payment::strukDp/$1');
+$routes->get('loadstruk/(:any)', 'payment::loadStruk/$1');
 $routes->post('bayar_dp', 'payment::down_payment');
 
 

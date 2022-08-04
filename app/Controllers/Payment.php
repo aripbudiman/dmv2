@@ -410,9 +410,23 @@ class Payment extends BaseController
         return view('payment/list-down-payment', $data);
     }
 
-    public function formPelunasan()
+    public function formPelunasan($nopayment)
     {
-        $data = ['title' => 'form pelunasan'];
+        $data = [
+            'title' => 'form pelunasan',
+            'pelunasan' => $this->tmpPayment->getPelunasanDp($nopayment),
+            'payment' => $this->payment->getStruk($nopayment),
+            'struk' => $this->loadStruk($nopayment)
+        ];
         return view('payment/form-pelunasan', $data);
+    }
+
+    public function loadStruk($nopayment)
+    {
+        $data = [
+            'title' => 'StrukPembayaran' . $nopayment,
+            'payment' => $this->payment->getStruk($nopayment)
+        ];
+        return view('payment/invoice-dp', $data);
     }
 }
