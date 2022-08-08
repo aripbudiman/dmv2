@@ -429,6 +429,13 @@ class Payment extends BaseController
         $noPesanan = $this->request->getVar('no_pesanan');
         $idpesanan = $this->pesanan->idpesanan();
         foreach ($noPesanan as $p) {
+            $this->tmpPayment->insert([
+                'no_pesanan' => $p,
+                'status' => 'paid',
+                'indexPay' => $this->request->getVar('indexPay')
+            ]);
+        }
+        foreach ($noPesanan as $p) {
             $this->tmpPayment->set('status', 'paid')->where('no_pesanan', $p)->update();
         }
 
@@ -461,6 +468,7 @@ class Payment extends BaseController
         foreach ($array as $r) {
             $this->jurnal->save($r);
         }
+
 
         $this->payment->insert([
             'no_payment' => $this->request->getVar('no_payment'),
