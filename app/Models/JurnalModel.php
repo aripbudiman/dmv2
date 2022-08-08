@@ -9,12 +9,23 @@ class JurnalModel extends Model
     protected $table            = 'jurnal';
     protected $allowedFields    = ['jurnal_no', 'kode_akun', 'nominal', 'd/c'];
 
-    public function getJurnal()
+    public function getJurnal($nama_akun, $tgl_dari, $tgl_sampai)
     {
         return $this->db->table('jurnal')
-            ->select('*')
+            ->select('tgl_jurnal,nama_akun,nominal,kode_akun,d/c as ket,deskripsi')
             ->join('isi_jurnal', 'jurnal.jurnal_no=isi_jurnal.no_jurnal')
             ->join('akun', 'jurnal.kode_akun=akun.nomor_akun')
+            ->where('nama_akun', $nama_akun)
+            ->where('tgl_jurnal >=', $tgl_dari)
+            ->where('tgl_jurnal <=', $tgl_sampai)
+            ->get()
+            ->getResultArray();
+    }
+
+    public function getAkun()
+    {
+        return $this->db->table('akun')
+            ->select('*')
             ->get()
             ->getResultArray();
     }

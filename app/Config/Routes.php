@@ -80,6 +80,9 @@ $routes->get('loadstruk/(:any)', 'payment::loadStruk/$1');
 $routes->post('bayar_dp', 'payment::down_payment');
 $routes->post('proses_pelunasan', 'payment::prosesPelunasan');
 
+//========( get jurnal )========>
+$routes->post('getJurnalUmum', 'jurnalController::getJurnalUmum');
+
 
 // tmp pesanan
 $routes->get('list_pesanan', 'TmpPesanan::index');
