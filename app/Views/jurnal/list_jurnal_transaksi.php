@@ -19,27 +19,24 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="text-center">
-                                    <th scope="col">Tanggal</th>
-                                    <th scope="col">Keterangan</th>
-                                    <th scope="col">Debet</th>
-                                    <th scope="col">Credit</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($jurnals as $jurnal) : ?>
-                                    <tr>
-                                        <td><?= $jurnal['tgl_jurnal']; ?></td>
-                                        <td><?= $jurnal['deskripsi']; ?></td>
-                                        <td><?= $jurnal['nominal']; ?></td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                    <div class="col-12 col-lg-4">
+                        <div class="form-group d-flex">
+                            <label for="akun" class="col-4">Akun</label>
+                            <input type="text" class="form-control rounded-0 mr-3">
+                            <button class="btn bg-navy rounded-0">...</button>
+                        </div>
+                        <div class="form-group d-flex flex-wrap">
+                            <label for="" class="col-4">Tanggal</label>
+                            <input type="date" name="dari" id="dari" class="form-control rounded-0">
+                            s/d
+                            <input type="date" name="sampai" id="sampai" class="form-control rounded-0">
+                        </div>
+                        <div class="form-group d-flex">
+                            <label for="" class="col-4"></label>
+                            <button class="btn bg-success rounded-0">Tampilkan</button>
+                            <button class="btn bg-success rounded-0 mx-1">Excel</button>
+                            <button class="btn bg-success rounded-0">PDF</button>
+                        </div>
                     </div>
                 </div>
             </div>
