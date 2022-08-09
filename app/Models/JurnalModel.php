@@ -29,4 +29,14 @@ class JurnalModel extends Model
             ->get()
             ->getResultArray();
     }
+
+    public function saldoAkhir($nama_akun)
+    {
+        return $this->db->table('jurnal')
+            ->select('sum(nominal) as nominal, d/c as ket,left(kode_akun,1)as kode')
+            ->join('akun', 'jurnal.kode_akun=akun.nomor_akun')
+            ->where('nama_akun', $nama_akun)
+            ->get()
+            ->getResultArray();
+    }
 }

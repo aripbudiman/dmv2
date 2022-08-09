@@ -92,7 +92,7 @@ $routes->get('customer', 'Customer::index');
 $routes->post('simpancustomer', 'Customer::simpancustomer');
 
 //========( jurnal )========>
-$routes->get('list_jurnal_transaksi', 'jurnalController::listJurnalTransaksi');
+$routes->get('jurnal_umum', 'jurnalController::listJurnalTransaksi');
 
 
 // akun

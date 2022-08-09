@@ -127,8 +127,8 @@
                 dataType: "json",
                 success: function(response) {
                     let data = response.data
-                    if (response) {
-                        console.log(response)
+                    if (response.data) {
+                        $('#list-jurnal').html(response.data)
                     }
                 }
             });
