@@ -10,10 +10,10 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                <img src="img/default.png" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block text-teal">Alexander Pierce</a>
+                <a href="#" class="d-block text-teal"><?= user()->username; ?></a>
             </div>
         </div>
 
@@ -28,7 +28,7 @@
                         </p>
                     </a>
                 <li class="nav-item">
-                    <a href="pages/widgets.html" class="nav-link">
+                    <a href="<?= base_url('user_management'); ?>" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             User Management
@@ -144,6 +144,12 @@
                             <a href="<?= base_url('akun'); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Akun</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="pages/widgets.html" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Dokumentasi Admin LTE</p>
                             </a>
                         </li>
                     </ul>
