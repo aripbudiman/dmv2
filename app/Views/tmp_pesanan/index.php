@@ -23,6 +23,7 @@
                         <tr>
                             <th scope="col" class="text-center">No</th>
                             <th scope="col">No Pesanan</th>
+                            <th scope="col">Customer</th>
                             <th scope="col">Nama Cetakan</th>
                             <th scope="col">Panjang</th>
                             <th scope="col">Harga</th>
@@ -35,9 +36,10 @@
                             <tr>
                                 <th scope="row" class="text-center"><?= $no++; ?></th>
                                 <td><?= $p['no']; ?></td>
+                                <td><?= $p['nama_customer']; ?></td>
                                 <td><?= $p['nama_cetakan']; ?></td>
                                 <td><?= $p['panjang'] . ' Meter'; ?></td>
-                                <td class="harga"><?= $p['harga']; ?></td>
+                                <td><?= $p['harga']; ?></td>
                                 <td><?= ($p['sts'] == 'unpaid') ? '<span class="badge rounded-pill bg-danger">Unpaid</span>' : (($p['sts'] == 'pending') ? '<span class="badge rounded-pill bg-warning">Pending</span>' : ((($p['sts'] == 'down payment')) ? '<span class="badge rounded-pill bg-info">Down Payment</span>' : '<span class="badge rounded-pill bg-success">Paid</span>')); ?></td>
                             </tr>
                         <?php endforeach; ?>
@@ -51,16 +53,10 @@
     $(document).ready(function() {
         $("#list-pesanan").DataTable({
             columnDefs: [{
-                targets: 4,
+                targets: 5,
                 render: $.fn.dataTable.render.number('.', ',', 0, 'Rp ')
             }]
         })
-        // fungsi format rupiah
-        $('.harga').autoNumeric('init', {
-            aSep: ',',
-            aDec: '.',
-            mDec: '0'
-        });
     });
 </script>
 <?= $this->endSection(); ?>

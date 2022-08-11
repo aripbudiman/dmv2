@@ -31,6 +31,7 @@
                             <input type="hidden" id="indexPay" class="indexPay" name="indexPay" value="<?= $index; ?>">
                             <input type="hidden" id="no_payment_modal-dp" class="no_payment" name="no_payment">
                             <input type="hidden" id="trx_date_modal-dp" class="trx_date" name="trx_date">
+                            <input type="hidden" id="user_id" class="form-control" name="user_id" value="<?= user()->id ?>" readonly>
                         </div>
                     </div>
                 </div>

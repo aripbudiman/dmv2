@@ -149,7 +149,7 @@
             <p><?= $payment[0]['no_payment']; ?></p>
             <p><?= $payment[0]['trx_date']; ?></p>
             <p><?= $payment[0]['nama_customer']; ?></p>
-            <p></p>
+            <p><?= $payment[0]['username']; ?></p>
             <p><?= $payment[0]['sts']; ?></p>
         </div>
     </div>

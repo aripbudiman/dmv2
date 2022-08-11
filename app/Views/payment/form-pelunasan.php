@@ -19,57 +19,60 @@ $sisaHutang = $total - $pelunasan[0]['amount'];
             </div>
             <!-- ==============((untuk debug disini))========== -->
             <div class="card-body" style="display: block;">
-                <form action="<?= base_url('proses_pelunasan'); ?>" method="post">
-                    <div class="card-footer p-0 rounded-sm">
-                        <ul class="nav flex-column">
+                <!-- <form action="<?= base_url('proses_pelunasan'); ?>" method="post"> -->
+                <?= form_open('proses_pelunasan', ['class' => 'form-pelunasan']); ?>
+                <div class="card-footer p-0 rounded-sm">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <span class="nav-link">
+                                No Payment<span class="float-right"><?= $nopayment; ?>
+                                    <input type="hidden" name="no_payment" id="no_payment" value="<?= $nopayment; ?>"></span>
+                                <input type="hidden" name="indexPay" id="indexPay" value="<?= $index; ?>"></span>
+                            <input type="hidden" id="user_id" class="form-control" name="user_id" value="<?= user()->id ?>" readonly>
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link">
+                                Tanggal<span class="float-right"><?= date('Y-m-d H:i:s'); ?>
+                                    <input type="hidden" name="trx_date" id="trx_date" value="<?= date('Y-m-d H:i:s'); ?>"></span>
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link">
+                                Customer<span class="float-right"><?= $pelunasan[0]['nama_customer']; ?>
+                                    <input type="hidden" name="customer" id="customer" value="<?= $pelunasan[0]['nama_customer']; ?>"></span>
+                            </span>
+                        </li>
+                        <?php foreach ($items as $item) : ?>
                             <li class="nav-item">
                                 <span class="nav-link">
-                                    No Payment<span class="float-right"><?= $nopayment; ?>
-                                        <input type="hidden" name="no_payment" id="no_payment" value="<?= $nopayment; ?>"></span>
-                                    <input type="hidden" name="indexPay" id="indexPay" value="<?= $index; ?>"></span>
+                                    🟡 Item<span class="float-right"><?= $item['no_pesanan']; ?>
+                                        <input type="hidden" name="no_pesanan[]" id="no_pesanan" value="<?= $item['no_pesanan']; ?>"></span>
                                 </span>
                             </li>
-                            <li class="nav-item">
-                                <span class="nav-link">
-                                    Tanggal<span class="float-right"><?= date('Y-m-d H:i:s'); ?>
-                                        <input type="hidden" name="trx_date" id="trx_date" value="<?= date('Y-m-d H:i:s'); ?>"></span>
-                                </span>
-                            </li>
-                            <li class="nav-item">
-                                <span class="nav-link">
-                                    Customer<span class="float-right"><?= $pelunasan[0]['nama_customer']; ?>
-                                        <input type="hidden" name="customer" id="customer" value="<?= $pelunasan[0]['nama_customer']; ?>"></span>
-                                </span>
-                            </li>
-                            <?php foreach ($items as $item) : ?>
-                                <li class="nav-item">
-                                    <span class="nav-link">
-                                        🟡 Item<span class="float-right"><?= $item['no_pesanan']; ?>
-                                            <input type="hidden" name="no_pesanan[]" id="no_pesanan" value="<?= $item['no_pesanan']; ?>"></span>
-                                    </span>
-                                </li>
-                            <?php endforeach; ?>
-                            <li class="nav-item">
-                                <span class="nav-link">
-                                    Sisa Hutang<span class="float-right text-bold"><?= "Rp " . number_format($sisaHutang, 2, ',', '.'); ?>
-                                        <input type="hidden" name="amount_pay" id="amount_pay" value="<?= $sisaHutang; ?>"></span>
-                                </span>
-                            </li>
-                            <li class="nav-item bg-white border-bottom-0">
-                                <span class="nav-link text-lg text-right">Bayar<input type="text" class="form-control ml-3 my-1 w-50 float-right" id="amount" name="amount" placeholder="Bayar" autocomplete="off"></span>
+                        <?php endforeach; ?>
+                        <li class="nav-item">
+                            <span class="nav-link">
+                                Sisa Hutang<span class="float-right text-bold"><?= "Rp " . number_format($sisaHutang, 2, ',', '.'); ?>
+                                    <input type="hidden" name="amount_pay" id="amount_pay" value="<?= $sisaHutang; ?>"></span>
+                            </span>
+                        </li>
+                        <li class="nav-item bg-white border-bottom-0">
+                            <span class="nav-link text-lg text-right">Bayar<input type="text" class="form-control ml-3 my-1 w-50 float-right" id="amount" name="amount" placeholder="Bayar" autocomplete="off"></span>
 
-                            </li>
-                            <li class="nav-item bg-white border-bottom-0">
-                                <span class="nav-link text-lg text-right">Kembalian<input type="text" class="form-control ml-3 my-1 w-50 float-right" aDec id="kembalian" placeholder="Kembalian"></span>
+                        </li>
+                        <li class="nav-item bg-white border-bottom-0">
+                            <span class="nav-link text-lg text-right">Kembalian<input type="text" class="form-control ml-3 my-1 w-50 float-right" aDec id="kembalian" placeholder="Kembalian"></span>
 
-                            </li>
-                            <li class="nav-item text-center bg-white py-3">
-                                <button type="submit" class="btn bg-navy mr-1" onclick="return confirm('Konfirmasi pembayaran?')">Proses</button>
-                                <a href="<?= base_url('list_down_payment'); ?>" class="btn bg-warning ml-1">Kembali</a>
-                            </li>
-                        </ul>
-                    </div>
-                </form>
+                        </li>
+                        <li class="nav-item text-center bg-white py-3">
+                            <button type="submit" class="btn bg-navy mr-1" id="proses-pelunasan" onclick="return confirm('Konfirmasi pembayaran?')">Proses</button>
+                            <a href="<?= base_url('list_down_payment'); ?>" class="btn bg-warning ml-1">Kembali</a>
+                        </li>
+                    </ul>
+                </div>
+                <?= form_close(); ?>
+                <!-- </form> -->
             </div>
         </div>
     </div>
@@ -142,6 +145,38 @@ $sisaHutang = $total - $pelunasan[0]['amount'];
             hitungKembalian()
         });
     });
+
+    $('.form-pelunasan').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "post",
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function(response) {
+                if (response.sukses) {
+                    Swal.fire(
+                        'Transaksi Berhasil!',
+                        response.sukses,
+                        'success'
+                    ).then((result) => {
+                        if (result.isConfirmed) {
+                            const noPayment = $('#no_payment').val();
+                            var url = "../get_invoice_cp/" + noPayment
+                            window.open(url, '_blank');
+                            window.location.href = '../list_down_payment'
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+                }
+            },
+            error: function(xhr, throwError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + throwError);
+            }
+        });
+    });
+
 
     function hitungKembalian() {
         let hargaItem = $('#amount_pay').val();

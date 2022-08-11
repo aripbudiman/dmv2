@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class PaymentModel extends Model
 {
     protected $table            = 'payment';
-    protected $allowedFields    = ['no_payment', 'indexPay', 'harga_kotor', 'amount', 'amount_pay', 'discount', 'trx_date'];
+    protected $allowedFields    = ['no_payment', 'indexPay', 'harga_kotor', 'id_kasir', 'amount', 'amount_pay', 'discount', 'trx_date'];
 
     public function nopayment()
     {
@@ -72,11 +72,12 @@ class PaymentModel extends Model
     public function getStruk($noPayment)
     {
         return $this->db->table('payment')
-            ->select('no_payment, payment.indexPay as index, harga_kotor, amount, amount_pay,discount,trx_date,pesanan.no_pesanan as noP, tmp_payment.status as sts, nama_customer, nama_cetakan,nama_tipe,nama_bahan,meter,deskripsi_finishing,panjang,qty,harga')
+            ->select('no_payment, payment.indexPay as index,username, harga_kotor, amount, amount_pay,discount,trx_date,pesanan.no_pesanan as noP, tmp_payment.status as sts, nama_customer, nama_cetakan,nama_tipe,nama_bahan,meter,deskripsi_finishing,panjang,qty,harga')
             ->join('tmp_payment', 'payment.indexPay=tmp_payment.indexPay')
             ->join('pesanan', 'tmp_payment.no_pesanan=pesanan.no_pesanan')
             ->join('customer', 'pesanan.id_customer=customer.id')
             ->join('tipe', 'pesanan.id_tipe=tipe.id')
+            ->join('users', 'payment.id_kasir=users.id')
             ->join('bahan', 'pesanan.id_bahan=bahan.id')
             ->join('lebar', 'pesanan.id_lebar=lebar.id')
             ->join('finishing', 'pesanan.id_finishing=finishing.id')

@@ -36,7 +36,7 @@
                                 <td><?= $p['no_pesanan']; ?></td>
                                 <td><?= $p['nama_cetakan']; ?></td>
                                 <td><?= $p['panjang'] . 'Meter'; ?></td>
-                                <td class="harga" data-a-sign="Rp. "><?= $p['harga']; ?></td>
+                                <td><?= $p['harga']; ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -51,7 +51,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function() {
-        $('#list-pesanan').DataTable()
+        $('#list-pesanan').DataTable({
+            columnDefs: [{
+                targets: 4,
+                render: $.fn.dataTable.render.number('.', ',', 0, 'Rp ')
+            }],
+        })
         // menampilkan modal verifikasi
         $('tr').click(function() {
             let nilai = $(this).data('no');

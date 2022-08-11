@@ -12,8 +12,9 @@ class TmpPesananModel extends Model
     public function getTmpPesanan()
     {
         return $this->db->table('tmp_pesanan')
-            ->select('tmp_pesanan.no_pesanan as no,nama_cetakan,panjang,harga,tmp_pesanan.status as sts')
+            ->select('tmp_pesanan.no_pesanan as no,nama_cetakan,panjang,harga,nama_customer,tmp_pesanan.status as sts')
             ->join('pesanan', 'tmp_pesanan.no_pesanan=pesanan.no_pesanan')
+            ->join('customer', 'pesanan.id_customer=customer.id')
             ->get()
             ->getResultArray();
     }

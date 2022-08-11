@@ -17,6 +17,14 @@
             <div class="card-body">
                 <div class="row g-3 align-items-center mb-3">
                     <div class="col-6">
+                        <label for="user" class="col-form-label">Kasir</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" id="user_name" class="form-control" name="user_name" value="<?= user()->username; ?>" readonly>
+                    </div>
+                </div>
+                <div class="row g-3 align-items-center mb-3">
+                    <div class="col-6">
                         <label for="no_payment" class="col-form-label">No Payment</label>
                     </div>
                     <div class="col-6">

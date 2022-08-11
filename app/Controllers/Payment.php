@@ -222,6 +222,7 @@ class Payment extends BaseController
                 //========( end jurnal payment )========>
                 $this->payment->save([
                     'no_payment' => $this->request->getVar('no_payment'),
+                    'id_kasir' => $this->request->getVar('user_id'),
                     'indexPay' => $indexPay,
                     'harga_kotor' => $totalHarga,
                     'amount' => str_replace('.', '', $this->request->getVar('amount')),
@@ -366,6 +367,7 @@ class Payment extends BaseController
             $this->payment->save([
                 'no_payment' => $this->request->getVar('no_payment'),
                 'indexPay' => $indexPay,
+                'id_kasir' => $this->request->getVar('user_id'),
                 'harga_kotor' => $totalHarga,
                 'amount' => $jumlahUang,
                 'amount_pay' => $jumlahUang,
@@ -473,12 +475,17 @@ class Payment extends BaseController
         $this->payment->insert([
             'no_payment' => $this->request->getVar('no_payment'),
             'indexPay' => $this->request->getVar('indexPay'),
+            'id_kasir' => $this->request->getVar('user_id'),
             'harga_kotor' => $this->request->getVar('amount_pay'),
             'amount' => str_replace('.', '', $this->request->getVar('amount')),
             'amount_pay' => $this->request->getVar('amount_pay'),
             'discount' => 0,
             'trx_date' => $this->request->getVar('trx_date')
         ]);
-        return redirect()->to('/list_down_payment');
+
+        $msg = [
+            'sukses' => 'Transaksi berhasil dilakukan'
+        ];
+        echo json_encode($msg);
     }
 }
