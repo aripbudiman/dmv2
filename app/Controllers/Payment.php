@@ -265,8 +265,9 @@ class Payment extends BaseController
     public function historyPayment()
     {
         $data = [
-            'title' => 'History Payment',
-            'payment' => $this->payment->findAll()
+            'title' => 'Transactions',
+            'payment' => $this->payment->findAll(),
+            'transaksi' => $this->payment->getTransactions()
         ];
         return view('payment/history_payment', $data);
     }
@@ -437,9 +438,9 @@ class Payment extends BaseController
                 'indexPay' => $this->request->getVar('indexPay')
             ]);
         }
-        foreach ($noPesanan as $p) {
-            $this->tmpPayment->set('status', 'paid')->where('no_pesanan', $p)->update();
-        }
+        // foreach ($noPesanan as $p) {
+        //     $this->tmpPayment->set('status', 'paid')->where('no_pesanan', $p)->update();
+        // }
 
         //========( update status tmp_pesanan )========>
         foreach ($noPesanan as $p) {
@@ -487,5 +488,10 @@ class Payment extends BaseController
             'sukses' => 'Transaksi berhasil dilakukan'
         ];
         echo json_encode($msg);
+    }
+
+    public function listTransactions()
+    {
+        dd($this->payment->getTransactions());
     }
 }

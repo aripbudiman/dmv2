@@ -79,6 +79,7 @@ $routes->get('get_invoice_dp/(:any)', 'payment::strukDp/$1');
 $routes->get('loadstruk/(:any)', 'payment::loadStruk/$1');
 $routes->post('bayar_dp', 'payment::down_payment');
 $routes->post('proses_pelunasan', 'payment::prosesPelunasan');
+$routes->get('listTransactions', 'payment::listTransactions');
 
 //========( get jurnal )========>
 $routes->post('getJurnalUmum', 'jurnalController::getJurnalUmum');

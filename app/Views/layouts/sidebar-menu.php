@@ -13,7 +13,7 @@
                 <img src="img/default.png" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block text-teal"><?= user()->username; ?></a>
+                <a href="<?= base_url('/'); ?>" class="d-block text-teal"><?= user()->username; ?></a>
             </div>
         </div>
 
@@ -217,7 +217,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="<?= base_url('jurnal_umum'); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Jurnal Umum</p>
                             </a>
@@ -229,7 +229,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url('jurnal_umum'); ?>" class="nav-link">
+                            <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>List Jurnal Transaksi</p>
                             </a>

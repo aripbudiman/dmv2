@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/index'); ?>
 <?= $this->section('konten'); ?>
 <div class="row mx-2">
-    <div class="col-12 col-lg-12">
+    <div class="col-12 col-lg-6 col-xl-4">
         <div class="card card-dark text-dark">
             <div class="card-header">
                 <h3 class="card-title"><?= $title; ?></h3>
@@ -18,30 +18,19 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="text-center">
-                                    <th scope="col">No Payment</th>
-                                    <th scope="col">Harga</th>
-                                    <th scope="col">Diskon</th>
-                                    <th scope="col">Credit</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($payment as $p) : ?>
-                                    <tr class="text-center">
-                                        <td scope="col"><?= $p['no_payment']; ?></td>
-                                        <td scope="col"><?= number_format($p['amount_pay'], 0, ',', '.'); ?></td>
-                                        <td scope="col"><?= $p['discount']; ?>%</td>
-                                        <td scope="col">Credit</td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                <?php foreach ($transaksi as $t) : ?>
+                    <div class="info-box">
+                        <span class="info-box-icon bg-teal"><i class="fa-solid fa-money-bill-transfer"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text"><?= $t['n']; ?></span>
+                            <span class="info-box-text"><?= date('d M Y', strtotime($t['t'])); ?></span>
+                        </div>
+                        <div class="info-box-content">
+                            <h4 class="text-bold text-right"><?= number_format($t['a'], 0, ',', '.'); ?></h4>
+                            <span class="info-box-text text-right text-<?= ($t['s'] == 'paid') ? 'success' : 'danger' ?>"><?= $t['s']; ?></span>
+                        </div>
                     </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>

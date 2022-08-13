@@ -66,7 +66,7 @@
         $('.formdp').submit(function(e) {
             e.preventDefault();
             let totalUang = $("#jumlahUang").val()
-            let totalBayar = $("#totalBayar").val()
+            let totalBayar = $("#totalBayar").autoNumeric('get')
             if (totalUang >= totalBayar) {
                 alert('pembayaran di batalkan');
                 window.location.reload()

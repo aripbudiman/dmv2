@@ -87,6 +87,18 @@ class PaymentModel extends Model
     }
 
 
+    public function getTransactions()
+    {
+        return $this->db->table('payment')
+            ->select('nama_customer n, tmp_payment.status s, trx_date t, amount_pay a')
+            ->join('tmp_payment', 'payment.indexPay=tmp_payment.indexPay')
+            ->join('pesanan', 'tmp_payment.no_pesanan=pesanan.no_pesanan')
+            ->join('customer', 'pesanan.id_customer=customer.id')
+            ->get()
+            ->getResultArray();
+    }
+
+
 
 
 
