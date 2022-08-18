@@ -12,6 +12,7 @@
                         <div class="form-group">
                             <input type="hidden" id="dp_customer" title="customer" name="dpCustomer">
                             <input type="hidden" name="totalHarga" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="total_harga">
+                            <input type="text" name="voucher" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="voucher" value="<?= $voucher; ?>">
                             <label for="totalBayar">Harga yg harus dibayar</label>
                             <input type="text" name="totalBayar" class="rp bg-white form-control border-0 text-xl text-indigo text-bold mb-2" id="totalBayar" placeholder="Total Bayar" autocomplete="off" readonly>
                             <label for="diskon">Diskon %</label>

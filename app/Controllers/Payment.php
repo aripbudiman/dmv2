@@ -10,6 +10,7 @@ use App\Models\TmpPesananModel;
 use App\Models\IsijurnalModel;
 use App\Models\JurnalModel;
 use App\Models\Pesananinput;
+use App\Models\Voucher;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
@@ -17,7 +18,7 @@ use Dompdf\Options;
 class Payment extends BaseController
 {
     protected $payment, $customer, $tmpPesanan, $isijurnal, $jurnal;
-    protected $tmpPayment;
+    protected $tmpPayment, $voucher;
     public function __construct()
     {
         $this->payment = new PaymentModel();
@@ -27,9 +28,11 @@ class Payment extends BaseController
         $this->isijurnal = new IsijurnalModel();
         $this->jurnal = new JurnalModel();
         $this->pesanan = new Pesananinput();
+        $this->voucher = new Voucher();
     }
     public function index()
     {
+
         $data = [
             'title' => 'Payment',
             'nopayment' => $this->payment->nopayment(),
@@ -37,7 +40,8 @@ class Payment extends BaseController
             'transaksi' => $this->tmpPayment->findAll(),
             'tmpPayment' => $this->tmpPayment->getTmpPayment(),
             'tanggal' => date("Y-m-d H:i:s"),
-            'index' => $this->payment->indexPayment()
+            'index' => $this->payment->indexPayment(),
+            'voucher' => $this->voucher->noVoucher()
         ];
         return view('payment/index', $data);
     }
@@ -165,6 +169,16 @@ class Payment extends BaseController
                 foreach ($noPesanan as $no) {
                     $this->tmpPayment->set('status', 'paid')->where('no_pesanan', $no)->update();
                     $this->tmpPayment->set('indexPay', $indexPay)->where('no_pesanan', $no)->update();
+                }
+
+                //========( simpan ke table voucher )========>
+                foreach ($noPesanan as $no) {
+                    $this->voucher->insert([
+                        'no_voucher' => $this->request->getVar('voucher'),
+                        'no_pesanan' => $no,
+                        'indexPay' => $indexPay,
+                        'v_status' => 'paid'
+                    ]);
                 }
 
                 //========( jurnal isi )========>
@@ -314,6 +328,16 @@ class Payment extends BaseController
                 $this->tmpPayment->set('status', 'down payment')->where('no_pesanan', $no)->update();
                 $this->tmpPayment->set('indexPay', $indexPay)->where('no_pesanan', $no)->update();
             }
+            //========( tambah ke table voucher )========>
+            foreach ($noPesanan as $no) {
+                $this->voucher->insert([
+                    'no_voucher' => $this->request->getVar('voucher'),
+                    'no_pesanan' => $no,
+                    'indexPay' => $indexPay,
+                    'v_status' => 'down payment'
+                ]);
+            }
+
             //========( jurnal isi )========>
             $this->isijurnal->save([
                 'no_jurnal' => $idpesanan,
@@ -421,7 +445,8 @@ class Payment extends BaseController
             'items' => $this->tmpPayment->where('tmp_payment.indexPay', $nopayment)->find(),
             'nopayment' => $this->payment->nopayment(),
             'payment' => $this->payment->getStruk($nopayment),
-            'index' => $this->payment->indexPayment()
+            'index' => $this->payment->indexPayment(),
+            'voucher' => $this->voucher->noVoucher()
         ];
         return view('payment/form-pelunasan', $data);
     }
@@ -431,22 +456,31 @@ class Payment extends BaseController
         //========( update status tmp_payment )========>
         $noPesanan = $this->request->getVar('no_pesanan');
         $idpesanan = $this->pesanan->idpesanan();
-        foreach ($noPesanan as $p) {
-            $this->tmpPayment->insert([
-                'no_pesanan' => $p,
-                'status' => 'paid',
-                'indexPay' => $this->request->getVar('indexPay')
-            ]);
-        }
         // foreach ($noPesanan as $p) {
-        //     $this->tmpPayment->set('status', 'paid')->where('no_pesanan', $p)->update();
+        //     $this->tmpPayment->insert([
+        //         'no_pesanan' => $p,
+        //         'status' => 'paid',
+        //         'indexPay' => $this->request->getVar('indexPay')
+        //     ]);
         // }
+        foreach ($noPesanan as $p) {
+            $this->tmpPayment->set('status', 'paid')->where('no_pesanan', $p)->update();
+        }
 
         //========( update status tmp_pesanan )========>
         foreach ($noPesanan as $p) {
             $this->tmpPesanan->set('status', 'paid')->where('no_pesanan', $p)->update();
         }
 
+        //========( insert table voucher )========>
+        foreach ($noPesanan as $no) {
+            $this->voucher->insert([
+                'no_voucher' => $this->request->getVar('voucher'),
+                'no_pesanan' => $no,
+                'indexPay' => $this->request->getVar('indexPay'),
+                'v_status' => 'repayment'
+            ]);
+        }
         //========( jurnal isi )========>
         $this->isijurnal->save([
             'no_jurnal' => $idpesanan,

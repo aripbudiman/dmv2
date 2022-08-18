@@ -27,6 +27,7 @@ $sisaHutang = $total - $pelunasan[0]['amount'];
                             <span class="nav-link">
                                 No Payment<span class="float-right"><?= $nopayment; ?>
                                     <input type="hidden" name="no_payment" id="no_payment" value="<?= $nopayment; ?>"></span>
+                                <input type="text" name="voucher" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="voucher" value="<?= $voucher; ?>">
                                 <input type="hidden" name="indexPay" id="indexPay" value="<?= $index; ?>"></span>
                             <input type="hidden" id="user_id" class="form-control" name="user_id" value="<?= user()->id ?>" readonly>
                             </span>

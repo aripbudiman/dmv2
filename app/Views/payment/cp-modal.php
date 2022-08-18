@@ -13,6 +13,7 @@
                             <!-- <label for="amount">Total Harga</label> -->
                             <input type="hidden" name="customer-cp" class="form-control border-0 text-xl text-indigo text-bold mb-2" id="customer-cp">
                             <input type="hidden" name="totalHarga" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="totalHargaModal">
+                            <input type="text" name="voucher" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="voucher" value="<?= $voucher; ?>">
                             <label for="amount">Jumlah Uang</label>
                             <input type="text" name="amount" class="rp form-control border-0 text-xl text-indigo text-bold mb-2" id="amount" placeholder="amount" autocomplete="off">
                             <div id="amount-feedback" class="invalid-feedback">
