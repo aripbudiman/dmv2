@@ -72,9 +72,9 @@ class PaymentModel extends Model
     public function getStruk($noPayment)
     {
         return $this->db->table('payment')
-            ->select('no_payment, payment.indexPay as index,username, harga_kotor, amount, amount_pay,discount,trx_date,pesanan.no_pesanan as noP, tmp_payment.status as sts, nama_customer, nama_cetakan,nama_tipe,nama_bahan,meter,deskripsi_finishing,panjang,qty,harga')
-            ->join('tmp_payment', 'payment.indexPay=tmp_payment.indexPay')
-            ->join('pesanan', 'tmp_payment.no_pesanan=pesanan.no_pesanan')
+            ->select('no_payment, payment.indexPay as index,username, harga_kotor, amount, amount_pay,discount,trx_date,pesanan.no_pesanan as noP, voucher.v_status as sts, nama_customer, nama_cetakan,nama_tipe,nama_bahan,meter,deskripsi_finishing,panjang,qty,harga')
+            ->join('voucher', 'payment.indexPay=voucher.indexPay')
+            ->join('pesanan', 'voucher.no_pesanan=pesanan.no_pesanan')
             ->join('customer', 'pesanan.id_customer=customer.id')
             ->join('tipe', 'pesanan.id_tipe=tipe.id')
             ->join('users', 'payment.id_kasir=users.id')
@@ -90,9 +90,9 @@ class PaymentModel extends Model
     public function getTransactions()
     {
         return $this->db->table('payment')
-            ->select('nama_customer n, tmp_payment.status s, trx_date t, amount_pay a')
-            ->join('tmp_payment', 'payment.indexPay=tmp_payment.indexPay')
-            ->join('pesanan', 'tmp_payment.no_pesanan=pesanan.no_pesanan')
+            ->select('nama_customer n, voucher.v_status s, trx_date t, amount_pay a')
+            ->join('voucher', 'payment.indexPay=voucher.indexPay')
+            ->join('pesanan', 'voucher.no_pesanan=pesanan.no_pesanan')
             ->join('customer', 'pesanan.id_customer=customer.id')
             ->get()
             ->getResultArray();

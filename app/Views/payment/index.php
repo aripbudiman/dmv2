@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-6">
                         <input type="text" id="no_payment" class="form-control" name="no_payment" value="<?= $nopayment; ?>" readonly>
-                        <input type="text" id="voucher" class="form-control" name="voucher" value="<?= $voucher; ?>" readonly>
+                        <input type="hidden" id="voucher" class="form-control" name="voucher" value="<?= $voucher; ?>" readonly>
                         <input type="hidden" id="indexPay" class="form-control" name="indexPay" value="<?= $index; ?>" readonly>
                     </div>
                 </div>

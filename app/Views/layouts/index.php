@@ -13,10 +13,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="<?= base_url(); ?>/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <!-- iCheck -->
     <link rel="stylesheet" href="<?= base_url(); ?>/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- chart js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <!-- JQVMap -->
     <link rel="stylesheet" href="<?= base_url(); ?>/plugins/jqvmap/jqvmap.min.css">
     <!-- Theme style -->
@@ -110,8 +114,6 @@
     </script> -->
     <!-- Bootstrap 4 -->
     <script src="<?= base_url(); ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- ChartJS -->
-    <script src="<?= base_url(); ?>/plugins/chart.js/Chart.min.js"></script>
     <!-- Sparkline -->
     <script src="<?= base_url(); ?>/plugins/sparklines/sparkline.js"></script>
     <!-- JQVMap -->
@@ -138,20 +140,6 @@
     <script src="<?= base_url(); ?>/plugins/datatables/jquery-3.5.1.js"></script>
     <script src="<?= base_url(); ?>/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="<?= base_url(); ?>/plugins/datatables-autofill/js/autoFill.bootstrap4.min.js"></script>
-    <!-- <script src="<?= base_url(); ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-colreorder/js/colReorder.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-fixedcolumns/js/fixedColumns.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-fixedheader/js/fixedHeader.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-keytable/js/keyTable.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-rowgroup/js/dataTables.rowGroup.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-rowreorder/js/dataTables.rowReorder.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-scroller/js/scroller.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-searchbuilder/js/searchBuilder.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-searchpanes/js/searchPanes.bootstrap4.min.js"></script>
-    <script src="<?= base_url(); ?>/plugins/datatables-select/js/select.bootstrap4.min.js"></script> -->
-    <!-- script js -->
     <script src="<?= base_url(); ?>/aplikasi.js"></script>
     <script src="<?= base_url(); ?>/autoNumeric.js"></script>
 </body>

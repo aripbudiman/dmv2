@@ -20,7 +20,7 @@
             <div class="card-body">
                 <table class="table hover" id="list-pesanan">
                     <thead>
-                        <tr>
+                        <tr class="table-warning">
                             <th scope="col" class="text-center">No</th>
                             <th scope="col">No Pesanan</th>
                             <th scope="col">Nama Cetakan</th>
@@ -52,14 +52,20 @@
 <script>
     $(document).ready(function() {
         $('#list-pesanan').DataTable({
-            columnDefs: [{
+            "columnDefs": [{
                 targets: 4,
                 render: $.fn.dataTable.render.number('.', ',', 0, 'Rp ')
             }],
+            "paging": false,
+            "scrollY": "500px",
+            "scrollCollapse": true,
+            "searching": false,
+            "ordering": false
         })
         // menampilkan modal verifikasi
         $('tr').click(function() {
             let nilai = $(this).data('no');
+            console.log(nilai)
             $.ajax({
                 type: "post",
                 url: "load-detail",

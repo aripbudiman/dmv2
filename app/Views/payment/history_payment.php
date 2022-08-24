@@ -27,7 +27,7 @@
                         </div>
                         <div class="info-box-content">
                             <h4 class="text-bold text-right"><?= number_format($t['a'], 0, ',', '.'); ?></h4>
-                            <span class="info-box-text text-right text-<?= ($t['s'] == 'paid') ? 'success' : 'danger' ?>"><?= $t['s']; ?></span>
+                            <span class="info-box-text text-right text-<?= ($t['s'] == 'paid') ? 'teal' : (($t['s'] == 'repayment') ? 'navy' : 'danger') ?>"><?= $t['s']; ?></span>
                         </div>
                     </div>
                 <?php endforeach; ?>
