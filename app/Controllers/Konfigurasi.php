@@ -71,6 +71,27 @@ class Konfigurasi extends BaseController
         }
     }
 
+    public function ubah_tipe()
+    {
+        $id = $this->request->getVar('id_tipe');
+        $nama = $this->request->getVar('nama_tipe');
+        $harga = $this->request->getVar('harga_tipe');
+
+        $this->TipeModel->set('nama_tipe', $nama)->set('harga_tipe', $harga)->where('id', $id)->update();
+
+        $msg = [
+            'sukses' => 'Data berhasil diubah'
+        ];
+
+        echo json_encode($msg);
+    }
+
+    public function deleteTipe($id)
+    {
+        $this->TipeModel->delete($id);
+        return redirect()->to('tipe');
+    }
+
     public function bahan()
     {
         $data = [
@@ -135,6 +156,18 @@ class Konfigurasi extends BaseController
         }
     }
 
+    public function update_bahan()
+    {
+        $kode_bahan = $this->request->getVar('id-modal-bahan');
+        $nama_bahan = $this->request->getVar('id-modal-nama');
+        $this->BahanModel->set('nama_bahan', $nama_bahan)->where('kode_bahan', $kode_bahan)->update();
+
+        $msg = [
+            'sukses' => 'Data berhasil diubah'
+        ];
+        echo json_encode($msg);
+    }
+
     public function delete_bahan($id)
     {
         $this->BahanModel->delete($id);
@@ -147,7 +180,6 @@ class Konfigurasi extends BaseController
 
     public function lebar()
     {
-
         $data = [
             'title' => 'Lebar',
             'bahan' => $this->BahanModel->findAll(),
@@ -159,7 +191,8 @@ class Konfigurasi extends BaseController
     public function tampillebar()
     {
         $data = [
-            'lebar' => $this->LebarModel->getLebar()
+            'lebar' => $this->LebarModel->getLebar(),
+            'bahan' => $this->BahanModel->findAll(),
         ];
         return view('konfigurasi/table-lebar', $data);
     }
@@ -211,6 +244,17 @@ class Konfigurasi extends BaseController
         }
     }
 
+    public function updateLebar()
+    {
+        $id = $this->request->getVar('id-lebar-modal');
+        $meter = $this->request->getVar('meter-modal');
+        $harga = $this->request->getVar('harga-lebar');
+        $this->LebarModel->set('meter', $meter)->set('harga_lebar', $harga)->where('lebar.id', $id)->update();
+        $msg = [
+            'sukses' => 'Data berhasil dikirim'
+        ];
+        echo json_encode($msg);
+    }
     public function deletelebar($id)
     {
         $this->LebarModel->delete($id);

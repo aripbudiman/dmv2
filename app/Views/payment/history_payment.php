@@ -20,7 +20,8 @@
             <div class="card-body">
                 <?php foreach ($transaksi as $t) : ?>
                     <div class="info-box">
-                        <span class="info-box-icon bg-teal"><i class="fa-solid fa-money-bill-transfer"></i></span>
+                    <span class="info-box-icon bg-teal"><a href="<?= base_url(); ?>/get_invoice_cp/<?= $t['no_pay']; ?>" target="_blank"><i class="fa-solid fa-money-bill-transfer"></i></a></span>
+                        <!-- <span class="info-box-icon bg-teal"><i class="fa-solid fa-money-bill-transfer"></i></span> -->
                         <div class="info-box-content">
                             <span class="info-box-text"><?= $t['n']; ?></span>
                             <span class="info-box-text"><?= date('d M Y', strtotime($t['t'])); ?></span>

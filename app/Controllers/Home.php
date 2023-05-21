@@ -12,14 +12,15 @@ class Home extends BaseController
     }
     public function index()
     {
-        // dd($this->getPenjualanTipe());
+        // dd($this->getRiwayatTransaksi());
         $data = [
             'title' => 'Home',
             'piutang' => $this->getTotalPiutang(),
             'newOrder' => $this->newOrder(),
             'income' => $this->Income(),
             'totalOrder' => $this->totalOrder(),
-            'penjualanTipe' => $this->getPenjualanTipe()
+            'penjualanTipe' => $this->getPenjualanTipe(),
+            'riwayat' => $this->getRiwayatTransaksi()
         ];
         return view('welcome_message', $data);
     }
@@ -63,6 +64,20 @@ class Home extends BaseController
             ->select('count(*) total, nama_tipe')
             ->join('tipe', 'pesanan.id_tipe=tipe.id')
             ->groupBy('nama_tipe')
+            ->get()
+            ->getResultArray();
+    }
+
+    public function getRiwayatTransaksi()
+    {
+        return $this->db->table('voucher')
+            ->select('right(no_voucher,5)  vc,harga_kotor, v_status,customer.nama_customer customer')
+            ->join('payment', 'payment.indexPay=voucher.indexPay')
+            ->join('pesanan', 'pesanan.no_pesanan=voucher.no_pesanan')
+            ->join('customer', 'pesanan.id_customer=customer.id')
+            ->groupBy('voucher.indexPay')
+            ->orderBy('voucher.indexPay', 'DESC')
+            ->limit('7')
             ->get()
             ->getResultArray();
     }

@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\ModelS\TmpPesananModel;
+use App\Models\TmpPesananModel;
 use App\Models\IsijurnalModel;
 use App\Models\JurnalModel;
 use App\Models\Pesananinput;
@@ -71,5 +71,32 @@ class TmpPesanan extends BaseController
             'status' => $status
         ]);
         echo json_encode($response);
+    }
+
+    public function pembatalanPesanan(){
+        $data = [
+            'title'=>'Pembatalan pesanan'
+        ];
+        return view('tmp_pesanan/pembatalan_pesanan',$data);
+    }
+
+    public function testQuerY(){
+        dd($this->tmpPesanan->getProsesPembatalanPesanan('DMP0003'));
+    }
+
+    public function proses_pembatalan(){
+        $nopesanan = $this->request->getVar('nopesanan');
+        $data = $this->tmpPesanan->getProsesPembatalanPesanan($nopesanan);
+        $msg = [
+            'sukses'=>$data
+        ];
+        echo json_encode($msg);
+    }
+
+    public function batalkan(){
+        $nopesanan = $this->request->getVar('nopesanan');
+        $this->tmpPesanan->set('status','batal')->where('no_pesanan',$nopesanan)->update();
+
+        return redirect()->to('/list_pesanan');
     }
 }

@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\PaymentModel;
 use App\Models\CustomerModel;
-use App\Models\tmpPaymentModel;
+use App\Models\TmpPaymentModel;
 use App\Models\TmpPesananModel;
 use App\Models\IsijurnalModel;
 use App\Models\JurnalModel;
@@ -23,7 +23,7 @@ class Payment extends BaseController
     {
         $this->payment = new PaymentModel();
         $this->customer = new CustomerModel();
-        $this->tmpPayment = new tmpPaymentModel();
+        $this->tmpPayment = new TmpPaymentModel();
         $this->tmpPesanan = new TmpPesananModel();
         $this->isijurnal = new IsijurnalModel();
         $this->jurnal = new JurnalModel();
@@ -32,7 +32,7 @@ class Payment extends BaseController
     }
     public function index()
     {
-
+        // dd($this->tmpPayment->getTmpPayment());
         $data = [
             'title' => 'Payment',
             'nopayment' => $this->payment->nopayment(),
@@ -41,7 +41,8 @@ class Payment extends BaseController
             'tmpPayment' => $this->tmpPayment->getTmpPayment(),
             'tanggal' => date("Y-m-d H:i:s"),
             'index' => $this->payment->indexPayment(),
-            'voucher' => $this->voucher->noVoucher()
+            'voucher' => $this->voucher->noVoucher(),
+            'getCs' => $this->payment->getListCustomer()
         ];
         return view('payment/index', $data);
     }
@@ -258,22 +259,19 @@ class Payment extends BaseController
     public function getBill()
     {
         // instantiate and use the dompdf class
-        $dompdf = new Dompdf();
         $tes = [
             'tmpPayment' => $this->tmpPayment->getTmpPayment()
         ];
         $data = view('payment/bill', $tes);
+        $options = new Options();
+        $dompdf = new Dompdf($options);
         $dompdf->loadHtml($data);
-
         // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A4', 'potrait');
-
-        // Render the HTML as PDF
+        $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
-
+        $this->response->setContentType('application/pdf');
         // Output the generated PDF to Browser
-        $dompdf->stream("", array("Attachment" => false));
-        // $this->filename, array("Attachment" => false)
+        $dompdf->stream("Tagihan", array("Attachment" => false));
     }
 
     public function historyPayment()

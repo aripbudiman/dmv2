@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <div class="row mx-2">
-    <div class="col-12 col-lg-4">
+    <div class="col-12 col-lg-3">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title text-navy"><?= $title; ?></h3>
@@ -29,6 +29,7 @@
                     </div>
                     <div class="col-6">
                         <input type="text" id="no_payment" class="form-control" name="no_payment" value="<?= $nopayment; ?>" readonly>
+                        <input type="hidden" id="member" class="form-control" name="member" readonly>
                         <input type="hidden" id="voucher" class="form-control" name="voucher" value="<?= $voucher; ?>" readonly>
                         <input type="hidden" id="indexPay" class="form-control" name="indexPay" value="<?= $index; ?>" readonly>
                     </div>
@@ -94,7 +95,7 @@
         <div class="card" id="load-troli">
         </div>
     </div>
-    <div class="col-12 col-lg-8">
+    <div class="col-12 col-lg-9">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title text-navy"><?= $title; ?> Detail</h3>
@@ -129,9 +130,14 @@
     });
 
     $(document).ready(function() {
+
         let csL = localStorage.getItem('customer');
+        let memberL = localStorage.getItem('member');
         if ($('#customer').val() == '') {
             $('#customer').val(csL)
+        }
+        if ($('#member').val() == '') {
+            $('#member').val(memberL)
         }
         //========( load tmp payment detail )========>
         $('#payment-detail').load('load_tmp_payment')
@@ -147,13 +153,16 @@
         $('#table-customer tr').click(function(e) {
             e.preventDefault();
             let customer = $(this).data('namacs');
+            let member = $(this).data('member');
             $('#customer').val(customer)
+            $('#member').val(member)
             $('#menu-customer').modal('hide')
         });
 
         //========( btn delete di click )========>
         $('#delete').click(function(e) {
             localStorage.removeItem('customer')
+            localStorage.removeItem('member')
             localStorage.removeItem('item')
         });
 
@@ -209,12 +218,18 @@
             let trxDate = $('#trx_date').val();
             let totalHarga = $('#totalHarga').val();
             let customer = $('#customer').val();
+            let member = $('#member').val();
             if ($('#paymentMethod1').is(':checked')) {
                 $('#no_payment_modal').val(noPayment)
                 $('#trx_date_modal').val(trxDate)
                 $('#customer-cp').val(customer)
                 $('#totalHargaModal').autoNumeric('set', totalHarga);
                 $('#amount_pay').autoNumeric('set', totalHarga);
+                if (member == 1) {
+                    $('#member-modal').val('member')
+                } else {
+                    $('#member-modal').val('non member')
+                }
                 $('#modal-cp').modal('show')
             } else {
                 $('#total_harga').autoNumeric('set', totalHarga);

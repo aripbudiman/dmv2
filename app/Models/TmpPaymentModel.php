@@ -12,7 +12,7 @@ class TmpPaymentModel extends Model
     public function getTmpPayment()
     {
         return $this->db->table('tmp_payment')
-            ->select('tmp_payment.no_pesanan as no_pesanan,nama_cetakan, nama_customer,nama_bahan,nama_tipe,meter,deskripsi_finishing,panjang,qty,harga')
+            ->select('tmp_payment.no_pesanan as no_pesanan,nama_cetakan,pesanan.created_at tgl, nama_customer,nama_bahan,nama_tipe,meter,deskripsi_finishing,panjang,qty,harga')
             ->join('pesanan', 'tmp_payment.no_pesanan=pesanan.no_pesanan')
             ->join('customer', 'pesanan.id_customer=customer.id')
             ->join('tipe', 'pesanan.id_tipe=tipe.id')

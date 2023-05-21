@@ -26,7 +26,7 @@ class Pesananinput extends Model
     public function nopesanan()
     {
         $kode = $this->db->table('pesanan')
-            ->select('max(right(no_pesanan,3)) as kode', FALSE)
+            ->select('max(right(no_pesanan,4)) as kode', FALSE)
             ->orderBy('no_pesanan', 'DESC')
             ->limit(1)->get()->getRowArray();
 

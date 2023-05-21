@@ -102,7 +102,21 @@
                                 <p>List Down Payment</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="<?= base_url('/transaksi_manual'); ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Transaksi Manual</p>
+                            </a>
+                        </li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= base_url('pembatalan_pesanan'); ?>" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Pembatalan Pesanan
+                        </p>
+                    </a>
                 </li>
 
                 <li class="nav-header">Konfigurasi</li>
@@ -165,44 +179,9 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="<?= base_url('laporan'); ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Pendatan Tipe</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>
-                                    Level 2
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Level 3</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Level 3</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-dot-circle nav-icon"></i>
-                                        <p>Level 3</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Level 2</p>
+                                <p>Rekap pendapatan</p>
                             </a>
                         </li>
                     </ul>

@@ -49,56 +49,80 @@ $routes->post('/simpan_lebar', 'Konfigurasi::simpanlebar');
 $routes->get('/tampillebar', 'Konfigurasi::tampillebar');
 $routes->post('/delete_lebar/(:num)', 'Konfigurasi::deletelebar/$1');
 $routes->get('/finishing', 'Konfigurasi::finishing');
-
-
+$routes->post('edit_lebar', 'Konfigurasi::updateLebar');
+$routes->post('update_bahan', 'Konfigurasi::update_bahan');
+$routes->get('/delete_tipe/(:num)', 'Konfigurasi::deleteTipe/$1');
+$routes->post('ubah_tipe', 'Konfigurasi::ubah_tipe');
 
 
 // input
-$routes->get('input_pesanan', 'inputpesanan::index');
-$routes->post('load-harga-lebar', 'inputpesanan::loadlebar');
-$routes->post('simpanpesanan', 'inputpesanan::simpanpesanan');
-$routes->get('list_pesanan_verifikasi', 'inputpesanan::list_pesanan');
-$routes->post('load-detail', 'inputpesanan::detail_pesanan');
-$routes->post('delete_pesanan', 'inputpesanan::delete');
+$routes->get('input_pesanan', 'Inputpesanan::index');
+$routes->post('load-harga-lebar', 'Inputpesanan::loadlebar');
+$routes->post('simpanpesanan', 'Inputpesanan::simpanpesanan');
+$routes->get('list_pesanan_verifikasi', 'Inputpesanan::list_pesanan');
+$routes->post('load-detail', 'Inputpesanan::detail_pesanan');
+$routes->post('delete_pesanan', 'Inputpesanan::delete');
 
 // payment
-$routes->get('payment', 'payment::index');
-$routes->post('input_modal_cs', 'payment::loadcs');
-$routes->post('load_troli', 'payment::load_troli');
-$routes->post('post_tmp_payment', 'payment::postTmpPayment');
-$routes->get('load_tmp_payment', 'payment::loadTmpPayment');
-$routes->post('delete_tmp_payment', 'payment::deleteTmpPayment');
-$routes->get('loadListTmpPayment', 'payment::loadListTmpPayment');
-$routes->post('cash_payment', 'payment::cashPayment');
-$routes->get('get_bill', 'payment::getBill');
-$routes->get('history_payment', 'payment::historyPayment');
-$routes->get('get_invoice_cp/(:any)', 'payment::strukPembayaran/$1');
-$routes->get('list_down_payment', 'payment::listDownPayment');
-$routes->get('formPelunasan/(:any)', 'payment::formPelunasan/$1');
-$routes->get('get_invoice_dp/(:any)', 'payment::strukDp/$1');
-$routes->get('loadstruk/(:any)', 'payment::loadStruk/$1');
-$routes->post('bayar_dp', 'payment::down_payment');
-$routes->post('proses_pelunasan', 'payment::prosesPelunasan');
-$routes->get('listTransactions', 'payment::listTransactions');
+$routes->get('payment', 'Payment::index');
+$routes->post('input_modal_cs', 'Payment::loadcs');
+$routes->post('load_troli', 'Payment::load_troli');
+$routes->post('post_tmp_payment', 'Payment::postTmpPayment');
+$routes->get('load_tmp_payment', 'Payment::loadTmpPayment');
+$routes->post('delete_tmp_payment', 'Payment::deleteTmpPayment');
+$routes->get('loadListTmpPayment', 'Payment::loadListTmpPayment');
+$routes->post('cash_payment', 'Payment::cashPayment');
+$routes->get('get_bill', 'Payment::getBill');
+$routes->get('history_payment', 'Payment::historyPayment');
+$routes->get('get_invoice_cp/(:any)', 'Payment::strukPembayaran/$1');
+$routes->get('list_down_payment', 'Payment::listDownPayment');
+$routes->get('formPelunasan/(:any)', 'Payment::formPelunasan/$1');
+$routes->get('get_invoice_dp/(:any)', 'Payment::strukDp/$1');
+$routes->get('loadstruk/(:any)', 'Payment::loadStruk/$1');
+$routes->post('bayar_dp', 'Payment::down_payment');
+$routes->post('proses_pelunasan', 'Payment::prosesPelunasan');
+$routes->get('listTransactions', 'Payment::listTransactions');
 
 //========( get jurnal )========>
-$routes->post('getJurnalUmum', 'jurnalController::getJurnalUmum');
+$routes->post('getJurnalUmum', 'JurnalController::getJurnalUmum');
 
 
 // tmp pesanan
 $routes->get('list_pesanan', 'TmpPesanan::index');
 $routes->post('approve_pesanan', 'TmpPesanan::approve');
+$routes->get('pembatalan_pesanan','TmpPesanan::pembatalanPesanan');
+$routes->post('proses_pembatalan','TmpPesanan::proses_pembatalan');
+$routes->post('setujui_pembatalan','TmpPesanan::batalkan');
+$routes->get('tes','TmpPesanan::testQuery');
 
 $routes->get('customer', 'Customer::index');
 $routes->post('simpancustomer', 'Customer::simpancustomer');
 
 //========( jurnal )========>
-$routes->get('jurnal_umum', 'jurnalController::listJurnalTransaksi');
+$routes->get('jurnal_umum', 'JurnalController::listJurnalTransaksi');
 
 
 // akun
 $routes->get('akun', 'Akun::index');
 $routes->post('/simpanakun', 'Akun::simpanakun');
+
+// transaksi manual
+$routes->get('transaksi_manual','TransaksiManual::index');
+$routes->get('new_transaksi_manual','TransaksiManual::createNewTransaksiManual');
+$routes->post('storeTransaksiManual','TransaksiManual::storeTransaksiManual');
+$routes->get('detail_transaksi/(:any)','TransaksiManual::editTransaksiManual/$1');
+$routes->post('store_transaksi','TransaksiManual::store_transaksi');
+$routes->get('load_tr/(:any)','TransaksiManual::load_tr/$1');
+$routes->post('delete_trx_manual','TransaksiManual::delete');
+$routes->get('cetak/(:any)','TransaksiManual::cetak/$1');
+
+
+// laporan
+$routes->get('laporan','Laporan::index');
+$routes->post('laporan_pendapatan','Laporan::pendapatan');
+
+
+
 
 /*
  * --------------------------------------------------------------------

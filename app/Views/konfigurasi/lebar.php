@@ -61,6 +61,7 @@
 </div>
 <script>
     $(document).ready(function() {
+
         $('#load-lebar').load('/tampillebar');
         $('.formsimpan').submit(function(e) {
             e.preventDefault();

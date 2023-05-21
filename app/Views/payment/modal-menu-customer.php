@@ -9,13 +9,15 @@
                     <thead>
                         <tr>
                             <th scope="col">Customer</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Total</th>
+                            <th scope=" col">Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($customer as $c) : ?>
-                            <tr data-namacs="<?= $c['nama_customer']; ?>">
+                        <?php foreach ($getCs as $c) : ?>
+                            <tr data-namacs="<?= $c['nama_customer']; ?>" data-member="<?= $c['id_member'] ?>">
                                 <td><?= $c['nama_customer']; ?></td>
+                                <td><?= $c['total']; ?></td>
                                 <td><?= ($c['id_member'] == 1) ? '<span class="badge rounded-pill bg-success">member</span>' : '<span class="badge rounded-pill bg-danger">non member</span>' ?></td>
                             </tr>
                         <?php endforeach; ?>
@@ -27,6 +29,10 @@
 </div>
 <script>
     $(document).ready(function() {
-        ('#table-customer').DataTable()
+        $('#table-customer').DataTable({
+            paging: false,
+            ordering: false,
+            info: false,
+        });
     });
 </script>

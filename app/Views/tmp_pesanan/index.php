@@ -23,6 +23,7 @@
                         <tr>
                             <th scope="col" class="text-center">No</th>
                             <th scope="col">No Pesanan</th>
+                            <th scope="col">Tanggal</th>
                             <th scope="col">Customer</th>
                             <th scope="col">Nama Cetakan</th>
                             <th scope="col">Panjang</th>
@@ -36,6 +37,7 @@
                             <tr>
                                 <th scope="row" class="text-center"><?= $no++; ?></th>
                                 <td><?= $p['no']; ?></td>
+                                <td><?= date("d-m-Y", strtotime($p['tgl'])) ?></td>
                                 <td><?= $p['nama_customer']; ?></td>
                                 <td><?= $p['nama_cetakan']; ?></td>
                                 <td><?= $p['panjang'] . ' Meter'; ?></td>
@@ -53,7 +55,7 @@
     $(document).ready(function() {
         $("#list-pesanan").DataTable({
             columnDefs: [{
-                targets: 5,
+                targets: 6,
                 render: $.fn.dataTable.render.number('.', ',', 0, 'Rp ')
             }]
         })

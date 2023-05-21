@@ -39,6 +39,7 @@
             $('#customer').attr('disable', 'disable')
             $('#btn-customer').attr('disable', 'disable')
             let customer = $('#customer').val()
+            let member = $('#member').val()
             e.preventDefault();
             $.ajax({
                 type: "post",
@@ -56,6 +57,7 @@
                 success: function(response) {
                     if (response.sukses) {
                         localStorage.setItem('customer', customer);
+                        localStorage.setItem('member', member);
                         //========( storage notifikasi pembayaran )========>
                         let nilai = document.querySelectorAll('.nilai');
                         let array = [];

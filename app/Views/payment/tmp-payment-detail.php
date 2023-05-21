@@ -1,8 +1,9 @@
-<table class="table display nowrap" id="example" style="width:100%">
+<table class="table display" id="example" style="width:100%">
     <thead>
         <tr>
             <th scope="col">No</th>
             <th scope="col">No Pesanan</th>
+            <th scope="col">Tanggal</th>
             <th scope="col">Nama Cetakan</th>
             <th scope="col">Tipe</th>
             <th scope="col">Bahan</th>
@@ -20,6 +21,7 @@
             <tr onclick="return alert('<?= $tp['no_pesanan']; ?>')">
                 <th scope="row"><?= $no++; ?></th>
                 <td><?= $tp['no_pesanan']; ?></td>
+                <td><?= date("d-m-Y", strtotime($tp['tgl'])); ?></td>
                 <td><?= $tp['nama_cetakan']; ?></td>
                 <td><?= $tp['nama_tipe']; ?></td>
                 <td><?= $tp['nama_bahan']; ?></td>
@@ -39,12 +41,15 @@
 <script>
     $(document).ready(function() {
         $('#example').DataTable({
-            scrollX: true,
-            order: [
+            "scrollX": false,
+            "order": [
                 [3, 'asc']
             ],
-            searching: false,
-            "lengthChange": false
+            "searching": false,
+            "lengthChange": false,
+            "bInfo": false,
+            "bPaginate": false,
+            "ordering": false
         });
 
         //========( format rupiah )========>

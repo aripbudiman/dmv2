@@ -90,14 +90,46 @@ class PaymentModel extends Model
     public function getTransactions()
     {
         return $this->db->table('payment')
-            ->select('nama_customer n, voucher.v_status s, trx_date t, amount_pay a')
+            ->select('nama_customer n, voucher.v_status s, trx_date t, amount_pay a, no_voucher,no_payment no_pay')
             ->join('voucher', 'payment.indexPay=voucher.indexPay')
             ->join('pesanan', 'voucher.no_pesanan=pesanan.no_pesanan')
             ->join('customer', 'pesanan.id_customer=customer.id')
+            ->where('trx_date >=', date('Y-m-01'))
+            ->where('trx_date <=', date('Y-m-t'))
+            ->groupBy('voucher.no_voucher')
+            ->orderBy('voucher.indexPay', 'DESC')
             ->get()
             ->getResultArray();
     }
 
+    public function getListCustomer()
+    {
+        return $this->db->table('pesanan')
+            ->select('nama_customer, count(tmp_pesanan.status) total,id_member, tmp_pesanan.status status, member')
+            ->join('tmp_pesanan', 'pesanan.no_pesanan=tmp_pesanan.no_pesanan')
+            ->join('customer', 'pesanan.id_customer=customer.id')
+            ->join('members', 'customer.id_member=members.id')
+            ->where('tmp_pesanan.status', 'unpaid')
+            ->groupBy('nama_customer')
+            ->get()
+            ->getResultArray();
+    }
+
+    public function getPendapatan($dari, $sampai)
+    {
+        return $this->db->table('tmp_pesanan')
+            ->select('tmp_pesanan.no_pesanan as no_pesanan,nama_cetakan,pesanan.created_at tgl, nama_customer,nama_bahan,nama_tipe,meter,deskripsi_finishing df,panjang,qty,harga,tmp_pesanan.status')
+            ->join('pesanan', 'tmp_pesanan.no_pesanan=pesanan.no_pesanan')
+            ->join('customer', 'pesanan.id_customer=customer.id')
+            ->join('tipe', 'pesanan.id_tipe=tipe.id')
+            ->join('bahan', 'pesanan.id_bahan=bahan.id')
+            ->join('lebar', 'pesanan.id_lebar=lebar.id')
+            ->join('finishing', 'pesanan.id_finishing=finishing.id')
+            ->where('created_at >=', $dari)
+            ->where('created_at <=', $sampai)
+            ->get()
+            ->getResultArray();
+    }
 
 
 
